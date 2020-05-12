@@ -1,10 +1,25 @@
-import React from 'react';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import Reviews from "./reviews/pages/Reviews";
+import Home from "./home/pages/Home";
+import Layout from "./shared/components/Layout/Layout";
 
-function App() {
+const App = () => {
   return (
-    <h2>workinggg</h2>
+    <Router>
+      <Switch>
+        <Layout>
+          <Route path="/" exact>
+            <Home />
+          </Route>
+          <Route path="/reviews">
+            <Reviews />
+          </Route>
+        </Layout>
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;
