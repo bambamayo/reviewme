@@ -1,0 +1,74 @@
+.reviewed__card {
+  height: 32rem;
+  width: 26rem;
+}
+
+.reviewed__img-cont {
+  height: 18rem;
+  width: 26rem;
+}
+
+.reviewed__img-img {
+  height: 100%;
+  width: 100%;
+  border-radius: 0.3rem;
+}
+
+.reviewed__details {
+  padding: 0.5rem 1rem;
+  font-size: 1.6rem;
+}
+
+.reviewed__details-header {
+  display: inline-block;
+  font-size: 2rem;
+  text-transform: capitalize;
+  margin-bottom: 0.5rem;
+  padding-bottom: 3px;
+  border-bottom: 0.5px solid transparent;
+  transition: 0.3s all ease-in;
+}
+
+.reviewed__details-header:hover {
+  border-bottom: 0.5px solid var(--color-grey-mid);
+}
+
+.reviewed__details-user {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.reviewed__details-user span {
+  display: inline-block;
+}
+
+.reviewed__details-user-text {
+  margin-right: 0.5rem;
+}
+
+.reviewed__details-user-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 100%;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.reviewed__details-tagline {
+  font-style: italic;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.reviewed__details-tagline::before,
+.reviewed__details-tagline::after {
+  content: '"';
+}
+
+.reviewed__details-date {
+  margin-bottom: 0.5rem;
+}
+
+.reviewed__details-icon {
+  cursor: pointer;
+}

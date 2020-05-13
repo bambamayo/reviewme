@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import Avatar from "../../Avatar/Avatar";
+import Avatar from "../../UI/Avatar/Avatar";
 import avatarImg from "../../../../assets/images/use-now.jpg";
 import "./NavLinks.css";
 

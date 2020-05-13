@@ -1,0 +1,7 @@
+.latest-reviews__list {
+  width: 114rem;
+  margin: 0 auto 1rem auto;
+
+  display: flex;
+  justify-content: space-between;
+}
