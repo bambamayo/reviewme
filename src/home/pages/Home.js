@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import Hero from "../components/Hero/Hero";
-import SectionHeader from "../../shared/components/SectionHeader/SectionHeader";
+import LatestReviews from "../components/LatestReviews/LatestReviews";
 
 const Home = () => {
   const history = useHistory();
@@ -14,10 +14,7 @@ const Home = () => {
   return (
     <>
       <Hero btnClicked={heroSearchHandler} />
-      <section className="section section--greybg">
-        <SectionHeader>Latest reviews</SectionHeader>
-        <p>reviews list goes here</p>
-      </section>
+      <LatestReviews />
     </>
   );
 };

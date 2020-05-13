@@ -1,7 +1,51 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const Review = () => {
-  return <div>a review component</div>;
+import Card from "../../../shared/components/UI/Card/Card";
+import Icon from "../../../shared/components/UI/Icon/Icon";
+import Avatar from "../../../shared/components/UI/Avatar/Avatar";
+import "./Review.css";
+
+const Review = (props) => {
+  return (
+    <Card cardClass="reviewed__card">
+      <div className="reviewed__img-cont">
+        <Link to={`/reviews/${props.reviewedPlace}`}>
+          <img
+            src={props.image}
+            alt={props.imageAlt}
+            className="reviewed__img-img"
+          />
+        </Link>
+      </div>
+      <div className="reviewed__details">
+        <Link
+          className="reviewed__details-header"
+          to={`/reviews/${props.reviewedPlace}`}
+        >
+          {props.header}
+        </Link>
+        <p className="reviewed__details-user">
+          <span className="reviewed__details-user-text">by : </span>
+          <Avatar
+            image={props.avatarImage}
+            alttext={props.avatarAlt}
+            avatarClass="reviewed__details-user-avatar"
+          />
+          <span className="reviewed__details-user-name">{props.userName}</span>
+        </p>
+        <p className="reviewed__details-date">date posted : {props.date}</p>
+        <p className="reviewed__details-tagline">{props.tagline}</p>
+        <span className="reviewed__details-icon-cont">
+          <Icon
+            type={["far", "heart"]}
+            classname="reviewed__details-icon"
+            iconClicked={props.iconClicked}
+          />
+        </span>
+      </div>
+    </Card>
+  );
 };
 
 export default Review;

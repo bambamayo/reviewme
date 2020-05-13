@@ -1,9 +1,7 @@
 import React from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Reviews = () => {
-  const history = useHistory();
-  console.log(history);
   let query = new URLSearchParams(useLocation().search);
   return (
     <div>
