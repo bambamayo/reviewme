@@ -6,12 +6,20 @@
 .reviewed__img-cont {
   height: 18rem;
   width: 26rem;
+  overflow: hidden;
 }
 
 .reviewed__img-img {
   height: 100%;
   width: 100%;
+  object-fit: cover;
+  object-position: center;
   border-radius: 0.3rem;
+  transition: 2s transform cubic-bezier(0.25, 0.45, 0.45, 0.95);
+}
+
+.reviewed__img-img:hover {
+  transform: scale(1.1);
 }
 
 .reviewed__details {
@@ -24,19 +32,19 @@
   font-size: 2rem;
   text-transform: capitalize;
   margin-bottom: 0.5rem;
-  padding-bottom: 3px;
-  border-bottom: 0.5px solid transparent;
-  transition: 0.3s all ease-in;
+  padding-bottom: 0.3rem;
+  border-bottom: 0.05rem solid transparent;
+  transition: 0.1s all ease-in;
 }
 
 .reviewed__details-header:hover {
-  border-bottom: 0.5px solid var(--color-grey-mid);
+  border-bottom: 0.05rem solid var(--color-grey-mid);
 }
 
 .reviewed__details-user {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.05rem;
 }
 .reviewed__details-user span {
   display: inline-block;

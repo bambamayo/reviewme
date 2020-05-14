@@ -1,0 +1,14 @@
+.footer {
+  height: 7rem;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.footer-text-t {
+  margin-bottom: 0.5rem;
+}
