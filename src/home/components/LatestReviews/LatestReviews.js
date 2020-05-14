@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import SectionHeader from "../../../shared/components/SectionHeader/SectionHeader";
 import useImage from "../../../assets/images/use-now.jpg";
 import Review from "../../../reviews/components/Review/Review";
@@ -78,6 +80,11 @@ const LatestReviews = () => {
             iconClicked={() => console.log("icon clicked")}
           />
         ))}
+      </div>
+      <div className="latest-reviews__calltoaction">
+        <Link className="latest-reviews__calltoaction-link" to="/reviews?q=all">
+          view all reviews
+        </Link>
       </div>
     </section>
   );

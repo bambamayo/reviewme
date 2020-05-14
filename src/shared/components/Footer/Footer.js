@@ -1,10 +1,24 @@
 import React from "react";
 
+import "./Footer.css";
+import Icon from "../UI/Icon/Icon";
+
 const Footer = () => {
   return (
-    <footer>
-      <p>&copy;reviewME {new Date().getFullYear()}</p>
-      <p>Made with love and alcohol by ayobami agunroye</p>
+    <footer className="footer">
+      <p className="footer-text-t">&copy;reviewME {new Date().getFullYear()}</p>
+      <p className="footer-text-t">
+        Made with{" "}
+        <span>
+          {" "}
+          <Icon type={["far", "heart"]} classname="reviewed__details-icon" />
+        </span>{" "}
+        and{" "}
+        <span>
+          <Icon type={["fas", "beer"]} classname="reviewed__details-icon" />
+        </span>{" "}
+        by ayobami agunroye
+      </p>
     </footer>
   );
 };

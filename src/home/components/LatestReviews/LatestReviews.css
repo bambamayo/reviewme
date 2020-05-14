@@ -1,7 +1,24 @@
 .latest-reviews__list {
   width: 114rem;
-  margin: 0 auto 1rem auto;
+  margin: 0 auto 2rem auto;
 
   display: flex;
   justify-content: space-between;
+}
+
+.latest-reviews__calltoaction {
+  width: 114rem;
+  margin: 0 auto;
+  text-align: right;
+}
+
+.latest-reviews__calltoaction-link {
+  font-size: 1.4rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 0.5px solid var(--color-grey-mid);
+  transition: 0.1s all ease-in;
+}
+
+.latest-reviews__calltoaction-link:hover {
+  border-bottom: 0.5px solid transparent;
 }
