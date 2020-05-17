@@ -8,7 +8,7 @@ import {
   faSortUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import "./index.css";
+import "./sass/main.scss";
 import App from "./App";
 
 library.add(faHeart, faBeer, faSortDown, faSortUp);

@@ -1,0 +1,55 @@
+// new section class
+.section {
+  padding: 6rem 0;
+}
+
+// new section class with light grey background
+.section--greybg {
+  background-color: var(--color-grey-light);
+}
+
+// new section header
+.section-header {
+  font-size: 3rem;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  text-transform: uppercase;
+}
+
+// error text
+.error {
+  color: var(--color-secondary);
+  font-style: italic;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+// border color for when input field has an error
+.input-error {
+  border: 0.1rem solid var(--color-secondary) !important;
+}
+
+//active link class
+.active {
+  color: var(--color-secondary);
+}
+
+// section call to action link
+.section-calltoaction-link {
+  font-size: 1.4rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 0.5px solid var(--color-grey-mid);
+  transition: 0.1s all ease-in;
+  color: var(--color-grey-dark);
+
+  &:hover {
+    border-bottom: 0.5px solid transparent;
+  }
+}
+
+//text align classes
+.t-r {
+  text-align: right;
+}

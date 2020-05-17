@@ -1,6 +1,5 @@
 import React from "react";
 
-import "./Footer.css";
 import Icon from "../UI/Icon/Icon";
 
 const Footer = () => {

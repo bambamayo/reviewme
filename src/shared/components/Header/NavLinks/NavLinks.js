@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 
 import Avatar from "../../UI/Avatar/Avatar";
 import avatarImg from "../../../../assets/images/use-now.jpg";
-import "./NavLinks.css";
 
 const NavLinks = () => {
   return (
@@ -47,12 +46,12 @@ const NavLinks = () => {
           activeClassName="active"
           className="nav-links-link nav-links-link--avatar"
         >
-          <span className="user-name">welcome user</span>
+          <span className="nav-links-link--avatar-username">welcome user</span>
           <span className="avatar-span">
             <Avatar
               image={avatarImg}
               alttext={`user profile picture`}
-              avatarClass="avatar"
+              avatarClass="nav-links-link--avatar-avatar"
             />
           </span>
         </NavLink>
