@@ -1,0 +1,56 @@
+.nav-links {
+  height: 100%;
+  width: 45%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &-item {
+    font-size: 1.4rem;
+    font-family: "Open Sans", sans-serif;
+    display: inline-block;
+    font-weight: 400;
+    text-transform: lowercase;
+    letter-spacing: 0.1rem;
+
+    &--mod a {
+      background-color: var(--color-secondary);
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      transition: 0.3s all ease-in;
+      border: 0.5px solid transparent;
+      color: var(--color-white);
+
+      &:hover {
+        background-color: var(--color-white);
+        border: 0.5px solid var(--color-secondary);
+        color: var(--color-secondary);
+      }
+    }
+  }
+
+  &-link {
+    transition: 0.3s all ease-in;
+    color: var(--color-black);
+
+    &:hover {
+      color: var(--color-secondary);
+    }
+
+    &--avatar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &-username {
+        margin-right: 0.3rem;
+      }
+
+      &-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 100%;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.input {
+  padding: 1rem 2rem;
+  border: 0.1rem solid var(--color-grey-mid);
+  outline: none;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  transition: 0.3s all ease-in;
+
+  &:focus {
+    background-color: var(--color-grey-light);
+  }
+}
