@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import Hero from "../components/Hero/Hero";
 import LatestReviews from "../components/LatestReviews/LatestReviews";
 import CategoriesList from "../components/CategoriesList/CategoriesList";
-import NewCategoryReq from "../components/LatestReviews/NewCategoryReq/NewCategoryReq";
+import NewCategoryForm from "../components/LatestReviews/NewCategoryForm/NewCategoryForm";
 
 const Home = () => {
   const history = useHistory();
@@ -18,7 +18,7 @@ const Home = () => {
       <Hero btnClicked={heroSearchHandler} />
       <LatestReviews />
       <CategoriesList />
-      <NewCategoryReq />
+      <NewCategoryForm />
     </>
   );
 };
