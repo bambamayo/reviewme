@@ -17,8 +17,13 @@ const Hero = (props) => {
           <p>Get reviews from the community</p>
         </div>
         <div className="content-box-calltoaction">
-          <input type="text" onChange={inputChangedHandler} />
-          <button onClick={() => props.btnClicked(query)}>find reviews</button>
+          <input type="text" value={query} onChange={inputChangedHandler} />
+          <button
+            onClick={() => props.btnClicked(query)}
+            disabled={query.length === 0}
+          >
+            find reviews
+          </button>
         </div>
       </div>
     </div>
