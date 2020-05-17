@@ -1,0 +1,28 @@
+.new-cat {
+  &_formcont {
+    margin: 0 auto 2rem auto;
+  }
+
+  &__form {
+    width: 50%;
+    margin: auto;
+
+    &-comp {
+      margin-bottom: 2rem;
+
+      & label {
+        display: block;
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      & input,
+      & select {
+        display: inline-block;
+        margin-right: 1rem;
+        width: 50%;
+      }
+    }
+  }
+}

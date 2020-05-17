@@ -1,0 +1,87 @@
+.reviewed {
+  &__card {
+    height: 32rem;
+  }
+
+  &__img {
+    &-cont {
+      height: 18rem;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    &-img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 0.3rem;
+      transition: 2s transform cubic-bezier(0.25, 0.45, 0.45, 0.95);
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  &__details {
+    padding: 0.5rem 1rem;
+    font-size: 1.6rem;
+
+    &-header {
+      display: inline-block;
+      font-size: 2rem;
+      text-transform: capitalize;
+      margin-bottom: 0.05rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 0.05rem solid transparent;
+      transition: 0.1s all ease-in;
+      color: var(--color-grey-dark);
+
+      &:hover {
+        border-bottom: 0.05rem solid var(--color-grey-mid);
+      }
+    }
+
+    &-user {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.05rem;
+
+      & span {
+        display: inline-block;
+      }
+
+      &-text {
+        margin-right: 0.5rem;
+      }
+
+      &-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+        cursor: pointer;
+      }
+
+      &-tagline {
+        font-style: italic;
+        font-weight: 500;
+        margin-bottom: 0.05rem;
+
+        &::before,
+        &::after {
+          content: '"';
+        }
+      }
+
+      &-date {
+        margin-bottom: 0.05rem;
+      }
+
+      &-icon {
+        cursor: pointer;
+      }
+    }
+  }
+}
