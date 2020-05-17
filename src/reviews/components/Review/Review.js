@@ -4,11 +4,10 @@ import { Link } from "react-router-dom";
 import Card from "../../../shared/components/UI/Card/Card";
 import Icon from "../../../shared/components/UI/Icon/Icon";
 import Avatar from "../../../shared/components/UI/Avatar/Avatar";
-import "./Review.css";
 
 const Review = (props) => {
   return (
-    <Card cardClass="reviewed__card">
+    <Card cardClass="grid__card reviewed__card">
       <div className="reviewed__img-cont">
         <Link to={`/reviews/${props.reviewedPlace}`}>
           <img

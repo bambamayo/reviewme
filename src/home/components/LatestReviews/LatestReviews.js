@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import SectionHeader from "../../../shared/components/SectionHeader/SectionHeader";
 import useImage from "../../../assets/images/use-now.jpg";
 import Review from "../../../reviews/components/Review/Review";
-import "./LatestReviews.css";
 
 const LatestReviews = () => {
   const reviews = [
@@ -64,7 +63,7 @@ const LatestReviews = () => {
   return (
     <section className="section section--greybg">
       <SectionHeader>Latest reviews</SectionHeader>
-      <div className="latest-reviews__list">
+      <div className="grid">
         {reviews.map((review) => (
           <Review
             key={review.id}
@@ -81,8 +80,8 @@ const LatestReviews = () => {
           />
         ))}
       </div>
-      <div className="latest-reviews__calltoaction">
-        <Link className="latest-reviews__calltoaction-link" to="/reviews?q=all">
+      <div className="grid-width t-r">
+        <Link className="section-calltoaction-link" to="/reviews?q=all">
           view all reviews
         </Link>
       </div>

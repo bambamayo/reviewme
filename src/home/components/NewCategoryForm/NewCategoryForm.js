@@ -2,16 +2,15 @@ import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import SectionHeader from "../../../../shared/components/SectionHeader/SectionHeader";
-import TextInput from "../../../../shared/components/FormElements/TextInput/TextInput";
-import Select from "../../../../shared/components/FormElements/Select/Select";
-import "./NewCategoryForm.css";
+import SectionHeader from "../../../shared/components/SectionHeader/SectionHeader";
+import TextInput from "../../../shared/components/FormElements/TextInput/TextInput";
+import Select from "../../../shared/components/FormElements/Select/Select";
 
 const NewCategoryReq = () => {
   return (
-    <section className="new-category section section--greybg">
+    <section className="section section--greybg">
       <SectionHeader>Request for a category</SectionHeader>
-      <div className="new-category__form-cont"></div>
+      <div className="grid-width new-cat_formcont"></div>
       <Formik
         initialValues={{ categoryName: "", visited: "", writeReview: "" }}
         validationSchema={Yup.object({
@@ -32,37 +31,42 @@ const NewCategoryReq = () => {
           }, 400);
         }}
       >
-        <Form className="new-category__form">
-          <div className="form__comp">
+        <Form className="new-cat__form">
+          <div className="new-cat__form-comp">
             <TextInput
               label="Category Name"
               name="categoryName"
               type="text"
               placeholder="Enter new category name"
+              className="input"
             />
           </div>
-          <div className="form__comp">
+          <div className="new-cat__form-comp">
             <Select
               label="Have you visited a place in this category?"
               name="visited"
+              className="input"
             >
               <option value="">Select option</option>
               <option value="yes">Yes</option>
               <option value="no">No</option>
             </Select>
           </div>
-          <div className="form__comp">
+          <div className="new-cat__form-comp">
             <Select
               label="Will you like to write a review for it?"
               name="writeReview"
+              className="input"
             >
               <option value="">Select option</option>
               <option value="yes">Yes</option>
               <option value="no">No</option>
             </Select>
           </div>
-          <div className="form__comp">
-            <button type="submit">Submit</button>
+          <div className="new-cat__form-comp">
+            <button type="submit " className="btn btn--blue">
+              Submit
+            </button>
           </div>
         </Form>
       </Formik>

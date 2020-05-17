@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-import "./Hero.css";
-
 const Hero = (props) => {
   const [query, setQuery] = useState("");
 
@@ -10,17 +8,27 @@ const Hero = (props) => {
   };
 
   return (
-    <div className="home-hero">
-      <div className="content-box">
-        <div className="content-box-text">
-          <h2 className="h2">Search for a restuarant, hotel e.t.c</h2>
-          <p>Get reviews from the community</p>
+    <div className="hero">
+      <div className="hero__content-box">
+        <div className="hero__content-box-text">
+          <h2 className="hero__content-box-texth2">
+            Search for a restuarant, hotel e.t.c
+          </h2>
+          <p className="hero__content-box-textp">
+            Get reviews from the community
+          </p>
         </div>
-        <div className="content-box-calltoaction">
-          <input type="text" value={query} onChange={inputChangedHandler} />
+        <div className="hero__content-box-calltoaction">
+          <input
+            type="text"
+            value={query}
+            onChange={inputChangedHandler}
+            className="input hero__content-box-calltoactioninput"
+          />
           <button
             onClick={() => props.btnClicked(query)}
             disabled={query.length === 0}
+            className="btn btn--blue"
           >
             find reviews
           </button>

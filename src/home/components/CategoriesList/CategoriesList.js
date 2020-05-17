@@ -12,7 +12,6 @@ import school from "../../../assets/images/school.svg";
 import game from "../../../assets/images/game.svg";
 import gadget from "../../../assets/images/gadget.svg";
 import Icon from "../../../shared/components/UI/Icon/Icon";
-import "./CategoriesList.css";
 
 const CategoriesList = () => {
   const [showAll, setShowAll] = useState(false);
@@ -62,17 +61,17 @@ const CategoriesList = () => {
   ];
   let num = !showAll ? 4 : categoriesList.length;
   return (
-    <section className="categories-list section">
+    <section className="section">
       <SectionHeader>Get reviews by category</SectionHeader>
-      <div className="categories-list__list">
+      <div className="grid category__list">
         {categoriesList.slice(0, num).map((category) => (
-          <Card cardClass="category__card" key={category.id}>
+          <Card cardClass="grid__card category__card" key={category.id}>
             <div className="category-image__cont">
               <Link to={`/reviews?cat=${category.name}`}>
                 <img
                   src={category.image}
                   alt={category.name}
-                  className="category-image"
+                  className="category-image-img"
                 />
               </Link>
             </div>
@@ -85,11 +84,8 @@ const CategoriesList = () => {
           </Card>
         ))}
       </div>
-      <div className="categories-list__calltoaction">
-        <button
-          onClick={handleShowAll}
-          className="categories-list__calltoaction-btn"
-        >
+      <div className="grid-width t-r">
+        <button onClick={handleShowAll} className="category-calltoaction-btn">
           {showAll ? (
             <>
               <span className="text">show less</span>
