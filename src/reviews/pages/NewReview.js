@@ -2,10 +2,10 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import SectionHeader from "../../shared/components/SectionHeader/SectionHeader";
 import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Select from "../../shared/components/FormElements/Select/Select";
+import PageHeader from "../../shared/components/PageHeader/PageHeader";
 
 const NewReview = () => {
   const categories = [
@@ -44,7 +44,7 @@ const NewReview = () => {
   ];
   return (
     <section className="new-review section">
-      <SectionHeader>New Review</SectionHeader>
+      <PageHeader title="New Review" />
       <div className=" grid-width new-review__formcont">
         <Card cardClass="new-review__form-cont">
           <Formik
@@ -78,7 +78,7 @@ const NewReview = () => {
               }, 400);
             }}
           >
-            {({ setFieldValue, isValid, dirty }) => (
+            {({ setFieldValue, isValid, dirty, errors, touched }) => (
               <Form className="new-review__form">
                 <div className="new-review__form-comp">
                   <TextInput
@@ -111,7 +111,11 @@ const NewReview = () => {
                   <Field
                     name="userReview"
                     component="textarea"
-                    className="input"
+                    className={
+                      errors.userReview && touched.userReview
+                        ? "input input-error"
+                        : "input"
+                    }
                     rows="5"
                   />
                   <ErrorMessage name="userReview">
