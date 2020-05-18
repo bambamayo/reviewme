@@ -1,6 +1,6 @@
 .btn {
   padding: 1.5rem 2rem;
-  border-radius: 1rem;
+  border-radius: 0.7rem;
   border: none;
   outline: none;
   transition: 0.3s all ease-in;
@@ -12,32 +12,21 @@
   &--red {
     background-color: var(--color-secondary);
     color: var(--color-white);
-
-    &:hover {
-      background-color: var(--color-white);
-      border: 0.5px solid var(--color-secondary);
-      color: var(--color-secondary);
-    }
   }
 
   &--blue {
     background-color: var(--color-primary);
     color: var(--color-white);
+  }
 
-    &:disabled:hover {
-      background-color: var(--color-primary);
-      color: var(--color-white);
-    }
-
-    &:hover {
-      background-color: var(--color-white);
-      border: 0.5px solid var(--color-primary);
-      color: var(--color-primary);
-    }
+  &:not(:disabled):hover {
+    opacity: 0.7;
   }
 
   &:disabled {
     cursor: not-allowed;
     opacity: 0.7;
+    background-color: var(--color-grey-mid);
+    color: var(--color-grey-dark);
   }
 }

@@ -5,14 +5,18 @@ import Reviews from "./reviews/pages/Reviews";
 import Home from "./home/pages/Home";
 import Layout from "./shared/components/Layout/Layout";
 import ReviewDetails from "./reviews/pages/ReviewDetails";
+import NewReview from "./reviews/pages/NewReview";
 
 const App = () => {
   return (
     <Router>
-      <Layout>
-        <Switch>
+      <Switch>
+        <Layout>
           <Route path="/" exact>
             <Home />
+          </Route>
+          <Route path="/write-a-review" exact>
+            <NewReview />
           </Route>
           <Route path="/reviews" exact>
             <Reviews />
@@ -20,8 +24,8 @@ const App = () => {
           <Route path="/reviews/:name" exact>
             <ReviewDetails />
           </Route>
-        </Switch>
-      </Layout>
+        </Layout>
+      </Switch>
     </Router>
   );
 };

@@ -33,12 +33,14 @@ const Review = (props) => {
           />
           <span className="reviewed__details-user-name">{props.userName}</span>
         </p>
-        <p className="reviewed__details-date">date posted : {props.date}</p>
+        <p className="reviewed__details-user-date">
+          date posted : {props.date}
+        </p>
         <p className="reviewed__details-tagline">{props.tagline}</p>
         <span className="reviewed__details-icon-cont">
           <Icon
             type={["far", "heart"]}
-            classname="reviewed__details-icon"
+            classname="reviewed__details-user-icon"
             iconClicked={props.iconClicked}
           />
         </span>
