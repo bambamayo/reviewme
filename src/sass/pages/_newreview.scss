@@ -1,5 +1,5 @@
-.new-cat {
-  &_formcont {
+.new-review {
+  &__formcont {
     margin: 0 auto 2rem auto;
   }
 
@@ -11,7 +11,7 @@
     }
 
     &-comp {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
 
       & label {
         display: block;
@@ -21,7 +21,8 @@
       }
 
       & input,
-      & select {
+      & select,
+      & textarea {
         display: inline-block;
         margin-right: 1rem;
         width: 60%;
