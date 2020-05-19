@@ -8,6 +8,19 @@
   font-size: 1.6rem;
   text-transform: lowercase;
   cursor: pointer;
+  display: block;
+
+  &__text {
+    font-size: 1.6rem;
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+
+  &--form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   &--red {
     background-color: var(--color-secondary);
@@ -17,6 +30,13 @@
   &--blue {
     background-color: var(--color-primary);
     color: var(--color-white);
+    width: 100%;
+  }
+
+  &--hero {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    margin-top: 1rem;
   }
 
   &:not(:disabled):hover {

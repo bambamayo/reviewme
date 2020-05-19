@@ -9,27 +9,25 @@
     text-align: center;
   }
 
-  &-image {
-    &__cont {
-      height: 12rem;
-      width: 100%;
-      overflow: hidden;
-    }
+  &__aside {
+    height: 12rem;
+    width: 100%;
+    overflow: hidden;
+  }
 
-    &-img {
-      height: 100%;
-      width: 100%;
-      object-position: center;
-      border-radius: 0.3rem;
-      transition: 2s transform cubic-bezier(0.25, 0.45, 0.45, 0.95);
+  &__image {
+    height: 100%;
+    width: 100%;
+    object-position: center;
+    border-radius: 0.3rem;
+    transition: 2s transform cubic-bezier(0.25, 0.45, 0.45, 0.95);
 
-      &:hover {
-        transform: scale(1.1);
-      }
+    &:hover {
+      transform: scale(1.1);
     }
   }
 
-  &-name {
+  &__name {
     text-align: center;
     font-size: 1.6rem;
     margin-top: 1rem;
@@ -44,7 +42,7 @@
       border-bottom: 0.05rem solid var(--color-grey-mid);
     }
   }
-  &-calltoaction-btn {
+  &__calltoaction-btn {
     font-size: 1.4rem;
     background-color: transparent;
     border: none;

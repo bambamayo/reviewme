@@ -6,22 +6,20 @@ import SectionHeader from "../../../shared/components/SectionHeader/SectionHeade
 import TextInput from "../../../shared/components/FormElements/TextInput/TextInput";
 import Select from "../../../shared/components/FormElements/Select/Select";
 import Card from "../../../shared/components/UI/Card/Card";
+import Loader from "../../../shared/components/UI/Loader/Loader";
 
 const NewCategoryReq = () => {
   return (
-    <section className="section section--greybg">
+    <section className="new-category section section--greybg">
       <SectionHeader>Request for a category</SectionHeader>
-      <div className="grid-width new-cat_formcont"></div>
-      <Card cardClass="new-cat__form-cont">
+      <div className="grid-width new-category__container"></div>
+      <Card cardClass="card__form">
         <Formik
           initialValues={{ categoryName: "", visited: "", writeReview: "" }}
           validationSchema={Yup.object({
             categoryName: Yup.string()
               .lowercase()
               .required("Please enter a category name"),
-            visited: Yup.string()
-              .oneOf(["yes", "no"], "Invalid option type")
-              .required("This field is required"),
             writeReview: Yup.string()
               .oneOf(["yes", "no"], "Invalid option type")
               .required("This field is required"),
@@ -33,9 +31,9 @@ const NewCategoryReq = () => {
             }, 400);
           }}
         >
-          {({ isValid, dirty }) => (
-            <Form className="new-cat__form">
-              <div className="new-cat__form-comp">
+          {({ isValid, dirty, isSubmitting }) => (
+            <Form className="new-category__form">
+              <div className="input-group">
                 <TextInput
                   label="Category Name"
                   name="categoryName"
@@ -43,17 +41,7 @@ const NewCategoryReq = () => {
                   placeholder="Enter new category name"
                 />
               </div>
-              <div className="new-cat__form-comp">
-                <Select
-                  label="Have you visited a place in this category?"
-                  name="visited"
-                >
-                  <option value="">Select option</option>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </Select>
-              </div>
-              <div className="new-cat__form-comp">
+              <div className="input-group">
                 <Select
                   label="Will you like to write a review for it?"
                   name="writeReview"
@@ -63,13 +51,14 @@ const NewCategoryReq = () => {
                   <option value="no">No</option>
                 </Select>
               </div>
-              <div className="new-cat__form-comp">
+              <div className="input-group">
                 <button
                   disabled={!(isValid && dirty)}
                   type="submit "
-                  className="btn btn--blue"
+                  className="btn btn--blue btn--form"
                 >
-                  Submit
+                  <p className="btn__text">Submit</p>
+                  {isSubmitting && <Loader />}
                 </button>
               </div>
             </Form>

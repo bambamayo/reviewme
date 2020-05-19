@@ -1,0 +1,58 @@
+.input-group {
+  margin-bottom: 2rem;
+  width: 50%;
+
+  &--textarea {
+    height: 16rem !important;
+  }
+
+  &:not(:last-child) {
+    height: 8rem;
+  }
+
+  &__input {
+    padding: 1rem 2rem;
+    border: 0.1rem solid var(--color-grey-mid);
+    outline: none;
+    display: inline-block;
+    width: 100%;
+    border-radius: 1rem;
+    font-size: 1.6rem;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    transition: 0.3s all ease-in;
+
+    &::placeholder {
+      font-weight: 400;
+      font-size: 1.4rem;
+      font-family: "Lato", sans-serif;
+    }
+
+    &:focus {
+      background-color: var(--color-grey-light);
+    }
+
+    &--error {
+      border: 0.1rem solid var(--color-secondary) !important;
+    }
+  }
+
+  &__label {
+    display: block;
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  &__error {
+    color: var(--color-secondary);
+    font-style: italic;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: block;
+
+    &::before {
+      content: "*";
+    }
+  }
+}

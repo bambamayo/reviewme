@@ -5,14 +5,20 @@ const CheckBox = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
     <>
-      <label htmlFor={props.id || props.name}>{label}</label>
+      <label className="input-group__label" htmlFor={props.id || props.name}>
+        {label}
+      </label>
       <select
-        className={meta.touched && meta.error ? "input input-error" : "input"}
+        className={
+          meta.touched && meta.error
+            ? "input-group__input input-group--error"
+            : "input-group__input"
+        }
         {...field}
         {...props}
       />
       {meta.touched && meta.error ? (
-        <span className="error">{`*${meta.error}`}</span>
+        <span className="input-group__error">{`*${meta.error}`}</span>
       ) : null}
     </>
   );

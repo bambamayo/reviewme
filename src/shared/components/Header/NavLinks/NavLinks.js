@@ -6,52 +6,44 @@ import avatarImg from "../../../../assets/images/use-now.jpg";
 
 const NavLinks = () => {
   return (
-    <ul className="nav-links">
-      <li className="nav-links-item">
+    <ul className="nav__list">
+      <li className="nav__item">
         <NavLink
           to="/write-a-review"
           exact
           activeClassName="active"
-          className="nav-links-link"
+          className="nav__link"
         >
           Write a review
         </NavLink>
       </li>
-      <li className="nav-links-item">
-        <NavLink
-          to="/reviews"
-          activeClassName="active"
-          className="nav-links-link"
-        >
+      <li className="nav__item">
+        <NavLink to="/reviews" activeClassName="active" className="nav__link">
           reviews
         </NavLink>
       </li>
-      <li className="nav-links-item">
-        <NavLink
-          to="/login"
-          activeClassName="active"
-          className="nav-links-link"
-        >
+      <li className="nav__item">
+        <NavLink to="/login" activeClassName="active" className="nav__link">
           login
         </NavLink>
       </li>
-      <li className="nav-links-item nav-links-item--mod">
-        <NavLink to="/signup" className="nav-links-link">
+      <li className="nav__item nav__item--mod">
+        <NavLink to="/signup" className="nav__link" activeClassName="active">
           signup
         </NavLink>
       </li>
-      <li className="nav-links-item">
+      <li className="nav__item">
         <NavLink
           to="/user/1"
           activeClassName="active"
-          className="nav-links-link nav-links-link--avatar"
+          className="nav__link nav__link--avatar"
         >
-          <span className="nav-links-link--avatar-username">welcome user</span>
-          <span className="avatar-span">
+          <span className="nav__link--avatar-username">welcome user</span>
+          <span>
             <Avatar
               image={avatarImg}
               alttext={`user profile picture`}
-              avatarClass="nav-links-link--avatar-avatar"
+              avatarClass="nav__link--avatar-avatar"
             />
           </span>
         </NavLink>

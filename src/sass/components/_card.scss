@@ -1,4 +1,10 @@
 .card {
   box-shadow: 0.5px 1px 7px var(--color-grey-mid);
   border-radius: 0.3rem;
+
+  &__form {
+    width: 60%;
+    margin: auto;
+    padding: 2rem;
+  }
 }
