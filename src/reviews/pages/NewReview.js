@@ -6,6 +6,7 @@ import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Select from "../../shared/components/FormElements/Select/Select";
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
+import Loader from "../../shared/components/UI/Loader/Loader";
 
 const NewReview = () => {
   const categories = [
@@ -43,10 +44,10 @@ const NewReview = () => {
     },
   ];
   return (
-    <section className="new-review section">
+    <section className="new-review section section--greybg">
       <PageHeader title="New Review" />
-      <div className=" grid-width new-review__formcont">
-        <Card cardClass="new-review__form-cont">
+      <div className=" grid-width new-review__container">
+        <Card cardClass="card__form">
           <Formik
             initialValues={{
               reviewedName: "",
@@ -78,9 +79,16 @@ const NewReview = () => {
               }, 400);
             }}
           >
-            {({ setFieldValue, isValid, dirty, errors, touched }) => (
+            {({
+              setFieldValue,
+              isValid,
+              dirty,
+              errors,
+              touched,
+              isSubmitting,
+            }) => (
               <Form className="new-review__form">
-                <div className="new-review__form-comp">
+                <div className="input-group">
                   <TextInput
                     label="Name"
                     name="reviewedName"
@@ -88,9 +96,9 @@ const NewReview = () => {
                     placeholder="Enter name"
                   />
                 </div>
-                <div className="new-review__form-comp">
+                <div className="input-group">
                   <Select label="Select category" name="reviewedCat">
-                    <option value="">Select option</option>
+                    <option value="">select option</option>
                     {categories.map((category) => (
                       <option value={category.name} key={category.id}>
                         {category.name.toLowerCase()}
@@ -98,7 +106,7 @@ const NewReview = () => {
                     ))}
                   </Select>
                 </div>
-                <div className="new-review__form-comp">
+                <div className="input-group">
                   <TextInput
                     label="Tagline (enter a short intro)"
                     name="tagline"
@@ -106,29 +114,37 @@ const NewReview = () => {
                     placeholder="Enter tagline"
                   />
                 </div>
-                <div className="new-review__form-comp">
-                  <label htmlFor="userReview">Your review</label>
+                <div className="input-group input-group--textarea">
+                  <label className="input-group__label" htmlFor="userReview">
+                    Your review
+                  </label>
                   <Field
                     name="userReview"
                     component="textarea"
+                    placeholder="Enter review"
                     className={
                       errors.userReview && touched.userReview
-                        ? "input input-error"
-                        : "input"
+                        ? "input-group__input input-group__input--error"
+                        : "input-group__input"
                     }
                     rows="5"
                   />
                   <ErrorMessage name="userReview">
-                    {(msg) => <span className="error">{`*${msg}`}</span>}
+                    {(msg) => <span className="input-group__error">{msg}</span>}
                   </ErrorMessage>
                 </div>
-                <div className="new-review__form-comp">
-                  <label htmlFor="re">Add image(s)</label>
+                <div className="input-group">
+                  <label
+                    className="input-group__label"
+                    htmlFor="reviewedImages"
+                  >
+                    Add image(s)
+                  </label>
                   <input
                     id="reviewedImages"
                     name="reviewedImages"
                     type="file"
-                    className="input"
+                    className="input-group__input"
                     value={Formik.reviewedImages}
                     multiple
                     onChange={(e) => {
@@ -137,13 +153,14 @@ const NewReview = () => {
                   />
                   <ErrorMessage name="reviewedImages" />
                 </div>
-                <div className="new-review__form-comp">
+                <div className="input-group">
                   <button
                     disabled={!(isValid && dirty)}
-                    type="submit "
-                    className="btn btn--blue"
+                    type="submit"
+                    className="btn btn--blue btn--form"
                   >
-                    Submit
+                    <p className="btn__text">submit</p>
+                    {isSubmitting && <Loader />}
                   </button>
                 </div>
               </Form>

@@ -7,12 +7,14 @@
 @import "components/footer";
 @import "components/header";
 @import "components/hero";
-@import "components/input";
+@import "components/inputgroup";
+@import "components/loader";
 @import "components/navlinks";
 @import "components/newcategoryform";
-
 @import "components/review";
 
 @import "layout/grid";
 
+@import "pages/login";
 @import "pages/newreview";
+@import "pages/signup";

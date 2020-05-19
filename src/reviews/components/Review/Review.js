@@ -7,40 +7,35 @@ import Avatar from "../../../shared/components/UI/Avatar/Avatar";
 
 const Review = (props) => {
   return (
-    <Card cardClass="grid__card reviewed__card">
-      <div className="reviewed__img-cont">
+    <Card cardClass="grid__card review__card">
+      <aside className="review__aside">
         <Link to={`/reviews/${props.reviewedPlace}`}>
           <img
             src={props.image}
             alt={props.imageAlt}
-            className="reviewed__img-img"
+            className="review__image"
           />
         </Link>
-      </div>
-      <div className="reviewed__details">
-        <Link
-          className="reviewed__details-header"
-          to={`/reviews/${props.reviewedPlace}`}
-        >
+      </aside>
+      <div className="review__details">
+        <Link className="review__header" to={`/reviews/${props.reviewedPlace}`}>
           {props.header}
         </Link>
-        <p className="reviewed__details-user">
-          <span className="reviewed__details-user-text">by : </span>
+        <p className="review__user">
+          <span className="review__user--intro">by : </span>
           <Avatar
             image={props.avatarImage}
             alttext={props.avatarAlt}
-            avatarClass="reviewed__details-user-avatar"
+            avatarClass="review__user--avatar"
           />
-          <span className="reviewed__details-user-name">{props.userName}</span>
+          <span className="review__user--name">{props.userName}</span>
         </p>
-        <p className="reviewed__details-user-date">
-          date posted : {props.date}
-        </p>
-        <p className="reviewed__details-tagline">{props.tagline}</p>
-        <span className="reviewed__details-icon-cont">
+        <p className="review__date">date posted : {props.date}</p>
+        <p className="review__tagline">{props.tagline}</p>
+        <span className="review__icon">
           <Icon
             type={["far", "heart"]}
-            classname="reviewed__details-user-icon"
+            classname="review__icon--heart"
             iconClicked={props.iconClicked}
           />
         </span>

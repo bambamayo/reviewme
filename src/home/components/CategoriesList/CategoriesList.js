@@ -66,18 +66,18 @@ const CategoriesList = () => {
       <div className="grid category__list">
         {categoriesList.slice(0, num).map((category) => (
           <Card cardClass="grid__card category__card" key={category.id}>
-            <div className="category-image__cont">
+            <div className="category__aside">
               <Link to={`/reviews?cat=${category.name}`}>
                 <img
                   src={category.image}
                   alt={category.name}
-                  className="category-image-img"
+                  className="category__image"
                 />
               </Link>
             </div>
             <Link
               to={`/reviews?cat=${category.name}`}
-              className="category-name"
+              className="category__name"
             >
               {category.name}
             </Link>
@@ -85,7 +85,7 @@ const CategoriesList = () => {
         ))}
       </div>
       <div className="grid-width t-r">
-        <button onClick={handleShowAll} className="category-calltoaction-btn">
+        <button onClick={handleShowAll} className="category__calltoaction-btn">
           {showAll ? (
             <>
               <span className="text">show less</span>
