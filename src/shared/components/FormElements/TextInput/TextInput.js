@@ -9,11 +9,9 @@ const TextInput = ({ label, ...props }) => {
         {label}
       </label>
       <input
-        className={
-          meta.touched && meta.error
-            ? "input-group__input input-group__input--error"
-            : "input-group__input"
-        }
+        className={`input-group__input ${
+          meta.touched && meta.error ? "input-group__input--error" : null
+        }`}
         {...field}
         {...props}
       />

@@ -10,7 +10,7 @@ import Loader from "../../shared/components/UI/Loader/Loader";
 
 const Signup = () => {
   return (
-    <section className="signup section section--greybg">
+    <section className="signup section--page section--greybg">
       <PageHeader title="create account" />
       <div className="grid-width signup__container">
         <Card cardClass="card__form">

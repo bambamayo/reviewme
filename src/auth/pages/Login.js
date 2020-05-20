@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
-    <section className="login section section--greybg">
+    <section className="login section--page section--greybg">
       <PageHeader title="login" />
       <div className="grid-width login__container">
         <Card cardClass="card__form">
