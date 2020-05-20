@@ -9,11 +9,9 @@ const CheckBox = ({ label, ...props }) => {
         {label}
       </label>
       <select
-        className={
-          meta.touched && meta.error
-            ? "input-group__input input-group--error"
-            : "input-group__input"
-        }
+        className={`input-group__input ${
+          meta.touched && meta.error ? "input-group__input--error" : null
+        }`}
         {...field}
         {...props}
       />
