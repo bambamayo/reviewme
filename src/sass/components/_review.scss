@@ -1,10 +1,10 @@
 .review {
   &__card {
-    height: 32rem;
+    height: 30rem;
   }
 
   &__aside {
-    height: 18rem;
+    height: 16rem;
     width: 100%;
     overflow: hidden;
   }
@@ -15,10 +15,10 @@
     object-fit: cover;
     object-position: center;
     border-radius: 0.3rem;
-    transition: 2s transform cubic-bezier(0.25, 0.45, 0.45, 0.95);
+    transition: 0.7s transform cubic-bezier(0.25, 0.45, 0.45, 0.95);
 
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.2);
     }
   }
 
@@ -28,23 +28,24 @@
   }
   &__header {
     display: inline-block;
-    font-size: 2rem;
+    font-size: 1.9rem;
     text-transform: capitalize;
-    margin-bottom: 0.05rem;
-    padding-bottom: 0.3rem;
+    // margin-bottom: 0.02rem;
+    text-decoration: underline;
+    // padding-bottom: 0.3rem;
     border-bottom: 0.05rem solid transparent;
     transition: 0.1s all ease-in;
     color: var(--color-grey-dark);
 
     &:hover {
-      border-bottom: 0.05rem solid var(--color-grey-mid);
+      text-decoration: none;
     }
   }
 
   &__user {
     display: flex;
     align-items: center;
-    margin-bottom: 0.05rem;
+    margin-bottom: 0.02rem;
 
     & span {
       display: inline-block;
@@ -65,7 +66,7 @@
   &__tagline {
     font-style: italic;
     font-weight: 500;
-    margin-bottom: 0.05rem;
+    margin-bottom: 0.02rem;
 
     &::before,
     &::after {
@@ -74,7 +75,7 @@
   }
 
   &__date {
-    margin-bottom: 0.05rem;
+    margin-bottom: 0.02rem;
   }
 
   &__icon {
