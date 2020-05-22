@@ -44,7 +44,7 @@ const NewReview = () => {
     },
   ];
   return (
-    <section className="new-review section section--greybg">
+    <section className="new-review section--page section--greybg">
       <PageHeader title="New Review" />
       <div className=" grid-width new-review__container">
         <Card cardClass="card__form">
