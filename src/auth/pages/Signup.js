@@ -94,7 +94,7 @@ const Signup = () => {
                     <p className="btn__text">Login</p>
                     {isSubmitting && <Loader />}
                   </button>
-                  <Link className="calltoaction__link" to="/signup">
+                  <Link className="calltoaction__link" to="/login">
                     or login
                   </Link>
                 </div>

@@ -1,14 +1,16 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { Link, useLocation } from "react-router-dom";
 
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
-import { Link } from "react-router-dom";
 
 const Login = () => {
+  const Location = useLocation();
+  console.log(Location);
   return (
     <section className="login section--page section--greybg">
       <PageHeader title="login" />

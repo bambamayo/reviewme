@@ -54,6 +54,9 @@ const NewReview = () => {
               reviewedCat: "",
               tagline: "",
               reviewedImages: "",
+              address: "",
+              telephone: "",
+              website: "",
             }}
             validationSchema={Yup.object({
               reviewedName: Yup.string()
@@ -132,6 +135,30 @@ const NewReview = () => {
                   <ErrorMessage name="userReview">
                     {(msg) => <span className="input-group__error">{msg}</span>}
                   </ErrorMessage>
+                </div>
+                <div className="input-group">
+                  <TextInput
+                    label="Website"
+                    name="website"
+                    type="text"
+                    placeholder="Enter website"
+                  />
+                </div>
+                <div className="input-group">
+                  <TextInput
+                    label="Telephone"
+                    name="telephone"
+                    type="text"
+                    placeholder="Enter contact number"
+                  />
+                </div>
+                <div className="input-group">
+                  <TextInput
+                    label="Address"
+                    name="address"
+                    type="text"
+                    placeholder="Enter address"
+                  />
                 </div>
                 <div className="input-group">
                   <label
