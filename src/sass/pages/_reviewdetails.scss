@@ -1,0 +1,134 @@
+.review-details {
+  &__cont {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3rem;
+    width: 114rem;
+    margin: 0 auto;
+  }
+
+  &__header {
+    font-size: 3rem;
+    text-transform: capitalize;
+    font-family: "Open Sans", serif;
+  }
+
+  &__amount {
+    font-size: 1.6rem;
+    margin-right: 3rem;
+    &--pri {
+      display: inline-block;
+      margin-right: 0.5rem;
+      &::after {
+        content: " : ";
+      }
+    }
+  }
+
+  &__btncont {
+    outline: none;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+  }
+
+  &__button {
+    padding: 1rem 1.5rem;
+    border-radius: 0.7rem;
+    border: none;
+    outline: none;
+    transition: 0.3s all ease-in;
+    border: 0.5px solid transparent;
+    font-size: 1.6rem;
+    text-transform: lowercase;
+    cursor: pointer;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__images {
+    width: 114rem;
+    margin: 3rem auto 2rem auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+  }
+
+  &__image {
+    height: 20rem;
+    width: 100%;
+    border-radius: 0.3rem;
+    transition: 0.3s all ease-out;
+
+    &:hover {
+      box-shadow: 0.1px 0.1px 7px var(--color-grey-mid);
+    }
+  }
+
+  &__writereview {
+    @extend .review-details__button;
+    margin-right: 3rem;
+  }
+
+  &__editbtn {
+    @extend .review-details__button;
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+  }
+
+  &__info {
+    margin-top: 3rem;
+    margin-bottom: 7rem;
+    display: flex;
+    justify-content: space-between;
+
+    &-l {
+      width: 50%;
+      padding: 2rem;
+      box-shadow: 0.5px 1px 7px var(--color-grey-mid);
+
+      &__text {
+        font-size: 1.6rem;
+      }
+    }
+
+    &-r {
+      width: 30%;
+      padding: 2rem;
+      height: 15rem;
+      box-shadow: 0.5px 1px 7px var(--color-grey-mid);
+
+      & p {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  &__span-l {
+    font-size: 1.6rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 1rem;
+    text-transform: capitalize;
+    font-style: italic;
+
+    &::after {
+      content: " : ";
+      font-style: normal;
+    }
+  }
+
+  &__span-r {
+    font-size: 1.4rem;
+  }
+
+  &__others__header {
+    font-size: 2rem;
+    font-family: "Open Sans", serif;
+    margin-bottom: 2rem;
+  }
+}

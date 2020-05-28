@@ -18,17 +18,32 @@ const NavLinks = () => {
         </NavLink>
       </li>
       <li className="nav__item">
-        <NavLink to="/reviews" activeClassName="active" className="nav__link">
+        <NavLink
+          to="/reviews"
+          exact
+          activeClassName="active"
+          className="nav__link"
+        >
           reviews
         </NavLink>
       </li>
       <li className="nav__item">
-        <NavLink to="/login" activeClassName="active" className="nav__link">
+        <NavLink
+          to="/login"
+          exact
+          activeClassName="active"
+          className="nav__link"
+        >
           login
         </NavLink>
       </li>
       <li className="nav__item nav__item--mod">
-        <NavLink to="/signup" className="nav__link" activeClassName="active">
+        <NavLink
+          to="/signup"
+          exact
+          className="nav__link"
+          activeClassName="active"
+        >
           signup
         </NavLink>
       </li>
@@ -36,6 +51,7 @@ const NavLinks = () => {
         <NavLink
           to="/user/1"
           activeClassName="active"
+          exact
           className="nav__link nav__link--avatar"
         >
           <span className="nav__link--avatar-username">welcome user</span>

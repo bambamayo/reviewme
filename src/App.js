@@ -26,6 +26,7 @@ const App = () => {
           <Route path="/reviews/:name" exact>
             <ReviewDetails />
           </Route>
+
           <Route path="/login" exact>
             <Login />
           </Route>
