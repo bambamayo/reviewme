@@ -9,7 +9,7 @@ const Review = (props) => {
   return (
     <Card cardClass="grid__card review__card">
       <aside className="review__aside">
-        <Link to={`/reviews/${props.reviewedPlace}`}>
+        <Link to={`/reviews/${props.reviewedPlace}`.replace(/ /g, "-")}>
           <img
             src={props.image}
             alt={props.imageAlt}
@@ -18,7 +18,10 @@ const Review = (props) => {
         </Link>
       </aside>
       <div className="review__details">
-        <Link className="review__header" to={`/reviews/${props.reviewedPlace}`}>
+        <Link
+          className="review__header"
+          to={`/reviews/${props.reviewedPlace}`.replace(/ /g, "-")}
+        >
           {props.header}
         </Link>
         <p className="review__user">
@@ -39,6 +42,22 @@ const Review = (props) => {
             iconClicked={props.iconClicked}
           />
         </span>
+      </div>
+      <div
+        className={`review__editbox ${
+          props.showEditDiv ? `review__editbox__mod` : null
+        }`}
+      >
+        <button onClick={props.deleteBtnClick} className="review__editbox-btn">
+          <Icon classname="review__editbox-icon" type={["far", "trash-alt"]} />
+        </button>
+        <button
+          onClick={props.editBtnClick}
+          className="review__editbox-btn"
+          style={{ display: props.displayEditBtn }}
+        >
+          <Icon classname="review__editbox-icon" type={["far", "edit"]} />
+        </button>
       </div>
     </Card>
   );

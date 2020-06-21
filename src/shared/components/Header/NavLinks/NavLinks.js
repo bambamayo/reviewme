@@ -49,7 +49,7 @@ const NavLinks = () => {
       </li>
       <li className="nav__item">
         <NavLink
-          to="/user/1"
+          to="/bambam/profile"
           activeClassName="active"
           exact
           className="nav__link nav__link--avatar"

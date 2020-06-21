@@ -99,7 +99,7 @@
     &-r {
       width: 30%;
       padding: 2rem;
-      height: 15rem;
+      height: 20rem;
       box-shadow: 0.5px 1px 7px var(--color-grey-mid);
 
       & p {
@@ -130,5 +130,13 @@
     font-size: 2rem;
     font-family: "Open Sans", serif;
     margin-bottom: 2rem;
+  }
+
+  &__user-image {
+    height: 2.5rem;
+    width: 2.5rem;
+    vertical-align: middle;
+    border-radius: 100%;
+    cursor: pointer;
   }
 }

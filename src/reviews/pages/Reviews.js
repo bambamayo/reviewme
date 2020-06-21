@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 import reviews from "../../reviews";
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
@@ -11,6 +11,7 @@ const Reviews = () => {
   const [catInView, setCatInView] = useState("");
   const [error, setError] = useState("");
   let query = new URLSearchParams(useLocation().search);
+  let history = useHistory();
 
   useEffect(() => {
     const handleReviewsToShow = () => {
@@ -18,22 +19,25 @@ const Reviews = () => {
         let filteredReviews = reviews.filter((review) =>
           review.reviewedName
             .toLowerCase()
-            .includes(query.get("q").toLowerCase())
+            .includes(query.get("q").replace(/-/g, " ").toLowerCase())
         );
+        setShownReviews(filteredReviews);
         filteredReviews.length === 0
           ? setError(
               "cannot find reviews for searched term, be the first to write a review for it"
             )
-          : setShownReviews(filteredReviews);
+          : setError("");
       } else if (query.get("cat")) {
         let filteredReviews = reviews.filter(
           (review) => review.category === query.get("cat")
         );
+        setShownReviews(filteredReviews);
+
         filteredReviews.length === 0
           ? setError(
-              "cannot find reviews for specific category, be the first to write a review for it"
+              "cannot find reviews for specified category, be the first to write a review for it"
             )
-          : setShownReviews(filteredReviews);
+          : setError("");
       } else {
         setShownReviews(reviews);
       }
@@ -67,14 +71,21 @@ const Reviews = () => {
 
   const handleTopFilterSubmit = (e) => {
     e.preventDefault();
-    console.log(catInView);
     let reviewsList = [...reviews];
-    if (catInView === "all") setShownReviews(reviewsList);
-    else {
+    if (catInView === "all") {
+      setShownReviews(reviewsList);
+      history.push(`/reviews?cat=all`);
+    } else {
       let filteredReviews = reviewsList.filter(
         (review) => review.category === catInView
       );
       setShownReviews(filteredReviews);
+      history.push(`/reviews?cat=${catInView}`);
+      filteredReviews.length === 0
+        ? setError(
+            "cannot find reviews for selected category, be the first to write a review for it"
+          )
+        : setError("");
     }
   };
 
@@ -116,8 +127,6 @@ const Reviews = () => {
       id: 8,
     },
   ];
-
-  console.log(shownReviews);
   return (
     <section className="section--page reviews">
       <PageHeader title="reviews" />
@@ -140,15 +149,6 @@ const Reviews = () => {
             filter
           </button>
         </form>
-        {/* <div className="reviews__filters--center">
-          <input
-            className="reviews__filters__input reviews__filters__input--b input-group__input"
-            type="text"
-            value={searchTerm}
-            placeholder="search by name"
-            onChange={handleSearhInputChange}
-          />
-        </div> */}
         <div className="grid">{show}</div>
       </div>
     </section>
@@ -156,18 +156,3 @@ const Reviews = () => {
 };
 
 export default Reviews;
-
-// if (query.get("q")) {
-//   return (
-//     <div>
-//       <h2>i searched for {query.get("q")}</h2>
-//     </div>
-//   );
-// }
-// if (query.get("cat")) {
-//   return (
-//     <div>
-//       <h2>i searched for {query.get("cat")}</h2>
-//     </div>
-//   );
-// }

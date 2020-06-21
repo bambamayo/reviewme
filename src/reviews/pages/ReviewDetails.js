@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import useImage from "../../assets/images/use-now.jpg";
 import reviews from "../../reviews";
 import Review from "../components/Review/Review";
+import Avatar from "../../shared/components/UI/Avatar/Avatar";
 
 const ReviewDetails = () => {
   let { name } = useParams();
+  name = name.replace(/-/g, " ");
   return (
     <section className="review-details section--page">
       <div className="review-details__cont">
@@ -70,6 +72,20 @@ const ReviewDetails = () => {
           </p>
         </div>
         <div className="review-details__info-r">
+          <p className="review-details__user">
+            <span className="review-details__span-l">posted by</span>
+            <span className="review-details__span-r">
+              <Avatar
+                image={useImage}
+                alttext="username"
+                avatarClass="review-details__user-image"
+              />
+            </span>
+          </p>
+          <p className="review-details__date">
+            <span className="review-details__span-l">Date added</span>
+            <span className="review-details__span-r">20|10|2020</span>
+          </p>
           <p className="review-details__website">
             <span className="review-details__span-l">website</span>
             <span className="review-details__span-r">http://website.com</span>
