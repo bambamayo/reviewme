@@ -1,0 +1,54 @@
+.modal {
+  z-index: 14;
+  position: fixed;
+  top: 22vh;
+  left: 10%;
+  width: 80%;
+  background: white;
+  box-shadow: 0 2px 8px rgba(var(--color-black), 0.26);
+  border-radius: 1rem;
+
+  &__header {
+    width: 100%;
+    padding: 1rem 0.5rem;
+    background: var(--color-grey-mid);
+    color: var(--color-white);
+    text-align: center;
+
+    & h2 {
+      margin: 1rem;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+    }
+  }
+
+  &__content {
+    padding: 2rem;
+  }
+
+  &__footer {
+    padding: 1rem 0.5rem;
+  }
+
+  &-enter {
+    transform: translateY(-10rem);
+    opacity: 0;
+
+    &-active {
+      transform: translateY(0);
+      opacity: 1;
+      transition: all 200ms;
+    }
+  }
+
+  &-exit {
+    transform: translateY(0);
+    opacity: 1;
+
+    &-active {
+      transform: translateY(-10rem);
+      opacity: 0;
+      transition: all 200ms;
+    }
+  }
+}

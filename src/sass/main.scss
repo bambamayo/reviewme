@@ -1,6 +1,7 @@
 @import "base/base";
 @import "base/utilities";
 
+@import "components/backdrop";
 @import "components/button";
 @import "components/card";
 @import "components/categorylist";
@@ -9,9 +10,12 @@
 @import "components/hero";
 @import "components/inputgroup";
 @import "components/loader";
+@import "components/message";
+@import "components/modal";
 @import "components/navlinks";
 @import "components/newcategoryform";
 @import "components/review";
+@import "components/userprofile";
 
 @import "layout/grid";
 
@@ -20,3 +24,4 @@
 @import "pages/reviewdetails";
 @import "pages/reviews";
 @import "pages/signup";
+@import "pages/userdashboard";

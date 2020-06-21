@@ -10,6 +10,7 @@ const Home = () => {
   const history = useHistory();
 
   const heroSearchHandler = (searchQuery) => {
+    searchQuery = searchQuery.replace(/ /g, "-");
     history.push(`/reviews?q=${searchQuery}`);
   };
 

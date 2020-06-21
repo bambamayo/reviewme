@@ -3,17 +3,20 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Reviews from "./reviews/pages/Reviews";
 import Home from "./home/pages/Home";
-import Layout from "./shared/components/Layout/Layout";
 import ReviewDetails from "./reviews/pages/ReviewDetails";
 import NewReview from "./reviews/pages/NewReview";
 import Login from "./auth/pages/Login";
 import Signup from "./auth/pages/Signup";
+import Layout from "./shared/components/Layout/Layout";
+import ScrollToTop from "./ScrollToTop";
+import UserDashboard from "./user/pages/UserDashboard";
 
 const App = () => {
   return (
     <Router>
-      <Switch>
-        <Layout>
+      <ScrollToTop />
+      <Layout>
+        <Switch>
           <Route path="/" exact>
             <Home />
           </Route>
@@ -33,8 +36,11 @@ const App = () => {
           <Route path="/signup" exact>
             <Signup />
           </Route>
-        </Layout>
-      </Switch>
+          <Route path="/bambam/:linkId" exact>
+            <UserDashboard />
+          </Route>
+        </Switch>
+      </Layout>
     </Router>
   );
 };

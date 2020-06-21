@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 const Hero = (props) => {
   const [query, setQuery] = useState("");
@@ -34,6 +35,10 @@ const Hero = (props) => {
       </div>
     </div>
   );
+};
+
+Hero.propTypes = {
+  btnClicked: PropTypes.func.isRequired,
 };
 
 export default Hero;

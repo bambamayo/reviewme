@@ -4,7 +4,7 @@
 }
 
 .section--page {
-  padding: 3rem 0 8rem 0;
+  padding: 3rem 0 9.1rem 0;
 }
 
 // new section class with light grey background
@@ -62,4 +62,18 @@
 //text align classes
 .t-r {
   text-align: right;
+}
+
+// display flex and justify-content-between
+.d-flex-btw {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+}
+
+// display flex and justify-content-between
+.d-flex-end {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 3rem;
 }

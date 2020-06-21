@@ -10,7 +10,7 @@ import Loader from "../../../shared/components/UI/Loader/Loader";
 
 const NewCategoryReq = () => {
   return (
-    <section className="new-category section section--greybg">
+    <section className="new-category section--page section--greybg">
       <SectionHeader>Request for a category</SectionHeader>
       <div className="grid-width new-category__container"></div>
       <Card cardClass="card__form">

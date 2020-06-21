@@ -1,6 +1,7 @@
 .review {
   &__card {
     height: 30rem;
+    position: relative;
   }
 
   &__aside {
@@ -80,5 +81,45 @@
 
   &__icon {
     cursor: pointer;
+  }
+
+  &__editbox {
+    height: 16rem;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    background-color: var(--color-grey-light);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    transition: 0.2s all ease-in;
+    transform: scale(0);
+    transform-origin: middle;
+
+    &__mod {
+      transform: scale(1);
+    }
+
+    &-btn {
+      background-color: transparent;
+      border: none;
+      outline: none;
+
+      &:first-child {
+        margin-right: 2rem;
+      }
+
+      &:not(:disabled):hover {
+        opacity: 0.7;
+      }
+    }
+
+    &-icon {
+      cursor: pointer;
+      color: var(--color-fail);
+      font-size: 2.5rem;
+    }
   }
 }

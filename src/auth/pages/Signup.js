@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
-import Select from "../../shared/components/FormElements/Select/Select";
 import { Link } from "react-router-dom";
 import Loader from "../../shared/components/UI/Loader/Loader";
 
@@ -20,7 +19,6 @@ const Signup = () => {
               userName: "",
               email: "",
               password: "",
-              gender: "",
             }}
             validationSchema={Yup.object({
               fullName: Yup.string().required("Please enter your fullname"),
@@ -37,7 +35,6 @@ const Signup = () => {
             })}
             onSubmit={(values, { setSubmitting, resetForm }) => {
               setTimeout(() => {
-                console.log(values);
                 resetForm();
                 setSubmitting(false);
               }, 3000);
@@ -76,14 +73,6 @@ const Signup = () => {
                     type="password"
                     placeholder="Enter password"
                   />
-                </div>
-                <div className="input-group">
-                  <Select label="Gender" name="gender">
-                    <option value="">select option</option>
-                    <option value="female">female</option>
-                    <option value="male">male</option>
-                    <option value="other">other</option>
-                  </Select>
                 </div>
                 <div className="input-group">
                   <button
