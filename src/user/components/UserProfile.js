@@ -18,12 +18,7 @@ const UserProfile = ({
   show,
 }) => {
   const [loader, setLoader] = useState(false);
-  const user = {
-    fullName: "ayobami agunroye",
-    userName: "bambamayo",
-    email: "bambamagunroye@testing.com",
-    dateJoined: "12|10|2011",
-  };
+
   return (
     <section className="user-profile">
       {message && show && (
@@ -102,7 +97,7 @@ const UserProfile = ({
                   label="Date joined"
                   name="dateJoined"
                   type="text"
-                  value={user.dateJoined}
+                  value={initialValues.dateJoined}
                   disabled={true}
                 />
               </div>

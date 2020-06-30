@@ -6,6 +6,7 @@ import Review from "../../reviews/components/Review/Review";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Message from "../../shared/components/Message/Message";
 import Modal from "../../shared/components/Modal/Modal";
+import DeleteDialog from "./DeleteDialog";
 
 const UserLikes = ({
   editing,
@@ -28,25 +29,15 @@ const UserLikes = ({
           className="dashboard__modal--delete"
           header="are you sure you want to delete?"
           headerClass="dashboard__modal__header"
-          contentClass="dashboard__modal__content-danger"
+          contentClass="dashboard__modal__content--danger"
         >
           {!loading && (
-            <>
-              <button
-                className="btn btn__md btn__md--r"
-                onClick={() =>
-                  handleDeleting("list", "review removed from your likes")
-                }
-              >
-                yes
-              </button>
-              <button
-                onClick={handleStopDeleting}
-                className="btn btn__md btn__md--b"
-              >
-                no
-              </button>
-            </>
+            <DeleteDialog
+              btnNoClick={handleStopDeleting}
+              btnYesClick={() =>
+                handleDeleting("review", "review deleted successfully")
+              }
+            />
           )}
           {loading && <Loader loaderClass="dashboard__loader" />}
         </Modal>

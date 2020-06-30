@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useParams, useLocation } from "react-router-dom";
 
 import UserProfile from "../components/UserProfile";
 import UserReviews from "../components/UserReviews";
@@ -13,13 +13,24 @@ const UserDashboard = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
   const [show, setShow] = useState(false);
-  const [showDialog, setShowDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
   const [currentReviewId, setReviewCurrentId] = useState(null);
 
   const { linkId } = useParams();
+  const location = useLocation();
+
+  useEffect(() => {
+    return () => handleStopEditing();
+  }, [location.pathname]);
 
   const handleDeleteBtnClick = (reviewId) => {
-    setShowDialog(true);
+    setShowDeleteDialog(true);
+    setReviewCurrentId(reviewId);
+  };
+
+  const handleEditBtnClick = (reviewId) => {
+    setShowEditDialog(true);
     setReviewCurrentId(reviewId);
   };
 
@@ -41,15 +52,6 @@ const UserDashboard = () => {
     setShow(false);
   };
 
-  const handleEditSubmit = () => {
-    setLoading(true);
-    setTimeout(() => {
-      handleStopEditing();
-      setLoading(false);
-      handleMessage("Changes saved", false);
-    }, 2000);
-  };
-
   const handleDeleting = (page, message, reviewId) => {
     setLoading(true);
     setTimeout(() => {
@@ -57,15 +59,20 @@ const UserDashboard = () => {
       reviewId = currentReviewId;
       console.log(reviewId);
       setLoading(false);
-      setShowDialog(false);
+      setShowDeleteDialog(false);
 
       handleMessage(message, false);
     }, 2000);
   };
 
   const handleStopDeleting = () => {
-    setShowDialog(false);
+    setShowDeleteDialog(false);
   };
+
+  const handleStopEditDialog = () => {
+    setShowEditDialog(false);
+  };
+
   return (
     <section className="dashboard">
       <nav className="dashboard__nav">
@@ -151,9 +158,12 @@ const UserDashboard = () => {
             show={show}
             handleCloseMessage={handleCloseMessage}
             handleDeleteBtnClick={handleDeleteBtnClick}
-            showDialog={showDialog}
+            showDeleteDialog={showDeleteDialog}
+            showEditDialog={showEditDialog}
             handleDeleting={handleDeleting}
             handleStopDeleting={handleStopDeleting}
+            handleEditBtnClick={handleEditBtnClick}
+            handleStopEditDialog={handleStopEditDialog}
           />
         )}
         {linkId === "list" && (
@@ -166,7 +176,7 @@ const UserDashboard = () => {
             show={show}
             handleCloseMessage={handleCloseMessage}
             handleDeleteBtnClick={handleDeleteBtnClick}
-            showDialog={showDialog}
+            showDialog={showDeleteDialog}
             handleDeleting={handleDeleting}
             handleStopDeleting={handleStopDeleting}
           />
@@ -181,7 +191,7 @@ const UserDashboard = () => {
             show={show}
             handleCloseMessage={handleCloseMessage}
             handleDeleteBtnClick={handleDeleteBtnClick}
-            showDialog={showDialog}
+            showDialog={showDeleteDialog}
             handleDeleting={handleDeleting}
             handleStopDeleting={handleStopDeleting}
           />

@@ -17,6 +17,7 @@ import {
   faHeart as heart,
   faBookOpen,
   faCameraRetro,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "./sass/main.scss";
@@ -35,7 +36,8 @@ library.add(
   faTimesCircle,
   faUser,
   faCameraRetro,
-  faTrashAlt
+  faTrashAlt,
+  faTimes
 );
 
 ReactDOM.render(

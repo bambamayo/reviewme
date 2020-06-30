@@ -6,48 +6,61 @@ import Review from "../../reviews/components/Review/Review";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Message from "../../shared/components/Message/Message";
 import Modal from "../../shared/components/Modal/Modal";
+import DeleteDialog from "./DeleteDialog";
+import EditDialog from "./EditDialog";
 
 const UserReviews = ({
   editing,
-  handleStopEditing,
   loading,
   message,
   error,
-  handleCloseMessage,
   show,
-  showDialog,
+  handleCloseMessage,
+  showEditDialog,
+  showDeleteDialog,
   handleDeleteBtnClick,
   handleDeleting,
   handleStopDeleting,
+  handleEditBtnClick,
+  handleStopEditDialog,
 }) => {
   return (
     <React.Fragment>
       {
         <Modal
-          show={showDialog}
-          className="dashboard__modal--delete"
-          header="are you sure you want to delete?"
-          headerClass="dashboard__modal__header"
-          contentClass="dashboard__modal__content-danger"
+          modalCloseBtnClick={handleStopEditDialog}
+          cancelButton={showEditDialog}
+          show={showDeleteDialog || showEditDialog}
+          className={
+            showDeleteDialog
+              ? "dashboard__modal--delete"
+              : "dashboard__modal--edit"
+          }
+          header={
+            showDeleteDialog
+              ? "Are you sure you want to delete?"
+              : "Edit review"
+          }
+          headerClass={
+            showDeleteDialog
+              ? "dashboard__modal__header"
+              : "dashboard__modal__header--edit"
+          }
+          contentClass={
+            showDeleteDialog
+              ? "dashboard__modal__content--danger"
+              : "dashboard__modal__content--edit"
+          }
         >
-          {!loading && (
-            <>
-              <button
-                className="btn btn__md btn__md--r"
-                onClick={() =>
-                  handleDeleting("review", "review deleted successfully")
-                }
-              >
-                yes
-              </button>
-              <button
-                onClick={handleStopDeleting}
-                className="btn btn__md btn__md--b"
-              >
-                no
-              </button>
-            </>
+          {!loading && showDeleteDialog && (
+            <DeleteDialog
+              btnNoClick={handleStopDeleting}
+              btnYesClick={() =>
+                handleDeleting("review", "review deleted successfully")
+              }
+            />
           )}
+          {!loading && showEditDialog && <EditDialog loading={loading} />}
           {loading && <Loader loaderClass="dashboard__loader" />}
         </Modal>
       }
@@ -74,6 +87,7 @@ const UserReviews = ({
               date={review.date}
               showEditDiv={editing ? true : false}
               deleteBtnClick={() => handleDeleteBtnClick(review.id)}
+              editBtnClick={() => handleEditBtnClick(review.id)}
             />
           ))}
         </div>
