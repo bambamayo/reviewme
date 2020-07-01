@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import Button from "../../../shared/components/UI/Button/Button";
 
 const Hero = (props) => {
   const [query, setQuery] = useState("");
@@ -24,13 +25,21 @@ const Hero = (props) => {
             onChange={inputChangedHandler}
             className="hero__input input-group__input"
           />
-          <button
+          <Button
             onClick={() => props.btnClicked(query)}
             disabled={query.length === 0}
             className="btn  btn--hero"
           >
             find reviews
-          </button>
+          </Button>
+
+          {/* <button
+            onClick={() => props.btnClicked(query)}
+            disabled={query.length === 0}
+            className="btn  btn--hero"
+          >
+            find reviews
+          </button> */}
         </div>
       </div>
     </div>

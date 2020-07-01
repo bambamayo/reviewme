@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -7,8 +7,15 @@ import TextInput from "../../shared/components/FormElements/TextInput/TextInput"
 import Select from "../../shared/components/FormElements/Select/Select";
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Loader from "../../shared/components/UI/Loader/Loader";
+import Message from "../../shared/components/Message/Message";
+import Button from "../../shared/components/UI/Button/Button";
 
 const NewReview = () => {
+  const [showMsg, setShowMsg] = useState(false);
+
+  const handleHideMsg = () => {
+    setShowMsg(false);
+  };
   const categories = [
     {
       name: "restuarants",
@@ -48,6 +55,13 @@ const NewReview = () => {
       <PageHeader title="New Review" />
       <div className=" grid-width new-review__container">
         <Card cardClass="card__form">
+          {showMsg && (
+            <Message
+              bgColor="green"
+              msg="New review submitted successfully"
+              iconClicked={handleHideMsg}
+            />
+          )}
           <Formik
             initialValues={{
               reviewedName: "",
@@ -79,6 +93,7 @@ const NewReview = () => {
                 console.log(fileElement.files);
                 resetForm();
                 setSubmitting(false);
+                setShowMsg(true);
               }, 400);
             }}
           >
@@ -181,14 +196,14 @@ const NewReview = () => {
                   <ErrorMessage name="reviewedImages" />
                 </div>
                 <div className="input-group">
-                  <button
+                  <Button
                     disabled={!(isValid && dirty)}
                     type="submit"
                     className="btn btn--blue btn--form"
                   >
                     <p className="btn__text">submit</p>
                     {isSubmitting && <Loader />}
-                  </button>
+                  </Button>
                 </div>
               </Form>
             )}
