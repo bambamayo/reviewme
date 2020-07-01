@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
@@ -7,15 +7,29 @@ import TextInput from "../../../shared/components/FormElements/TextInput/TextInp
 import Select from "../../../shared/components/FormElements/Select/Select";
 import Card from "../../../shared/components/UI/Card/Card";
 import Loader from "../../../shared/components/UI/Loader/Loader";
+import Button from "../../../shared/components/UI/Button/Button";
+import Message from "../../../shared/components/Message/Message";
 
 const NewCategoryReq = () => {
+  const [showMsg, setShowMsg] = useState(false);
+
+  const handleHideMsg = () => {
+    setShowMsg(false);
+  };
   return (
     <section className="new-category section--page section--greybg">
       <SectionHeader>Request for a category</SectionHeader>
       <div className="grid-width new-category__container"></div>
       <Card cardClass="card__form">
+        {showMsg && (
+          <Message
+            bgColor="green"
+            msg="You request has been submitted successfully, you'll be contacted with our decision soon"
+            iconClicked={handleHideMsg}
+          />
+        )}
         <Formik
-          initialValues={{ categoryName: "", visited: "", writeReview: "" }}
+          initialValues={{ categoryName: "", writeReview: "" }}
           validationSchema={Yup.object({
             categoryName: Yup.string()
               .lowercase()
@@ -24,10 +38,12 @@ const NewCategoryReq = () => {
               .oneOf(["yes", "no"], "Invalid option type")
               .required("This field is required"),
           })}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={(values, { setSubmitting, resetForm }) => {
             setTimeout(() => {
               console.log(values);
+              resetForm();
               setSubmitting(false);
+              setShowMsg(true);
             }, 400);
           }}
         >
@@ -52,14 +68,15 @@ const NewCategoryReq = () => {
                 </Select>
               </div>
               <div className="input-group">
-                <button
+                <Button
                   disabled={!(isValid && dirty)}
-                  type="submit "
+                  type="submit"
                   className="btn btn--blue btn--form"
                 >
                   <p className="btn__text">Submit</p>
+
                   {isSubmitting && <Loader />}
-                </button>
+                </Button>
               </div>
             </Form>
           )}
