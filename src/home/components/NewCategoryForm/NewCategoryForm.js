@@ -69,7 +69,7 @@ const NewCategoryReq = () => {
               </div>
               <div className="input-group">
                 <Button
-                  disabled={!(isValid && dirty)}
+                  disabled={!(isValid && dirty) || isSubmitting}
                   type="submit"
                   className="btn btn--blue btn--form"
                 >

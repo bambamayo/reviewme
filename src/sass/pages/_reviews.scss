@@ -56,4 +56,37 @@
       }
     }
   }
+
+  &__others-cont {
+    min-width: 114rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 25.5rem;
+  }
+
+  &__error-msg {
+    font-size: 1.8rem;
+    letter-spacing: 0.1rem;
+    margin-bottom: 1rem;
+  }
+
+  &__error-link:link,
+  &__error-link:visited {
+    font-size: 1.4rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 0.5px solid var(--color-grey-mid);
+    transition: 0.1s all ease-in;
+    color: var(--color-grey-dark);
+
+    &:hover {
+      border-bottom: 0.5px solid transparent;
+    }
+  }
+
+  &__loader {
+    height: 50px;
+    width: 50px;
+  }
 }

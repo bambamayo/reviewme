@@ -10,7 +10,6 @@ import DeleteDialog from "./DeleteDialog";
 
 const UserLikes = ({
   editing,
-  handleStopEditing,
   loading,
   message,
   error,
@@ -22,7 +21,7 @@ const UserLikes = ({
   handleStopDeleting,
 }) => {
   return (
-    <React.Fragment>
+    <>
       {
         <Modal
           show={showDialog}
@@ -70,7 +69,7 @@ const UserLikes = ({
           ))}
         </div>
       </section>
-    </React.Fragment>
+    </>
   );
 };
 

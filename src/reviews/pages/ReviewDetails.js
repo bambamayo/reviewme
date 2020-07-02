@@ -5,10 +5,12 @@ import useImage from "../../assets/images/use-now.jpg";
 import reviews from "../../reviews";
 import Review from "../components/Review/Review";
 import Avatar from "../../shared/components/UI/Avatar/Avatar";
+import Button from "../../shared/components/UI/Button/Button";
 
 const ReviewDetails = () => {
   let { name } = useParams();
   name = name.replace(/-/g, " ");
+
   return (
     <section className="review-details section--page">
       <div className="review-details__cont">
@@ -19,9 +21,9 @@ const ReviewDetails = () => {
           <span className="review-details__amount--pri">Number of reviews</span>
           <span className="review-details__amount--sec">3</span>
         </h3>
-        <button className="review-details__button review-details__addtolistbtn">
+        <Button className="review-details__button review-details__addtolistbtn">
           add to list
-        </button>
+        </Button>
       </div>
       <div className="review-details__images">
         <button className="review-details__btncont">
@@ -54,10 +56,10 @@ const ReviewDetails = () => {
         </button>
       </div>
       <div className="review-details__cont">
-        <button className="review-details__writereview">
+        <Button className="review-details__writereview">
           write your own review
-        </button>
-        <button className="review-details__editbtn">edit</button>
+        </Button>
+        {/* <Button className="review-details__editbtn">edit</Button> */}
       </div>
       <div className="review-details__info grid-width">
         <div className="review-details__info-l">
