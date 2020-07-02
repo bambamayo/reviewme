@@ -16,6 +16,7 @@ const NewReview = () => {
   const handleHideMsg = () => {
     setShowMsg(false);
   };
+
   const categories = [
     {
       name: "restuarants",
@@ -94,6 +95,7 @@ const NewReview = () => {
                 resetForm();
                 setSubmitting(false);
                 setShowMsg(true);
+                window.scroll(0, 0);
               }, 400);
             }}
           >
@@ -197,7 +199,7 @@ const NewReview = () => {
                 </div>
                 <div className="input-group">
                   <Button
-                    disabled={!(isValid && dirty)}
+                    disabled={!(isValid && dirty) || isSubmitting}
                     type="submit"
                     className="btn btn--blue btn--form"
                   >

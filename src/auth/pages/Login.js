@@ -7,6 +7,7 @@ import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
+import Button from "../../shared/components/UI/Button/Button";
 
 const Login = () => {
   const Location = useLocation();
@@ -54,14 +55,14 @@ const Login = () => {
                   />
                 </div>
                 <div className="input-group">
-                  <button
-                    disabled={!(isValid && dirty)}
-                    type="submit "
+                  <Button
+                    disabled={!(isValid && dirty) || isSubmitting}
+                    type="submit"
                     className="btn btn--blue btn--form"
                   >
                     <p className="btn__text">Login</p>
                     {isSubmitting && <Loader />}
-                  </button>
+                  </Button>
                   <Link className="calltoaction__link" to="/signup">
                     or create account
                   </Link>

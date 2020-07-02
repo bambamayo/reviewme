@@ -10,7 +10,6 @@ import DeleteDialog from "./DeleteDialog";
 
 const UserList = ({
   editing,
-  handleStopEditing,
   loading,
   message,
   error,
@@ -22,7 +21,7 @@ const UserList = ({
   handleStopDeleting,
 }) => {
   return (
-    <React.Fragment>
+    <>
       {
         <Modal
           show={showDialog}
@@ -70,7 +69,7 @@ const UserList = ({
           ))}
         </div>
       </section>
-    </React.Fragment>
+    </>
   );
 };
 

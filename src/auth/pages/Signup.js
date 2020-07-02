@@ -1,13 +1,16 @@
 import React from "react";
 import { Formik, Form } from "formik";
+import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
+
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
-import { Link } from "react-router-dom";
 import Loader from "../../shared/components/UI/Loader/Loader";
+import Button from "../../shared/components/UI/Button/Button";
 
 const Signup = () => {
+  const history = useHistory();
   return (
     <section className="signup section--page section--greybg">
       <PageHeader title="create account" />
@@ -29,14 +32,12 @@ const Signup = () => {
               password: Yup.string()
                 .min(6, `password should be 6 characters or more`)
                 .required("Please enter your password of 6 characters or more"),
-              gender: Yup.string()
-                .oneOf(["female", "male", "other"], "Invalid option type")
-                .required("This field is required"),
             })}
             onSubmit={(values, { setSubmitting, resetForm }) => {
               setTimeout(() => {
                 resetForm();
                 setSubmitting(false);
+                history.push("/bambam/profile");
               }, 3000);
             }}
           >
@@ -75,14 +76,15 @@ const Signup = () => {
                   />
                 </div>
                 <div className="input-group">
-                  <button
-                    disabled={!(isValid && dirty)}
+                  <Button
+                    disabled={!(isValid && dirty) || isSubmitting}
                     type="submit "
                     className="btn btn--blue btn--form"
                   >
                     <p className="btn__text">Login</p>
                     {isSubmitting && <Loader />}
-                  </button>
+                  </Button>
+
                   <Link className="calltoaction__link" to="/login">
                     or login
                   </Link>
@@ -90,6 +92,7 @@ const Signup = () => {
               </Form>
             )}
           </Formik>
+          )
         </Card>
       </div>
     </section>

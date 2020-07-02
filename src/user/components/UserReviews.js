@@ -25,7 +25,7 @@ const UserReviews = ({
   handleStopEditDialog,
 }) => {
   return (
-    <React.Fragment>
+    <>
       {
         <Modal
           modalCloseBtnClick={handleStopEditDialog}
@@ -92,7 +92,7 @@ const UserReviews = ({
           ))}
         </div>
       </section>
-    </React.Fragment>
+    </>
   );
 };
 

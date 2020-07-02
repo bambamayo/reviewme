@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, Link } from "react-router-dom";
 
 import reviews from "../../reviews";
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Review from "../components/Review/Review";
 import useImage from "../../assets/images/use-now.jpg";
+import Loader from "../../shared/components/UI/Loader/Loader";
 
 const Reviews = () => {
   const [shownReviews, setShownReviews] = useState([]);
@@ -28,16 +29,19 @@ const Reviews = () => {
             )
           : setError("");
       } else if (query.get("cat")) {
-        let filteredReviews = reviews.filter(
-          (review) => review.category === query.get("cat")
-        );
-        setShownReviews(filteredReviews);
+        if (query.get("cat") === "all") setShownReviews(reviews);
+        else {
+          let filteredReviews = reviews.filter(
+            (review) => review.category === query.get("cat")
+          );
+          setShownReviews(filteredReviews);
 
-        filteredReviews.length === 0
-          ? setError(
-              "cannot find reviews for specified category, be the first to write a review for it"
-            )
-          : setError("");
+          filteredReviews.length === 0
+            ? setError(
+                "cannot find reviews for specified category, be the first to write a review for it"
+              )
+            : setError("");
+        }
       } else {
         setShownReviews(reviews);
       }
@@ -46,14 +50,25 @@ const Reviews = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  let show = null;
+  let displayedReviews;
 
-  if (shownReviews.length === 0) show = <h2>Loadingggg</h2>;
-
-  if (shownReviews.length === 0 && error) {
-    show = <h2>{error}</h2>;
+  if (error) {
+    displayedReviews = (
+      <div className="reviews__others-cont">
+        <h2 className="reviews__error-msg">{error}</h2>
+        <Link className="reviews__error-link" to="/write-a-review">
+          Write a review
+        </Link>
+      </div>
+    );
+  } else if (shownReviews === null) {
+    displayedReviews = (
+      <div className="reviews__others-cont">
+        <Loader loaderClass="reviews__loader" />
+      </div>
+    );
   } else
-    show = shownReviews.map((review) => (
+    displayedReviews = shownReviews.map((review) => (
       <Review
         key={review.id}
         image={useImage}
@@ -127,6 +142,7 @@ const Reviews = () => {
       id: 8,
     },
   ];
+
   return (
     <section className="section--page reviews">
       <PageHeader title="reviews" />
@@ -149,7 +165,7 @@ const Reviews = () => {
             filter
           </button>
         </form>
-        <div className="grid">{show}</div>
+        <div className="grid">{displayedReviews}</div>
       </div>
     </section>
   );
