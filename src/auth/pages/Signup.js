@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, Form } from "formik";
 import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
@@ -8,8 +8,10 @@ import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Button from "../../shared/components/UI/Button/Button";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const Signup = () => {
+  const auth = useContext(AuthContext);
   const history = useHistory();
   return (
     <section className="signup section--page section--greybg">
@@ -37,6 +39,7 @@ const Signup = () => {
               setTimeout(() => {
                 resetForm();
                 setSubmitting(false);
+                auth.login();
                 history.push("/bambam/profile");
               }, 3000);
             }}

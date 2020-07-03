@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Button from "../../shared/components/UI/Button/Button";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const Login = () => {
-  const Location = useLocation();
-  console.log(Location);
+  const auth = useContext(AuthContext);
+  const history = useHistory();
+  console.log(auth);
   return (
     <section className="login section--page section--greybg">
       <PageHeader title="login" />
@@ -33,6 +35,8 @@ const Login = () => {
                 console.log(values);
                 resetForm();
                 setSubmitting(false);
+                auth.login();
+                history.push("/");
               }, 3000);
             }}
           >
