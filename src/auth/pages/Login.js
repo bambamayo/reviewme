@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
 
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Card from "../../shared/components/UI/Card/Card";
@@ -9,9 +10,12 @@ import TextInput from "../../shared/components/FormElements/TextInput/TextInput"
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Button from "../../shared/components/UI/Button/Button";
 import { AuthContext } from "../../shared/context/auth-context";
+import { UIContext } from "../../shared/context/ui-context";
+import Message from "../../shared/components/Message/Message";
 
 const Login = () => {
   const auth = useContext(AuthContext);
+  const uictxt = useContext(UIContext);
   const history = useHistory();
   console.log(auth);
   return (
@@ -19,25 +23,40 @@ const Login = () => {
       <PageHeader title="login" />
       <div className="grid-width login__container">
         <Card cardClass="card__form">
+          {uictxt.show && (
+            <Message
+              iconClicked={uictxt.handleClose}
+              msg={uictxt.msg}
+              bgColor="#cc0000"
+            />
+          )}
           <Formik
             initialValues={{
-              userName: "",
+              username: "",
               password: "",
             }}
             validationSchema={Yup.object({
-              userName: Yup.string().required("Please enter your username"),
+              username: Yup.string().required("Please enter your username"),
               password: Yup.string()
                 .min(6, `password should be 6 characters or more`)
                 .required("Please enter your password"),
             })}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-              setTimeout(() => {
-                console.log(values);
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              const data = { ...values };
+              try {
+                const response = await axios.post(
+                  "http://localhost:5000/api/users/login",
+                  data
+                );
+                const res = response.data;
+                console.log(res);
                 resetForm();
                 setSubmitting(false);
                 auth.login();
-                history.push("/");
-              }, 3000);
+                history.push("/bambam/profile");
+              } catch (error) {
+                uictxt.handleShow(error.response.data.message);
+              }
             }}
           >
             {({ isValid, dirty, isSubmitting }) => (
@@ -45,7 +64,7 @@ const Login = () => {
                 <div className="input-group">
                   <TextInput
                     label="Username"
-                    name="userName"
+                    name="username"
                     type="text"
                     placeholder="Enter username"
                   />
