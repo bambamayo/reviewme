@@ -2,32 +2,43 @@ import React, { useContext } from "react";
 import { Formik, Form } from "formik";
 import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
+import axios from "axios";
+import { AuthContext } from "../../shared/context/auth-context";
+import { UIContext } from "../../shared/context/ui-context";
 
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Button from "../../shared/components/UI/Button/Button";
-import { AuthContext } from "../../shared/context/auth-context";
+import Message from "../../shared/components/Message/Message";
 
 const Signup = () => {
   const auth = useContext(AuthContext);
+  const uictxt = useContext(UIContext);
   const history = useHistory();
   return (
     <section className="signup section--page section--greybg">
       <PageHeader title="create account" />
       <div className="grid-width signup__container">
         <Card cardClass="card__form">
+          {uictxt.show && (
+            <Message
+              iconClicked={uictxt.handleClose}
+              msg={uictxt.msg}
+              bgColor="#cc0000"
+            />
+          )}
           <Formik
             initialValues={{
-              fullName: "",
-              userName: "",
+              fullname: "",
+              username: "",
               email: "",
               password: "",
             }}
             validationSchema={Yup.object({
-              fullName: Yup.string().required("Please enter your fullname"),
-              userName: Yup.string().required("please enter your username"),
+              fullname: Yup.string().required("Please enter your fullname"),
+              username: Yup.string().required("please enter your username"),
               email: Yup.string()
                 .email("invalid email")
                 .required("please enter your email"),
@@ -35,13 +46,22 @@ const Signup = () => {
                 .min(6, `password should be 6 characters or more`)
                 .required("Please enter your password of 6 characters or more"),
             })}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-              setTimeout(() => {
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              const data = { ...values };
+              try {
+                const response = await axios.post(
+                  "http://localhost:5000/api/users/signup",
+                  data
+                );
+                const res = response.data;
+                console.log(res);
                 resetForm();
                 setSubmitting(false);
                 auth.login();
                 history.push("/bambam/profile");
-              }, 3000);
+              } catch (error) {
+                uictxt.handleShow(error.response.data.message);
+              }
             }}
           >
             {({ isValid, dirty, isSubmitting }) => (
@@ -49,7 +69,7 @@ const Signup = () => {
                 <div className="input-group">
                   <TextInput
                     label="Fullname"
-                    name="fullName"
+                    name="fullname"
                     type="text"
                     placeholder="Enter fullname"
                   />
@@ -57,7 +77,7 @@ const Signup = () => {
                 <div className="input-group">
                   <TextInput
                     label="Username"
-                    name="userName"
+                    name="username"
                     type="text"
                     placeholder="Enter username"
                   />
@@ -75,7 +95,7 @@ const Signup = () => {
                     label="Password"
                     name="password"
                     type="password"
-                    placeholder="Enter password"
+                    placeholder="Enter password of six or more characters"
                   />
                 </div>
                 <div className="input-group">
@@ -84,7 +104,7 @@ const Signup = () => {
                     type="submit "
                     className="btn btn--blue btn--form"
                   >
-                    <p className="btn__text">Login</p>
+                    <p className="btn__text">Signup</p>
                     {isSubmitting && <Loader />}
                   </Button>
 

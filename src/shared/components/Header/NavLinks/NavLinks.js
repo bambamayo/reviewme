@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 import Avatar from "../../UI/Avatar/Avatar";
 import { AuthContext } from "../../../context/auth-context";
@@ -7,10 +7,12 @@ import avatarImg from "../../../../assets/images/use-now.jpg";
 
 const NavLinks = () => {
   const auth = useContext(AuthContext);
+  const history = useHistory();
 
   const handleSignOut = (e) => {
     e.preventDefault();
     auth.logout();
+    history.push("/");
   };
   return (
     <ul className="nav__list">
