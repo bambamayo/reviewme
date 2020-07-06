@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
+import userService from "../../services/user";
 
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Card from "../../shared/components/UI/Card/Card";
@@ -17,7 +17,6 @@ const Login = () => {
   const auth = useContext(AuthContext);
   const uictxt = useContext(UIContext);
   const history = useHistory();
-  console.log(auth);
   return (
     <section className="login section--page section--greybg">
       <PageHeader title="login" />
@@ -27,7 +26,7 @@ const Login = () => {
             <Message
               iconClicked={uictxt.handleClose}
               msg={uictxt.msg}
-              bgColor="#cc0000"
+              bgColor={uictxt.error ? "#cc0000" : "#008000"}
             />
           )}
           <Formik
@@ -44,18 +43,15 @@ const Login = () => {
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               const data = { ...values };
               try {
-                const response = await axios.post(
-                  "http://localhost:5000/api/users/login",
-                  data
-                );
-                const res = response.data;
-                console.log(res);
+                const response = await userService.loginUser(data);
+                auth.handleSetUserId(response.data.id);
                 resetForm();
                 setSubmitting(false);
                 auth.login();
-                history.push("/bambam/profile");
+                history.goBack();
               } catch (error) {
                 uictxt.handleShow(error.response.data.message);
+                uictxt.handleErrorAvail();
               }
             }}
           >
