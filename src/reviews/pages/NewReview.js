@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -9,13 +9,13 @@ import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Message from "../../shared/components/Message/Message";
 import Button from "../../shared/components/UI/Button/Button";
+import { AuthContext } from "../../shared/context/auth-context";
+import { UIContext } from "../../shared/context/ui-context";
+import reviewService from "../../services/review";
 
 const NewReview = () => {
-  const [showMsg, setShowMsg] = useState(false);
-
-  const handleHideMsg = () => {
-    setShowMsg(false);
-  };
+  const auth = useContext(AuthContext);
+  const uictxt = useContext(UIContext);
 
   const categories = [
     {
@@ -56,47 +56,50 @@ const NewReview = () => {
       <PageHeader title="New Review" />
       <div className=" grid-width new-review__container">
         <Card cardClass="card__form">
-          {showMsg && (
+          {uictxt.show && (
             <Message
-              bgColor="green"
-              msg="New review submitted successfully"
-              iconClicked={handleHideMsg}
+              iconClicked={uictxt.handleClose}
+              msg={uictxt.msg}
+              bgColor={uictxt.error ? "#cc0000" : "#008000"}
             />
           )}
           <Formik
             initialValues={{
               reviewedName: "",
-              reviewedCat: "",
-              tagline: "",
-              reviewedImages: "",
+              category: "",
+              introText: "",
+              images: [],
               address: "",
               telephone: "",
               website: "",
+              reviewDetails: "",
             }}
             validationSchema={Yup.object({
               reviewedName: Yup.string()
                 .lowercase()
                 .required("Please enter a name"),
-              reviewedCat: Yup.string()
+              category: Yup.string()
                 .lowercase()
                 .required("Please enter a category name"),
-              tagline: Yup.string()
+              introText: Yup.string()
                 .lowercase()
                 .required("Please enter a tagline"),
-              userReview: Yup.string()
-                .lowercase()
-                .required("This field is required"),
+              reviewDetails: Yup.string().required("This field is required"),
             })}
-            onSubmit={(values, { setSubmitting, resetForm }) => {
-              let fileElement = document.getElementById("reviewedImages");
-              setTimeout(() => {
-                console.log(values);
-                console.log(fileElement.files);
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              //let fileElement = document.getElementById("images");
+              const data = { ...values, author: auth.userId };
+              try {
+                const response = await reviewService.createNewReview(data);
+                console.log(response.data);
                 resetForm();
                 setSubmitting(false);
-                setShowMsg(true);
+                uictxt.handleShow("review created successfully");
                 window.scroll(0, 0);
-              }, 400);
+              } catch (error) {
+                uictxt.handleShow(error.response.data.message);
+                uictxt.handleErrorAvail();
+              }
             }}
           >
             {({
@@ -117,7 +120,7 @@ const NewReview = () => {
                   />
                 </div>
                 <div className="input-group">
-                  <Select label="Select category" name="reviewedCat">
+                  <Select label="Select category" name="category">
                     <option value="">select option</option>
                     {categories.map((category) => (
                       <option value={category.name} key={category.id}>
@@ -129,27 +132,27 @@ const NewReview = () => {
                 <div className="input-group">
                   <TextInput
                     label="Tagline (enter a short intro)"
-                    name="tagline"
+                    name="introText"
                     type="text"
                     placeholder="Enter tagline"
                   />
                 </div>
                 <div className="input-group input-group--textarea">
-                  <label className="input-group__label" htmlFor="userReview">
+                  <label className="input-group__label" htmlFor="reviewDetails">
                     Your review
                   </label>
                   <Field
-                    name="userReview"
+                    name="reviewDetails"
                     component="textarea"
                     placeholder="Enter review"
                     className={
-                      errors.userReview && touched.userReview
+                      errors.reviewDetails && touched.reviewDetails
                         ? "input-group__input input-group__input--error"
                         : "input-group__input"
                     }
                     rows="5"
                   />
-                  <ErrorMessage name="userReview">
+                  <ErrorMessage name="reviewDetails">
                     {(msg) => <span className="input-group__error">{msg}</span>}
                   </ErrorMessage>
                 </div>
@@ -178,15 +181,12 @@ const NewReview = () => {
                   />
                 </div>
                 <div className="input-group">
-                  <label
-                    className="input-group__label"
-                    htmlFor="reviewedImages"
-                  >
+                  <label className="input-group__label" htmlFor="images">
                     Add image(s)
                   </label>
                   <input
-                    id="reviewedImages"
-                    name="reviewedImages"
+                    id="images"
+                    name="images"
                     type="file"
                     className="input-group__input"
                     value={Formik.reviewedImages}

@@ -17,6 +17,8 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [show, setShow] = useState(false);
   const [msg, setMsg] = useState("");
+  const [userId, setUserId] = useState(null);
+  const [error, setError] = useState(false);
 
   const login = useCallback(() => {
     setIsLoggedIn(true);
@@ -34,11 +36,30 @@ const App = () => {
   const handleClose = useCallback(() => {
     setShow(false);
     setMsg("");
+    setError(false);
+  }, []);
+
+  const handleSetUserId = useCallback((id) => {
+    setUserId(id);
+  }, []);
+
+  const handleErrorAvail = useCallback(() => {
+    setError(true);
+  }, []);
+
+  const handleErrorNotAvail = useCallback(() => {
+    setError(false);
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+      value={{
+        isLoggedIn: isLoggedIn,
+        login: login,
+        logout: logout,
+        userId: userId,
+        handleSetUserId: handleSetUserId,
+      }}
     >
       <UIContext.Provider
         value={{
@@ -46,6 +67,9 @@ const App = () => {
           handleShow: handleShow,
           handleClose: handleClose,
           msg: msg,
+          handleErrorAvail: handleErrorAvail,
+          error: error,
+          handleErrorNotAvail: handleErrorNotAvail,
         }}
       >
         <Router>
