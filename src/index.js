@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 
 import {
   faHeart,
@@ -22,6 +23,7 @@ import {
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "./sass/main.scss";
 import App from "./App";
+import store from "./redux/store";
 
 library.add(
   faHeart,
@@ -42,7 +44,9 @@ library.add(
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
