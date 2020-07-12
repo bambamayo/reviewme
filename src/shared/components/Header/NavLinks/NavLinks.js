@@ -8,7 +8,6 @@ import avatarImg from "../../../../assets/images/use-now.jpg";
 const NavLinks = () => {
   const auth = useContext(AuthContext);
   const history = useHistory();
-  console.log(auth);
 
   const handleSignOut = (e) => {
     e.preventDefault();
@@ -16,6 +15,7 @@ const NavLinks = () => {
     history.push("/");
     auth.handleSetUserId(null);
   };
+
   return (
     <ul className="nav__list">
       {auth.isLoggedIn && (
