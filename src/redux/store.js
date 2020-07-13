@@ -4,11 +4,13 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import authReducer from "./reducers/authReducer";
 import reviewsReducer from "./reducers/reviewsReducer";
 import modalReducer from "./reducers/modalReducer";
+import dashboardReducer from "./reducers/dashboardReducer";
 
 const reducer = combineReducers({
   auth: authReducer,
   reviews: reviewsReducer,
   showModal: modalReducer,
+  dashboard: dashboardReducer,
 });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));

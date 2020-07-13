@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form } from "formik";
+import { useSelector, useDispatch } from "react-redux";
 
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
@@ -10,25 +11,25 @@ import Modal from "../../shared/components/Modal/Modal";
 import Avatar from "../../shared/components/UI/Avatar/Avatar";
 import useNow from "../../assets/images/use-now.jpg";
 
+import { showModal, hideModal } from "../../redux/actions/modal";
+import { editProfile, setMessage } from "../../redux/actions/dashboard";
+
 const UserProfile = ({
-  editing,
   handleStopEditing,
-  loading,
   handleMessage,
-  message,
-  error,
   handleCloseMessage,
-  show,
 }) => {
-  const [loader, setLoader] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const appState = useSelector((state) => state);
+  const show = appState.showModal;
+  const { editing, loading, message, error } = appState.dashboard;
+  const dispatch = useDispatch();
 
   const handleAvatarClicked = (e) => {
     e.preventDefault();
-    setShowModal(true);
+    dispatch(showModal());
   };
   const handleCloseModal = () => {
-    setShowModal(false);
+    dispatch(hideModal());
   };
 
   return (
@@ -36,8 +37,8 @@ const UserProfile = ({
       {
         <Modal
           modalCloseBtnClick={handleCloseModal}
-          cancelButton={showModal}
-          show={showModal}
+          cancelButton={true}
+          show={show}
           className="dashboard__modal--profile"
           headerClass="dashboard__modal--profile-header"
           contentClass="dashboard__modal--profile-content"
@@ -52,11 +53,11 @@ const UserProfile = ({
         </Modal>
       }
       <section className="user-profile">
-        {message && show && (
+        {message && (
           <Message
             msg={message}
             bgColor={error ? "red" : "green"}
-            iconClicked={handleCloseMessage}
+            iconClicked={() => dispatch(setMessage(""))}
           />
         )}
         <Formik
@@ -67,31 +68,38 @@ const UserProfile = ({
             dateJoined: "12|10|2011",
           }}
           onSubmit={(values) => {
-            setLoader(true);
-            setTimeout(() => {
-              handleStopEditing();
-              setLoader(false);
-              handleMessage("Changes saved", false);
-              console.log(values);
-            }, 2000);
+            console.log(values);
+            dispatch(editProfile());
           }}
         >
           {({ initialValues, values }) => (
             <Form className="user-profile__form">
               <div className="user-profile__avatar-cont">
                 <Button
-                  className={`user-profile__avatar-icon ${
-                    editing ? `user-profile__avatar-icon__editing` : null
+                  className={`user-profile__avatar ${
+                    editing ? `user-profile__avatar__editing` : null
                   }`}
                   onClick={handleAvatarClicked}
                   disabled={editing}
                 >
-                  <Icon type={["far", "user"]} />
+                  <Avatar
+                    image={useNow}
+                    alttext="username"
+                    avatarClass="user-profile__avatar-img"
+                  />
                 </Button>
                 {editing && <input className="input__hidden" type="file" />}
                 {editing && (
                   <button className="btn__inputselect">
-                    <Icon type={["fas", "camera-retro"]} />
+                    <span className="user-profile__avatar-edit">
+                      <Icon type={["fas", "camera-retro"]} />
+                    </span>
+                    <span
+                      className="user-profile__avatar-delete"
+                      title="delete profile picture"
+                    >
+                      <Icon type={["far", "trash-alt"]} />
+                    </span>
                   </button>
                 )}
               </div>
@@ -140,7 +148,7 @@ const UserProfile = ({
                   <div className="user-profile__form__options">
                     <button type="submit" disabled={loading}>
                       <p className="btn__text">save</p>
-                      {loader && <Loader />}
+                      {loading && <Loader />}
                     </button>
                   </div>
                 </div>

@@ -68,3 +68,24 @@
     }
   }
 }
+
+.signout__btn {
+  background-color: var(--color-secondary);
+  padding: 0.7rem 2rem;
+  border-radius: 0.5rem;
+  transition: 0.3s all ease-in;
+  border: 0.5px solid transparent;
+  color: var(--color-white);
+  font-size: 1.3rem;
+  font-family: "Open Sans", sans-serif;
+  display: inline-block;
+  font-weight: 400;
+  text-transform: capitalize;
+  letter-spacing: 0.1rem;
+
+  &:hover {
+    background-color: var(--color-white);
+    border: 0.5px solid var(--color-secondary);
+    color: var(--color-secondary);
+  }
+}
