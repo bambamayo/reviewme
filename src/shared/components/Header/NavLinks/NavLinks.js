@@ -1,24 +1,23 @@
-import React, { useContext } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import Avatar from "../../UI/Avatar/Avatar";
-import { AuthContext } from "../../../context/auth-context";
 import avatarImg from "../../../../assets/images/use-now.jpg";
+import { logoutUser } from "../../../../redux/actions/auth";
 
 const NavLinks = () => {
-  const auth = useContext(AuthContext);
-  const history = useHistory();
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const handleSignOut = (e) => {
     e.preventDefault();
-    auth.logout();
-    history.push("/");
-    auth.handleSetUserId(null);
+    dispatch(logoutUser());
   };
 
   return (
     <ul className="nav__list">
-      {auth.isLoggedIn && (
+      {isLoggedIn && (
         <li className="nav__item">
           <NavLink
             to="/write-a-review"
@@ -40,7 +39,7 @@ const NavLinks = () => {
           reviews
         </NavLink>
       </li>
-      {!auth.isLoggedIn && (
+      {!isLoggedIn && (
         <li className="nav__item">
           <NavLink
             to="/login"
@@ -52,7 +51,7 @@ const NavLinks = () => {
           </NavLink>
         </li>
       )}
-      {!auth.isLoggedIn && (
+      {!isLoggedIn && (
         <li className="nav__item nav__item--mod">
           <NavLink
             to="/signup"
@@ -64,7 +63,7 @@ const NavLinks = () => {
           </NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
+      {isLoggedIn && (
         <li className="nav__item">
           <NavLink
             to="/bambam/profile"
@@ -83,18 +82,11 @@ const NavLinks = () => {
           </NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
-        <li className="nav__item nav__item--mod">
-          <NavLink
-            to="/"
-            exact
-            className="nav__link"
-            activeClassName="active"
-            onClick={handleSignOut}
-          >
-            signout
-          </NavLink>
-        </li>
+
+      {isLoggedIn && (
+        <button onClick={handleSignOut} className="signout__btn">
+          signout
+        </button>
       )}
     </ul>
   );

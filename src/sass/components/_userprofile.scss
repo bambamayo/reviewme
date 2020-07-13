@@ -10,7 +10,7 @@
       height: 2rem;
       position: absolute;
       bottom: 2rem;
-      left: 3rem;
+      left: 2rem;
       color: transparent;
       opacity: 0;
       cursor: pointer;
@@ -18,27 +18,31 @@
     }
 
     & .btn__inputselect {
-      width: 4rem;
+      width: 5rem;
       height: 2rem;
       position: absolute;
       bottom: 2rem;
-      left: 3rem;
+      left: 3.5rem;
       z-index: 2;
-      font-size: 2.2rem;
+      display: flex;
+      justify-content: space-between;
       background-color: transparent;
       border: none;
+
+      &:nth-child(2) {
+        margin-left: 1rem;
+      }
     }
   }
 
-  &__avatar-icon {
+  &__avatar {
     border: none;
     outline: none;
     font-size: 6rem;
     cursor: pointer;
-    border: 0.3rem solid var(--color-grey-dark);
-    padding: 2rem;
-    height: 10rem;
-    width: 10rem;
+    border: 0.1rem solid var(--color-grey-dark);
+    height: 12rem;
+    width: 12rem;
     position: relative;
     background-color: transparent;
     border-radius: 100rem;
@@ -46,15 +50,28 @@
     &__editing {
       &:after {
         content: "";
-        height: 4.5rem;
-        width: 100%;
+        height: 6rem;
+        width: 12rem;
         background-color: var(--color-grey-light);
         position: absolute;
         bottom: -2.4px;
-        left: 0;
-        border-bottom-left-radius: 10rem;
-        border-bottom-right-radius: 10rem;
+        border-bottom-left-radius: 100rem;
+        border-bottom-right-radius: 100rem;
+        left: -1px;
       }
+    }
+
+    &-img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 100rem;
+    }
+
+    &-delete,
+    &-edit {
+      cursor: pointer;
+      font-size: 1.6rem;
     }
   }
 

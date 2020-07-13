@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Formik, Form } from "formik";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
-import userService from "../../services/user";
-import { AuthContext } from "../../shared/context/auth-context";
-import { UIContext } from "../../shared/context/ui-context";
+import { useDispatch, useSelector } from "react-redux";
 
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Card from "../../shared/components/UI/Card/Card";
@@ -12,21 +10,25 @@ import TextInput from "../../shared/components/FormElements/TextInput/TextInput"
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Button from "../../shared/components/UI/Button/Button";
 import Message from "../../shared/components/Message/Message";
+import { hideModal } from "../../redux/actions/modal";
+import { signupUser } from "../../redux/actions/auth";
 
 const Signup = () => {
-  const auth = useContext(AuthContext);
-  const uictxt = useContext(UIContext);
-  const history = useHistory();
+  const dispatch = useDispatch();
+  const appState = useSelector((state) => state);
+  const { error, loading } = appState.auth;
+  const showModal = appState.showModal;
+
   return (
     <section className="signup section--page section--greybg">
       <PageHeader title="create account" />
       <div className="grid-width signup__container">
         <Card cardClass="card__form">
-          {uictxt.show && (
+          {showModal && (
             <Message
-              iconClicked={uictxt.handleClose}
-              msg={uictxt.msg}
-              bgColor={uictxt.error ? "#cc0000" : "#008000"}
+              iconClicked={() => dispatch(hideModal())}
+              msg={error}
+              bgColor={error ? "#cc0000" : "#008000"}
             />
           )}
           <Formik
@@ -47,20 +49,10 @@ const Signup = () => {
                 .required("Please enter your password of 6 characters or more"),
             })}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
+              setSubmitting(false);
               const data = { ...values };
-              try {
-                const response = await userService.signupUser(data);
-                // console.log(response.data.id);
-                auth.handleSetUserId(response.data.id);
-                resetForm();
-                setSubmitting(false);
-                auth.login();
-                // history.push("/bambam/profile");
-                history.goBack();
-              } catch (error) {
-                uictxt.handleShow(error.response.data.message);
-                uictxt.handleErrorAvail();
-              }
+              dispatch(signupUser(data));
+              resetForm();
             }}
           >
             {({ isValid, dirty, isSubmitting }) => (
@@ -99,12 +91,12 @@ const Signup = () => {
                 </div>
                 <div className="input-group">
                   <Button
-                    disabled={!(isValid && dirty) || isSubmitting}
+                    disabled={!(isValid && dirty) || isSubmitting || loading}
                     type="submit "
                     className="btn btn--blue btn--form"
                   >
                     <p className="btn__text">Signup</p>
-                    {isSubmitting && <Loader />}
+                    {loading && <Loader />}
                   </Button>
 
                   <Link className="calltoaction__link" to="/login">

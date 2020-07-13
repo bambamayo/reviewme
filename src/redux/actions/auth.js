@@ -1,6 +1,8 @@
 import userService from "../../services/user";
 import * as actionTypes from "./actionTypes";
 import { showModal } from "./modal";
+import { batch } from "react-redux";
+import history from "../../history";
 
 export const authStart = () => {
   return {
@@ -27,11 +29,35 @@ export const loginUser = (data) => {
     dispatch(authStart());
     try {
       const returningUser = await userService.loginUser(data);
-      console.log(returningUser);
       dispatch(userLoggedIn(returningUser.data.id));
+      history.push("/bambam/profile");
     } catch (error) {
-      dispatch(authFail(error.response.data.message));
-      dispatch(showModal());
+      batch(() => {
+        dispatch(authFail(error.response.data.message));
+        dispatch(showModal());
+      });
     }
+  };
+};
+
+export const signupUser = (data) => {
+  return async (dispatch) => {
+    dispatch(authStart());
+    try {
+      const newUser = await await userService.signupUser(data);
+      dispatch(userLoggedIn(newUser.data.id));
+      history.push("/bambam/profile");
+    } catch (error) {
+      batch(() => {
+        dispatch(authFail(error.response.data.message));
+        dispatch(showModal());
+      });
+    }
+  };
+};
+
+export const logoutUser = () => {
+  return {
+    type: actionTypes.LOG_OUT,
   };
 };

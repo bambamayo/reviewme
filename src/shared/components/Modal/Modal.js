@@ -1,15 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { useDispatch } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 
 import Backdrop from "../Backdrop/Backdrop";
 import Icon from "../UI/Icon/Icon";
+import { hideModal } from "../../../redux/actions/modal";
 
 const Modal = (props) => {
+  const dispatch = useDispatch();
   const nodeRef = React.useRef(null);
   const content = (
     <>
-      {props.show && <Backdrop onClick={props.onCancel} />}
+      {props.show && <Backdrop onClick={() => dispatch(hideModal())} />}
       <CSSTransition
         in={props.show}
         mountOnEnter
