@@ -1,22 +1,34 @@
-import userService from "../../services/user";
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   isLoggedIn: false,
   userId: null,
   error: null,
+  loading: false,
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "LOGGED_IN":
+    case actionTypes.AUTH_START:
+      return {
+        ...state,
+        error: false,
+        loading: true,
+      };
+
+    case actionTypes.LOGGED_IN:
       return {
         ...state,
         isLoggedIn: true,
+        loading: false,
+        userId: action.userId,
       };
-    case "AUTH_FAIL":
+
+    case actionTypes.AUTH_FAIL:
       return {
         ...state,
         error: action.error,
+        loading: false,
       };
     default:
       return state;
@@ -24,16 +36,3 @@ const authReducer = (state = initialState, action) => {
 };
 
 export default authReducer;
-
-export const userLogin = (data) => {
-  return async (dispatch) => {
-    try {
-      const returningUser = await userService.loginUser(data);
-      dispatch({ type: "LOGGED_IN" });
-    } catch (error) {}
-    dispatch({
-      type: "LOGIN_USER",
-      data,
-    });
-  };
-};
