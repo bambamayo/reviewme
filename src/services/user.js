@@ -1,4 +1,5 @@
 import axios from "axios";
+import setAuthToken from "../shared/utils/setAuthToken";
 
 const baseUrl = "http://localhost:5000/api/users";
 
@@ -12,7 +13,16 @@ const signupUser = async (data) => {
   return response.data;
 };
 
+const getLoggedInUser = async () => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+  const response = await axios.get(baseUrl);
+  return response.data;
+};
+
 export default {
   loginUser,
   signupUser,
+  getLoggedInUser,
 };

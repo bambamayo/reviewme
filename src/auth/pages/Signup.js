@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
@@ -18,6 +18,10 @@ const Signup = () => {
   const appState = useSelector((state) => state);
   const { error, loading } = appState.auth;
   const showModal = appState.showModal;
+
+  useEffect(() => {
+    dispatch(hideModal());
+  }, [dispatch]);
 
   return (
     <section className="signup section--page section--greybg">
@@ -52,7 +56,6 @@ const Signup = () => {
               setSubmitting(false);
               const data = { ...values };
               dispatch(signupUser(data));
-              resetForm();
             }}
           >
             {({ isValid, dirty, isSubmitting }) => (
@@ -95,7 +98,7 @@ const Signup = () => {
                     type="submit "
                     className="btn btn--blue btn--form"
                   >
-                    <p className="btn__text">Signup</p>
+                    {!loading && <p className="btn__text">Signup</p>}
                     {loading && <Loader />}
                   </Button>
 

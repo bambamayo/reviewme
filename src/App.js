@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Router, Switch, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import Reviews from "./reviews/pages/Reviews";
 import Home from "./home/pages/Home";
@@ -11,11 +12,25 @@ import Layout from "./shared/components/Layout/Layout";
 import ScrollToTop from "./ScrollToTop";
 import UserDashboard from "./user/pages/UserDashboard";
 import PrivateRoute from "./PrivateRoute";
-import history from "./history";
+import browserHistory from "./history";
+import setAuthToken from "./shared/utils/setAuthToken";
+import { getReloaderUser } from "./redux/actions/auth";
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(getReloaderUser());
+    }
+  }, [dispatch]);
+
   return (
-    <Router history={history}>
+    <Router history={browserHistory}>
       <ScrollToTop />
       <Layout>
         <ScrollToTop />
@@ -38,9 +53,9 @@ const App = () => {
           <Route path="/signup" exact>
             <Signup />
           </Route>
-          <Route path="/bambam/:linkId" exact>
+          <PrivateRoute path="/:username/:linkId" exact>
             <UserDashboard />
-          </Route>
+          </PrivateRoute>
         </Switch>
       </Layout>
     </Router>

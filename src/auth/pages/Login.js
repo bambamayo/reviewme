@@ -12,12 +12,17 @@ import Button from "../../shared/components/UI/Button/Button";
 import Message from "../../shared/components/Message/Message";
 import { loginUser } from "../../redux/actions/auth";
 import { hideModal } from "../../redux/actions/modal";
+import { useEffect } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
   const appState = useSelector((state) => state);
   const { error, loading } = appState.auth;
   const showModal = appState.showModal;
+
+  useEffect(() => {
+    dispatch(hideModal());
+  }, [dispatch]);
 
   return (
     <section className="login section--page section--greybg">
@@ -46,7 +51,6 @@ const Login = () => {
               setSubmitting(false);
               const data = { ...values };
               dispatch(loginUser(data));
-              resetForm();
             }}
           >
             {({ isValid, dirty, isSubmitting }) => (
@@ -73,7 +77,7 @@ const Login = () => {
                     type="submit"
                     className="btn btn--blue btn--form"
                   >
-                    <p className="btn__text">Login</p>
+                    {!loading && <p className="btn__text">Login</p>}
                     {loading && <Loader />}
                   </Button>
                   <Link className="calltoaction__link" to="/signup">

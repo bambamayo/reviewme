@@ -1,14 +1,16 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
+import { getTokenFromLS } from "./shared/utils/helpers";
+import { useSelector } from "react-redux";
 
 const PrivateRoute = ({ children, ...rest }) => {
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const tokenLS = getTokenFromLS();
+  const { token } = useSelector((state) => state.auth);
 
   return (
     <Route
       {...rest}
-      render={() => (isLoggedIn ? children : <Redirect to="/" />)}
+      render={() => (token || tokenLS ? children : <Redirect to="/" />)}
     />
   );
 };

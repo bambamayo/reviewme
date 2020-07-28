@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import reviews from "../../reviews";
 import useImage from "../../assets/images/use-now.jpg";
 import Review from "../../reviews/components/Review/Review";
 import Loader from "../../shared/components/UI/Loader/Loader";
@@ -8,12 +8,12 @@ import Message from "../../shared/components/Message/Message";
 import Modal from "../../shared/components/Modal/Modal";
 import DeleteDialog from "./DeleteDialog";
 import EditDialog from "./EditDialog";
+import reviewService from "../../services/review";
 
 const UserReviews = ({
   editing,
   loading,
   message,
-  error,
   show,
   handleCloseMessage,
   showEditDialog,
@@ -24,6 +24,29 @@ const UserReviews = ({
   handleEditBtnClick,
   handleStopEditDialog,
 }) => {
+  const [userReviews, setUserReviews] = useState(null);
+  const [error, setError] = useState(null);
+  const { userId } = useSelector((state) => state.auth);
+  // const dispatch = useDispatch()
+
+  useEffect(() => {
+    console.log("ENTERED useEffect");
+    const getReviews = async () => {
+      try {
+        const response = await reviewService.getReviewsByUser(userId);
+        console.log(response, "response");
+        setUserReviews(response);
+      } catch (error) {
+        setError(error.response.data.message);
+      }
+
+      getReviews();
+    };
+  }, []);
+
+  console.log(userReviews, "userReviews");
+  console.log(error, "error");
+
   return (
     <>
       {
@@ -73,7 +96,8 @@ const UserReviews = ({
           />
         )}
         <div className="grid">
-          {reviews.map((review) => (
+          hiii
+          {/* {reviews.map((review) => (
             <Review
               key={review.id}
               image={useImage}
@@ -89,7 +113,7 @@ const UserReviews = ({
               deleteBtnClick={() => handleDeleteBtnClick(review.id)}
               editBtnClick={() => handleEditBtnClick(review.id)}
             />
-          ))}
+          ))} */}
         </div>
       </section>
     </>
