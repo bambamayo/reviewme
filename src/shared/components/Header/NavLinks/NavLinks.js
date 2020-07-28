@@ -1,14 +1,18 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Avatar from "../../UI/Avatar/Avatar";
 import avatarImg from "../../../../assets/images/use-now.jpg";
 import { logoutUser } from "../../../../redux/actions/auth";
+import { getTokenFromLS } from "../../../utils/helpers";
+import LoaderShine from "../../../loaders/LoaderShine";
 
 const NavLinks = () => {
+  const { user, token } = useSelector((state) => state.auth);
+  const tokenLS = getTokenFromLS();
+
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const handleSignOut = (e) => {
     e.preventDefault();
@@ -17,7 +21,7 @@ const NavLinks = () => {
 
   return (
     <ul className="nav__list">
-      {isLoggedIn && (
+      {(token || tokenLS) && (
         <li className="nav__item">
           <NavLink
             to="/write-a-review"
@@ -36,10 +40,10 @@ const NavLinks = () => {
           activeClassName="active"
           className="nav__link"
         >
-          reviews
+          Reviews
         </NavLink>
       </li>
-      {!isLoggedIn && (
+      {!(token || tokenLS) && (
         <li className="nav__item">
           <NavLink
             to="/login"
@@ -47,11 +51,11 @@ const NavLinks = () => {
             activeClassName="active"
             className="nav__link"
           >
-            login
+            Login
           </NavLink>
         </li>
       )}
-      {!isLoggedIn && (
+      {!(token || tokenLS) && (
         <li className="nav__item nav__item--mod">
           <NavLink
             to="/signup"
@@ -59,33 +63,41 @@ const NavLinks = () => {
             className="nav__link"
             activeClassName="active"
           >
-            signup
+            Sign up
           </NavLink>
         </li>
       )}
-      {isLoggedIn && (
+      {(token || tokenLS) && (
         <li className="nav__item">
           <NavLink
-            to="/bambam/profile"
+            to={`/${!user ? null : user.username}/profile`}
             activeClassName="active"
             exact
             className="nav__link nav__link--avatar"
           >
-            <span className="nav__link--avatar-username">welcome user</span>
-            <span>
-              <Avatar
-                image={avatarImg}
-                alttext={`user profile picture`}
-                avatarClass="nav__link--avatar-avatar"
-              />
-            </span>
+            {!user ? (
+              <LoaderShine loaderClass="line-nav" />
+            ) : (
+              <>
+                <span className="nav__link--avatar-username">
+                  Welcome {user.username}
+                </span>
+                <span>
+                  <Avatar
+                    image={avatarImg}
+                    alttext={`user profile picture`}
+                    avatarClass="nav__link--avatar-avatar"
+                  />
+                </span>
+              </>
+            )}
           </NavLink>
         </li>
       )}
 
-      {isLoggedIn && (
+      {(token || tokenLS) && (
         <button onClick={handleSignOut} className="signout__btn">
-          signout
+          Sign out
         </button>
       )}
     </ul>

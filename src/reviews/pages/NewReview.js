@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -9,14 +9,9 @@ import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Message from "../../shared/components/Message/Message";
 import Button from "../../shared/components/UI/Button/Button";
-import { AuthContext } from "../../shared/context/auth-context";
-import { UIContext } from "../../shared/context/ui-context";
 import reviewService from "../../services/review";
 
 const NewReview = () => {
-  const auth = useContext(AuthContext);
-  const uictxt = useContext(UIContext);
-
   const categories = [
     {
       name: "restuarants",
@@ -56,13 +51,13 @@ const NewReview = () => {
       <PageHeader title="New Review" />
       <div className=" grid-width new-review__container">
         <Card cardClass="card__form">
-          {uictxt.show && (
+          {/* {uictxt.show && (
             <Message
               iconClicked={uictxt.handleClose}
               msg={uictxt.msg}
               bgColor={uictxt.error ? "#cc0000" : "#008000"}
             />
-          )}
+          )} */}
           <Formik
             initialValues={{
               reviewedName: "",
@@ -88,18 +83,15 @@ const NewReview = () => {
             })}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               //let fileElement = document.getElementById("images");
-              const data = { ...values, author: auth.userId };
+              const data = { ...values };
               try {
                 const response = await reviewService.createNewReview(data);
                 console.log(response.data);
                 resetForm();
                 setSubmitting(false);
-                uictxt.handleShow("review created successfully");
+
                 window.scroll(0, 0);
-              } catch (error) {
-                uictxt.handleShow(error.response.data.message);
-                uictxt.handleErrorAvail();
-              }
+              } catch (error) {}
             }}
           >
             {({

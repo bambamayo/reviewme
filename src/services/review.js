@@ -12,7 +12,13 @@ const createNewReview = async (data) => {
   return response.data;
 };
 
+const getReviewsByUser = async (userId) => {
+  const response = await axios.get(`${baseUrl}/${userId}/reviews`);
+  return response.data;
+};
+
 export default {
   getAllReviews,
   createNewReview,
+  getReviewsByUser,
 };

@@ -1,0 +1,32 @@
+.line {
+  height: 3.3rem;
+  width: 23rem;
+  border-radius: 0.5rem;
+  animation: pulse 1s infinite ease-in-out;
+}
+
+.line-nav {
+  animation: pulse 1s infinite ease-in-out;
+  width: 15rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+}
+
+.l-image {
+  animation: pulse 1s infinite ease-in-out;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 100rem;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+  50% {
+    background-color: rgba(165, 165, 165, 0.3);
+  }
+  100% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+}

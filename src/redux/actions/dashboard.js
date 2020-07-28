@@ -1,6 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import { batch } from "react-redux";
-// import { showModal } from "./modal";
 
 export const startEditing = () => {
   return {
