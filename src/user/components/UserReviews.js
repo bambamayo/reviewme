@@ -9,49 +9,98 @@ import Modal from "../../shared/components/Modal/Modal";
 import DeleteDialog from "./DeleteDialog";
 import EditDialog from "./EditDialog";
 import reviewService from "../../services/review";
+import LoaderReviews from "../../shared/loaders/LoaderReviews";
+import NotificationScreen from "../../shared/components/NotificationScreen/NotificationScreen";
+import { Link } from "react-router-dom";
+import { setDate } from "../../shared/utils/helpers";
+import {
+  editProfile,
+  setMessage,
+  editDialogShow,
+  editDialogHide,
+  deleteDialogShow,
+  deleteDialogHide,
+  deleteUserReview,
+} from "../../redux/actions/dashboard";
 
-const UserReviews = ({
-  editing,
-  loading,
-  message,
-  show,
-  handleCloseMessage,
-  showEditDialog,
-  showDeleteDialog,
-  handleDeleteBtnClick,
-  handleDeleting,
-  handleStopDeleting,
-  handleEditBtnClick,
-  handleStopEditDialog,
-}) => {
+const UserReviews = () => {
   const [userReviews, setUserReviews] = useState(null);
-  const [error, setError] = useState(null);
-  const { userId } = useSelector((state) => state.auth);
-  // const dispatch = useDispatch()
+  const [loadError, setLoadError] = useState(null);
+  const userId = localStorage.getItem("userId");
+  const appState = useSelector((state) => state);
+  const {
+    editing,
+    loading,
+    message,
+    error,
+    showEditDialog,
+    showDeleteDialog,
+    currentReviewId,
+  } = appState.dashboard;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("ENTERED useEffect");
     const getReviews = async () => {
       try {
         const response = await reviewService.getReviewsByUser(userId);
-        console.log(response, "response");
-        setUserReviews(response);
+        setUserReviews(response.userReviews);
       } catch (error) {
-        setError(error.response.data.message);
+        setLoadError(error.response.data.message);
       }
-
-      getReviews();
     };
-  }, []);
+    getReviews();
+  }, [userId]);
 
-  console.log(userReviews, "userReviews");
-  console.log(error, "error");
+  let shown;
+  if (loadError) {
+    shown = (
+      <NotificationScreen
+        error={true}
+        errorMsg="Could not load your reviews, please try again"
+      ></NotificationScreen>
+    );
+  } else if (userReviews === null) {
+    shown = <LoaderReviews />;
+  } else if (userReviews) {
+    if (userReviews.length === 0) {
+      shown = (
+        <NotificationScreen error={false}>
+          <span>
+            You've not posted any review, go to{" "}
+            <Link to="/write-a-review">new review</Link> to post a review
+          </span>
+        </NotificationScreen>
+      );
+    } else {
+      shown = (
+        <div className="grid">
+          {userReviews.map((review) => (
+            <Review
+              key={review.id}
+              image={useImage}
+              imageAlt={review.reviewedName}
+              reviewedPlace={review.reviewedName}
+              header={review.reviewedName}
+              avatarImage={useImage}
+              avatarAlt="author"
+              userName="author"
+              tagline={review.introText}
+              date={setDate(review.createdAt)}
+              showEditDiv={editing ? true : false}
+              deleteBtnClick={() => dispatch(deleteDialogShow(review.id))}
+              editBtnClick={() => dispatch(editDialogShow(review.id))}
+            />
+          ))}
+        </div>
+      );
+    }
+  }
 
   return (
     <>
       {
         <Modal
-          modalCloseBtnClick={handleStopEditDialog}
+          modalCloseBtnClick={() => dispatch(editDialogHide())}
           cancelButton={showEditDialog}
           show={showDeleteDialog || showEditDialog}
           className={
@@ -77,10 +126,8 @@ const UserReviews = ({
         >
           {!loading && showDeleteDialog && (
             <DeleteDialog
-              btnNoClick={handleStopDeleting}
-              btnYesClick={() =>
-                handleDeleting("review", "review deleted successfully")
-              }
+              btnNoClick={() => dispatch(deleteDialogHide())}
+              btnYesClick={() => dispatch(deleteUserReview(currentReviewId))}
             />
           )}
           {!loading && showEditDialog && <EditDialog loading={loading} />}
@@ -88,33 +135,14 @@ const UserReviews = ({
         </Modal>
       }
       <section className="user-reviews">
-        {message && show && (
+        {message && (
           <Message
             msg={message}
             bgColor={error ? "red" : "green"}
-            iconClicked={handleCloseMessage}
+            iconClicked={() => dispatch(setMessage(""))}
           />
         )}
-        <div className="grid">
-          hiii
-          {/* {reviews.map((review) => (
-            <Review
-              key={review.id}
-              image={useImage}
-              imageAlt={review.reviewedName}
-              reviewedPlace={review.reviewedName}
-              header={review.reviewedName}
-              avatarImage={useImage}
-              avatarAlt={review.user.userName}
-              userName={review.user.userName}
-              tagline={review.introText}
-              date={review.date}
-              showEditDiv={editing ? true : false}
-              deleteBtnClick={() => handleDeleteBtnClick(review.id)}
-              editBtnClick={() => handleEditBtnClick(review.id)}
-            />
-          ))} */}
-        </div>
+        {shown}
       </section>
     </>
   );

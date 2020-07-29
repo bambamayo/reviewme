@@ -1,16 +1,22 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const DeleteDialog = (props) => {
+const DeleteDialog = ({ btnYesClick, btnNoClick }) => {
   return (
     <>
-      <button className="btn btn__md btn__md--r" onClick={props.btnYesClick}>
+      <button className="btn btn__md btn__md--r" onClick={btnYesClick}>
         yes
       </button>
-      <button onClick={props.btnNoClick} className="btn btn__md btn__md--b">
+      <button onClick={btnNoClick} className="btn btn__md btn__md--b">
         no
       </button>
     </>
   );
+};
+
+DeleteDialog.propTypes = {
+  btnYesClick: PropTypes.func,
+  btnNoClick: PropTypes.func,
 };
 
 export default DeleteDialog;

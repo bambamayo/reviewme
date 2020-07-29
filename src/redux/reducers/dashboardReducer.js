@@ -4,7 +4,7 @@ const initialState = {
   editing: false,
   loading: false,
   message: "",
-  error: null,
+  error: false,
   showEditDialog: false,
   showDeleteDialog: false,
   currentReviewId: null,
@@ -46,7 +46,35 @@ const dashboardReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         message: action.message,
-        error: action.error,
+        error: true,
+      };
+
+    case actionTypes.SHOW_EDIT_DIALOG:
+      return {
+        ...state,
+        showEditDialog: true,
+        currentReviewId: action.id,
+      };
+
+    case actionTypes.HIDE_EDIT_DIALOG:
+      return {
+        ...state,
+        showEditDialog: false,
+        currentReviewId: null,
+      };
+
+    case actionTypes.SHOW_DELETE_DIALOG:
+      return {
+        ...state,
+        showDeleteDialog: true,
+        currentReviewId: action.id,
+      };
+
+    case actionTypes.HIDE_DELETE_DIALOG:
+      return {
+        ...state,
+        showDeleteDialog: false,
+        currentReviewId: null,
       };
 
     default:
