@@ -1,0 +1,24 @@
+.notif-cont {
+  height: 36rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & p {
+    font-size: 2rem;
+    letter-spacing: 0.1rem;
+  }
+
+  & a {
+    font-size: 1.4rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 0.5px solid var(--color-grey-mid);
+    transition: 0.1s all ease-in;
+    color: var(--color-grey-dark);
+
+    &:hover {
+      border-bottom: 0.5px solid transparent;
+    }
+  }
+}

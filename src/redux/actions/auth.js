@@ -97,6 +97,7 @@ export const getReloaderUser = () => {
         )
       );
     } catch (error) {
+      localStorage.clear();
       dispatch(reloadUserFailed());
     }
   };

@@ -17,8 +17,22 @@ const getReviewsByUser = async (userId) => {
   return response.data;
 };
 
+const getReviewById = async (reviewId) => {
+  const response = await axios.get(`${baseUrl}/${reviewId}`);
+  return response.data;
+};
+
+const deleteReview = async (reviewId) => {
+  const response = await axios.delete(`${baseUrl}/${reviewId}`);
+  console.log(response);
+  console.log(typeof response.status);
+  return response;
+};
+
 export default {
   getAllReviews,
   createNewReview,
   getReviewsByUser,
+  getReviewById,
+  deleteReview,
 };

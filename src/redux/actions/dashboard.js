@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import { batch } from "react-redux";
+import reviewService from "../../services/review";
 
 export const startEditing = () => {
   return {
@@ -32,6 +33,39 @@ export const setMessage = (message) => {
   };
 };
 
+export const editFailed = (message) => {
+  return {
+    type: actionTypes.PROFILE_EDITING_FAIL,
+    message,
+  };
+};
+
+export const editDialogShow = (id) => {
+  return {
+    type: actionTypes.SHOW_EDIT_DIALOG,
+    id,
+  };
+};
+
+export const editDialogHide = () => {
+  return {
+    type: actionTypes.HIDE_EDIT_DIALOG,
+  };
+};
+
+export const deleteDialogShow = (id) => {
+  return {
+    type: actionTypes.SHOW_DELETE_DIALOG,
+    id,
+  };
+};
+
+export const deleteDialogHide = () => {
+  return {
+    type: actionTypes.HIDE_DELETE_DIALOG,
+  };
+};
+
 export const editProfile = () => {
   return async (dispatch) => {
     dispatch(editStart());
@@ -42,5 +76,24 @@ export const editProfile = () => {
         dispatch(stopEditing());
       });
     }, 2000);
+  };
+};
+
+export const deleteUserReview = (id) => {
+  return async (dispatch) => {
+    dispatch(editStart());
+    try {
+      const response = reviewService.deleteReview(id);
+      console.log(response);
+      if (response) {
+        batch(() => {
+          dispatch(editSuccess());
+          dispatch(setMessage("Review deleted successfully"));
+          dispatch(deleteDialogHide());
+        });
+      }
+    } catch (error) {
+      dispatch(editFailed("Could not delete review please try again"));
+    }
   };
 };

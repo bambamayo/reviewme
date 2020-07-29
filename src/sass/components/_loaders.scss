@@ -19,12 +19,55 @@
   border-radius: 100rem;
 }
 
+.l-reviews {
+  padding-bottom: 2rem;
+}
+
+.l-r {
+  height: 30rem;
+  border: 1px solid var(--color-grey-light);
+
+  & > * {
+    animation: pulse 1s infinite ease-in-out;
+    margin-bottom: 0.8rem;
+  }
+
+  &-image {
+    height: 16rem;
+    width: 100%;
+  }
+
+  &-details {
+    padding: 0.5rem 1rem;
+  }
+
+  &-name {
+    width: 40%;
+    height: 2rem;
+    margin-left: 1rem;
+  }
+
+  &-date,
+  &-by,
+  &-tg {
+    width: 70%;
+    height: 2rem;
+    margin-left: 1rem;
+  }
+
+  &-like {
+    width: 5%;
+    height: 1rem;
+    margin-left: 1rem;
+  }
+}
+
 @keyframes pulse {
   0% {
-    background-color: rgba(165, 165, 165, 0.1);
+    background-color: rgba(165, 165, 165, 0.102);
   }
   50% {
-    background-color: rgba(165, 165, 165, 0.3);
+    background-color: rgba(165, 165, 165, 0.302);
   }
   100% {
     background-color: rgba(165, 165, 165, 0.1);
