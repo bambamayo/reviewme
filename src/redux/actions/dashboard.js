@@ -1,6 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import { batch } from "react-redux";
-import reviewService from "../../services/review";
 
 export const startEditing = () => {
   return {
@@ -76,24 +75,5 @@ export const editProfile = () => {
         dispatch(stopEditing());
       });
     }, 2000);
-  };
-};
-
-export const deleteUserReview = (id) => {
-  return async (dispatch) => {
-    dispatch(editStart());
-    try {
-      const response = reviewService.deleteReview(id);
-      console.log(response);
-      if (response) {
-        batch(() => {
-          dispatch(editSuccess());
-          dispatch(setMessage("Review deleted successfully"));
-          dispatch(deleteDialogHide());
-        });
-      }
-    } catch (error) {
-      dispatch(editFailed("Could not delete review please try again"));
-    }
   };
 };

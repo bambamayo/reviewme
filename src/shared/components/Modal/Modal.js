@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 
 import Backdrop from "../Backdrop/Backdrop";
-import Icon from "../UI/Icon/Icon";
 import { hideModal } from "../../../redux/actions/modal";
 
 const Modal = (props) => {
@@ -40,7 +39,7 @@ const Modal = (props) => {
               className="modal__close-btn"
               onClick={props.modalCloseBtnClick}
             >
-              <Icon classname="modal__close-icon" type={["fas", "times"]} />
+              <span aria-hidden="true">&times;</span>
             </button>
           )}
         </div>
