@@ -31,9 +31,9 @@ const Login = () => {
         <Card cardClass="card__form">
           {showModal && (
             <Message
+              error={true}
               iconClicked={() => dispatch(hideModal())}
               msg={error}
-              bgColor={error ? "#cc0000" : "#008000"}
             />
           )}
           <Formik
@@ -47,7 +47,8 @@ const Login = () => {
                 .min(6, `password should be 6 characters or more`)
                 .required("Please enter your password"),
             })}
-            onSubmit={async (values, { setSubmitting, resetForm }) => {
+            onSubmit={async (values, { setSubmitting }) => {
+              if (showModal) dispatch(hideModal());
               setSubmitting(false);
               const data = { ...values };
               dispatch(loginUser(data));

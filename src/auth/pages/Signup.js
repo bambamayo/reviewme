@@ -31,8 +31,8 @@ const Signup = () => {
           {showModal && (
             <Message
               iconClicked={() => dispatch(hideModal())}
+              error={true}
               msg={error}
-              bgColor={error ? "#cc0000" : "#008000"}
             />
           )}
           <Formik
@@ -52,7 +52,8 @@ const Signup = () => {
                 .min(6, `password should be 6 characters or more`)
                 .required("Please enter your password of 6 characters or more"),
             })}
-            onSubmit={async (values, { setSubmitting, resetForm }) => {
+            onSubmit={async (values, { setSubmitting }) => {
+              if (showModal) dispatch(hideModal());
               setSubmitting(false);
               const data = { ...values };
               dispatch(signupUser(data));

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, batch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import useImage from "../../assets/images/use-now.jpg";
 import Review from "../../reviews/components/Review/Review";
@@ -11,16 +12,16 @@ import EditDialog from "./EditDialog";
 import reviewService from "../../services/review";
 import LoaderReviews from "../../shared/loaders/LoaderReviews";
 import NotificationScreen from "../../shared/components/NotificationScreen/NotificationScreen";
-import { Link } from "react-router-dom";
 import { setDate } from "../../shared/utils/helpers";
 import {
-  editProfile,
   setMessage,
   editDialogShow,
   editDialogHide,
   deleteDialogShow,
   deleteDialogHide,
-  deleteUserReview,
+  editSuccess,
+  editFailed,
+  editStart,
 } from "../../redux/actions/dashboard";
 
 const UserReviews = () => {
@@ -50,6 +51,26 @@ const UserReviews = () => {
     };
     getReviews();
   }, [userId]);
+
+  const deleteUser = async (id) => {
+    dispatch(editStart());
+    try {
+      const response = await reviewService.deleteReview(id);
+      if (response.status === 204) {
+        let newUserReviews = userReviews.filter(
+          (review) => review.id !== currentReviewId
+        );
+        setUserReviews(newUserReviews);
+        batch(() => {
+          dispatch(editSuccess());
+          dispatch(setMessage("Review deleted successfully"));
+          dispatch(deleteDialogHide());
+        });
+      }
+    } catch (error) {
+      dispatch(editFailed("Could not delete review please try again"));
+    }
+  };
 
   let shown;
   if (loadError) {
@@ -127,7 +148,7 @@ const UserReviews = () => {
           {!loading && showDeleteDialog && (
             <DeleteDialog
               btnNoClick={() => dispatch(deleteDialogHide())}
-              btnYesClick={() => dispatch(deleteUserReview(currentReviewId))}
+              btnYesClick={() => deleteUser(currentReviewId)}
             />
           )}
           {!loading && showEditDialog && <EditDialog loading={loading} />}
@@ -138,7 +159,7 @@ const UserReviews = () => {
         {message && (
           <Message
             msg={message}
-            bgColor={error ? "red" : "green"}
+            error={error ? true : false}
             iconClicked={() => dispatch(setMessage(""))}
           />
         )}

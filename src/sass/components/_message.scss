@@ -1,30 +1,21 @@
 .message {
   &__box {
-    height: 3.5rem;
+    padding: 1.2rem 2rem;
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin-bottom: 1rem;
-    transition: 1s ease-in all;
-  }
-
-  &__text {
-    color: var(--color-white);
-    font-size: 1.4rem;
-    font-weight: 700;
-    vertical-align: center;
+    transition: 2s ease-out all;
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0.6rem;
   }
 
   &__icon {
-    color: var(--color-white);
-    position: absolute;
-    top: 5px;
-    right: 2px;
-    font-size: 1.8rem;
     cursor: pointer;
     background-color: transparent;
     border: none;
     outline: none;
+    font-size: 2.4rem;
   }
 }

@@ -16,18 +16,22 @@
       z-index: 10;
     }
 
-    &-link {
-      font-size: 1.3rem;
+    &-btn {
+      font-size: 1.4rem;
       text-transform: capitalize;
+      background-color: transparent;
+      border: none;
+      outline: none;
       font-family: "Open Sans", sans-serif;
       letter-spacing: 0.1rem;
       display: inline-block;
-      transition: 0.1s all linear;
+      //transition: 0.1s all linear;
       color: var(--color-black);
       padding: 0.9rem 1.5rem;
       border-top: 2px solid transparent;
       border-top-left-radius: 0.3rem;
       border-top-right-radius: 0.3rem;
+      cursor: pointer;
 
       &--active {
         border: 2px solid var(--color-grey-light);

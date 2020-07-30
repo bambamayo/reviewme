@@ -1,84 +1,89 @@
 import React from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import UserProfile from "../components/UserProfile";
 import UserReviews from "../components/UserReviews";
 import UserLikes from "../components/UserLikes";
-import { stopEditing, startEditing } from "../../redux/actions/dashboard";
+import {
+  stopEditing,
+  startEditing,
+  setMessage,
+} from "../../redux/actions/dashboard";
+import Button from "../../shared/components/UI/Button/Button";
 
 const UserDashboard = () => {
   const dispatch = useDispatch();
-  const { editing } = useSelector((state) => state.dashboard);
-
+  const appState = useSelector((state) => state);
+  const { editing, message } = appState.dashboard;
+  const { user } = appState.auth;
+  const history = useHistory();
   const { linkId } = useParams();
 
-  // const handleDeleting = (page, message, reviewId) => {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     console.log(page);
-  //     reviewId = currentReviewId;
-  //     console.log(reviewId);
-  //     setLoading(false);
-  //     setShowDeleteDialog(false);
-
-  //     handleMessage(message, false);
-  //   }, 2000);
-  // };
+  const changeProfileView = (urlId) => {
+    if (message) dispatch(setMessage(""));
+    history.push(`/${user.username}/${urlId}`);
+  };
 
   return (
     <section className="dashboard">
       <nav className="dashboard__nav">
         <ul className="dashboard__nav-list">
           <li className="dashboard__nav-item">
-            <NavLink
-              exact
-              className="dashboard__nav-link"
-              activeClassName="dashboard__nav-link--active"
-              to="/bambam/profile"
+            <Button
+              className={
+                linkId === "profile"
+                  ? "dashboard__nav-btn dashboard__nav-btn--active"
+                  : "dashboard__nav-btn"
+              }
+              onClick={() => changeProfileView("profile")}
             >
               profile
-            </NavLink>
+            </Button>
           </li>
           <li className="dashboard__nav-item">
-            <NavLink
-              exact
-              className="dashboard__nav-link"
-              activeClassName="dashboard__nav-link--active"
-              to="/bambam/reviews"
+            <Button
+              className={
+                linkId === "reviews"
+                  ? "dashboard__nav-btn dashboard__nav-btn--active"
+                  : "dashboard__nav-btn"
+              }
+              onClick={() => changeProfileView("reviews")}
             >
               reviews
-            </NavLink>
+            </Button>
           </li>
           <li className="dashboard__nav-item">
-            <NavLink
-              exact
-              className="dashboard__nav-link"
-              activeClassName="dashboard__nav-link--active"
-              to="/bambam/likes"
+            <Button
+              className={
+                linkId === "likes"
+                  ? "dashboard__nav-btn dashboard__nav-btn--active"
+                  : "dashboard__nav-btn"
+              }
+              onClick={() => changeProfileView("likes")}
             >
               likes
-            </NavLink>
+            </Button>
           </li>
         </ul>
       </nav>
       <section className="dashboard__main grid-width">
         <div className="dashboard__edit-cont">
           {!editing ? (
-            <button
+            <Button
               className="dashboard__editbtn"
               onClick={() => dispatch(startEditing())}
             >
               <span>edit</span>
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
               className="dashboard__editbtn"
               onClick={() => dispatch(stopEditing())}
               type="reset"
             >
               <span>cancel</span>
-            </button>
+            </Button>
           )}
         </div>
 

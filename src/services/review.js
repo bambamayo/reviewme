@@ -24,8 +24,6 @@ const getReviewById = async (reviewId) => {
 
 const deleteReview = async (reviewId) => {
   const response = await axios.delete(`${baseUrl}/${reviewId}`);
-  console.log(response);
-  console.log(typeof response.status);
   return response;
 };
 
