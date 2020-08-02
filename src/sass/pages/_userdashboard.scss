@@ -47,7 +47,7 @@
   &__edit-cont {
     width: 100%;
     margin: 0 auto 1rem auto;
-    padding: 2rem 3rem;
+    padding: 2rem 0;
     text-align: right;
     font-size: 1.3rem;
   }
@@ -106,6 +106,7 @@
     &--edit {
       width: 80%;
       top: 10vh;
+      height: 75vh;
     }
 
     &__header {
@@ -160,11 +161,24 @@
   }
 
   &__loader {
-    width: 30px;
-    height: 30px;
+    width: 3rem;
+    height: 3rem;
+  }
+
+  __error-cont {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-secondary);
   }
 }
 
 .user-reviews {
   padding-bottom: 4rem;
+}
+
+.thirty {
+  height: 30%;
 }

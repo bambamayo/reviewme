@@ -26,8 +26,15 @@ const UserProfile = () => {
     e.preventDefault();
     dispatch(showModal());
   };
+
   const handleCloseModal = () => {
     dispatch(hideModal());
+  };
+
+  const handleImageUpload = () => {
+    const { files } = document.querySelector('input[type="file"]');
+    console.log("Image files", files);
+    console.log("Image file", files[0]);
   };
 
   return (
@@ -122,6 +129,7 @@ const UserProfile = () => {
                       </span>
                     </button>
                   )}
+                  <button onClick={handleImageUpload}>submit</button>
                 </div>
                 <div className="d-flex-btw">
                   <div className="user-profile__form__group">
