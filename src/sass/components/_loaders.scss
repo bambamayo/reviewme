@@ -5,11 +5,24 @@
   animation: pulse 1s infinite ease-in-out;
 }
 
-.line-nav {
+.line-edit {
+  height: 7rem;
+  width: 100%;
+  border-radius: 0.5rem;
   animation: pulse 1s infinite ease-in-out;
+}
+.line-edit-tarea {
+  height: 15rem;
+  border-radius: 0.5rem;
+  animation: pulse 1s infinite ease-in-out;
+  width: 100%;
+}
+
+.line-nav {
   width: 15rem;
   height: 3rem;
   border-radius: 0.5rem;
+  animation: pulse 1s infinite ease-in-out;
 }
 
 .l-image {

@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
+import { useSelector } from "react-redux";
 
 import Select from "../../shared/components/FormElements/Select/Select";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
+import reviewService from "../../services/review";
+import LoaderShine from "../../shared/loaders/LoaderShine";
 
-const EditDialog = ({ loading }) => {
+const EditDialog = ({ submitEditForm }) => {
+  const [currentReview, setCurrentReview] = useState(null);
+  const [fetchError, setFetchError] = useState(null);
+  const { currentReviewId, loading } = useSelector((state) => state.dashboard);
+
+  useEffect(() => {
+    const getReview = async () => {
+      try {
+        const response = await reviewService.getReviewById(currentReviewId);
+        setCurrentReview(response.review);
+      } catch (error) {
+        setFetchError(error.response.data.message);
+      }
+    };
+    getReview();
+  }, [currentReviewId]);
+
   const categories = [
     {
       name: "restuarants",
@@ -41,21 +60,65 @@ const EditDialog = ({ loading }) => {
     },
   ];
 
+  if (fetchError)
+    return (
+      <div className="dashboard__modal-edit-form">
+        <div class="dashboard__error-cont">
+          Could not load review details, please try again
+        </div>
+      </div>
+    );
+  else if (currentReview === null) {
+    return (
+      <div className="dashboard__modal-edit-form">
+        <div className="d-flex-btw mb-2">
+          <div className="dashboard__modal-edit-form__group">
+            <LoaderShine loaderClass="line-edit" />
+          </div>
+          <div className="dashboard__modal-edit-form__group">
+            <LoaderShine loaderClass="line-edit" />
+          </div>
+        </div>
+        <div className="d-flex-btw mb-2">
+          <div className="dashboard__modal-edit-form__group">
+            <LoaderShine loaderClass="line-edit" />
+          </div>
+          <div className="dashboard__modal-edit-form__group">
+            <LoaderShine loaderClass="line-edit" />
+          </div>
+        </div>
+        <div className="d-flex-btw mb-2">
+          <div className="dashboard__modal-edit-form__group">
+            <LoaderShine loaderClass="line-edit-tarea" />
+          </div>
+          <div className="dashboard__modal-edit-form__group">
+            <LoaderShine loaderClass="line-edit" />
+          </div>
+        </div>
+        <div className="d-flex-end">
+          <div className="user-profile__form__options">
+            <button type="submit" disabled={true}>
+              <p className="btn__text">save</p>
+              {loading && <Loader />}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <Formik
       initialValues={{
-        category: "clubs",
-        introText: "Best club on the mainland",
-        reviewDetails:
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis, at est optio porro qui molestiae pariatur, tenetur error blanditiis illo quam fugiat illum voluptate sapiente cum dicta, repellat magnam? Tempore.",
-        address: "24, club house street",
-        telephone: "09089898989",
-        website: "https://club.com",
+        category: currentReview.category,
+        introText: currentReview.introText,
+        reviewDetails: currentReview.reviewDetails,
+        address: currentReview.address,
+        telephone: currentReview.telephone,
+        website: currentReview.website,
       }}
-      onSubmit={(values) => {
-        setTimeout(() => {
-          console.log(values);
-        }, 400);
+      onSubmit={(values, { setSubmitting }) => {
+        setSubmitting(false);
+        submitEditForm(currentReviewId, values);
       }}
     >
       {({ initialValues, values }) => (
@@ -63,20 +126,27 @@ const EditDialog = ({ loading }) => {
           <div className="d-flex-btw mb-2">
             <div className="dashboard__modal-edit-form__group">
               <Select label="Select category" name="reviewedCat">
-                <option value="">select option</option>
-                {categories.map((category) => (
-                  <option value={category.name} key={category.id}>
-                    {category.name.toLowerCase()}
-                  </option>
-                ))}
+                <option value={initialValues.category}>
+                  {initialValues.category}
+                </option>
+                {categories
+                  .filter(
+                    (category) =>
+                      category.name.toLocaleLowerCase !== values.category
+                  )
+                  .map((category) => (
+                    <option value={category.name} key={category.id}>
+                      {category.name.toLowerCase()}
+                    </option>
+                  ))}
               </Select>
             </div>
             <div className="dashboard__modal-edit-form__group">
               <TextInput
                 label="Tagline (enter a short intro)"
-                name="tagline"
+                name="introText"
                 type="text"
-                placeholder="Enter tagline"
+                value={values.introText}
               />
             </div>
           </div>
@@ -86,7 +156,7 @@ const EditDialog = ({ loading }) => {
                 label="Telephone"
                 name="telephone"
                 type="text"
-                placeholder="Enter contact number"
+                value={values.telephone}
               />
             </div>
             <div className="dashboard__modal-edit-form__group">
@@ -94,7 +164,7 @@ const EditDialog = ({ loading }) => {
                 label="Website"
                 name="website"
                 type="text"
-                placeholder="Enter website"
+                value={values.website}
               />
             </div>
           </div>
@@ -106,9 +176,9 @@ const EditDialog = ({ loading }) => {
               <Field
                 name="userReview"
                 component="textarea"
-                placeholder="Enter review"
                 rows="5"
                 className="input-group__input"
+                value={values.reviewDetails}
               />
             </div>
 
@@ -117,14 +187,18 @@ const EditDialog = ({ loading }) => {
                 label="Address"
                 name="address"
                 type="text"
-                placeholder="Enter address"
+                value={values.address}
               />
             </div>
           </div>
           <div className="d-flex-end">
             <div className="user-profile__form__options">
-              <button type="submit" disabled={loading}>
-                <p className="btn__text">save</p>
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn__editform"
+              >
+                {!loading && <p className="btn__text">save</p>}
                 {loading && <Loader />}
               </button>
             </div>

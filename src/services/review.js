@@ -27,10 +27,16 @@ const deleteReview = async (reviewId) => {
   return response;
 };
 
+const editReview = async (reviewId, data) => {
+  const response = await axios.patch(`${baseUrl}/${reviewId}`, data);
+  return response.data;
+};
+
 export default {
   getAllReviews,
   createNewReview,
   getReviewsByUser,
   getReviewById,
   deleteReview,
+  editReview,
 };

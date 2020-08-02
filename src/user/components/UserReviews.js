@@ -52,7 +52,7 @@ const UserReviews = () => {
     getReviews();
   }, [userId]);
 
-  const deleteUser = async (id) => {
+  const deleteUserReview = async (id) => {
     dispatch(editStart());
     try {
       const response = await reviewService.deleteReview(id);
@@ -68,7 +68,32 @@ const UserReviews = () => {
         });
       }
     } catch (error) {
-      dispatch(editFailed("Could not delete review please try again"));
+      batch(() => {
+        dispatch(editFailed("Could not delete review please try again"));
+        dispatch(deleteDialogHide());
+      });
+    }
+  };
+
+  const editUserReview = async (id, formValues) => {
+    dispatch(editStart());
+    try {
+      const response = await reviewService.editReview(id, formValues);
+      console.log(response);
+      let newUserReviews = userReviews.map((review) =>
+        review.id !== id ? review : response.review
+      );
+      setUserReviews(newUserReviews);
+      batch(() => {
+        dispatch(editSuccess());
+        dispatch(setMessage("Review edited successfully"));
+        dispatch(editDialogHide());
+      });
+    } catch (error) {
+      batch(() => {
+        dispatch(editFailed("Could not edit review please try again"));
+        dispatch(editDialogHide());
+      });
     }
   };
 
@@ -148,11 +173,13 @@ const UserReviews = () => {
           {!loading && showDeleteDialog && (
             <DeleteDialog
               btnNoClick={() => dispatch(deleteDialogHide())}
-              btnYesClick={() => deleteUser(currentReviewId)}
+              btnYesClick={() => deleteUserReview(currentReviewId)}
             />
           )}
-          {!loading && showEditDialog && <EditDialog loading={loading} />}
-          {loading && <Loader loaderClass="dashboard__loader" />}
+          {showEditDialog && <EditDialog submitEditForm={editUserReview} />}
+          {loading && showDeleteDialog && (
+            <Loader loaderClass="dashboard__loader" />
+          )}
         </Modal>
       }
       <section className="user-reviews">

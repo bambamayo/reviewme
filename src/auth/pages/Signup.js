@@ -8,7 +8,6 @@ import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
-import Button from "../../shared/components/UI/Button/Button";
 import Message from "../../shared/components/Message/Message";
 import { hideModal } from "../../redux/actions/modal";
 import { signupUser } from "../../redux/actions/auth";
@@ -94,14 +93,14 @@ const Signup = () => {
                   />
                 </div>
                 <div className="input-group">
-                  <Button
+                  <button
                     disabled={!(isValid && dirty) || isSubmitting || loading}
                     type="submit "
                     className="btn btn--blue btn--form"
                   >
                     {!loading && <p className="btn__text">Signup</p>}
                     {loading && <Loader />}
-                  </Button>
+                  </button>
 
                   <Link className="calltoaction__link" to="/login">
                     or login
