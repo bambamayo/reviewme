@@ -21,8 +21,14 @@ const getLoggedInUser = async () => {
   return response.data;
 };
 
+const editUser = async (userId, data) => {
+  const response = await axios.patch(`${baseUrl}/${userId}`, data);
+  return response.data;
+};
+
 export default {
   loginUser,
   signupUser,
   getLoggedInUser,
+  editUser,
 };

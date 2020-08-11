@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import UserProfile from "../components/UserProfile";
 import UserReviews from "../components/UserReviews";
-import UserLikes from "../components/UserLikes";
 import {
   stopEditing,
   startEditing,
@@ -53,18 +52,6 @@ const UserDashboard = () => {
               reviews
             </Button>
           </li>
-          <li className="dashboard__nav-item">
-            <Button
-              className={
-                linkId === "likes"
-                  ? "dashboard__nav-btn dashboard__nav-btn--active"
-                  : "dashboard__nav-btn"
-              }
-              onClick={() => changeProfileView("likes")}
-            >
-              likes
-            </Button>
-          </li>
         </ul>
       </nav>
       <section className="dashboard__main grid-width">
@@ -89,7 +76,6 @@ const UserDashboard = () => {
 
         {linkId === "profile" && <UserProfile />}
         {linkId === "reviews" && <UserReviews />}
-        {linkId === "likes" && <UserLikes />}
       </section>
     </section>
   );
