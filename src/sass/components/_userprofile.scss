@@ -5,33 +5,22 @@
     margin-bottom: 3rem;
     position: relative;
 
-    & .input__hidden {
-      width: 4rem;
-      height: 2rem;
+    &btns {
+      height: 4rem;
       position: absolute;
       bottom: 2rem;
-      left: 2rem;
-      color: transparent;
-      opacity: 0;
-      cursor: pointer;
       z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      width: 12rem;
     }
 
     & .btn__inputselect {
-      width: 5rem;
-      height: 2rem;
-      position: absolute;
-      bottom: 2rem;
-      left: 3.5rem;
-      z-index: 2;
-      display: flex;
-      justify-content: space-between;
+      width: 4rem;
+      height: 4rem;
       background-color: transparent;
       border: none;
-
-      &:nth-child(2) {
-        margin-left: 1rem;
-      }
+      outline: none;
     }
   }
 

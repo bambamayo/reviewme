@@ -79,7 +79,6 @@ const UserReviews = () => {
     dispatch(editStart());
     try {
       const response = await reviewService.editReview(id, formValues);
-      console.log(response);
       let newUserReviews = userReviews.map((review) =>
         review.id !== id ? review : response.review
       );

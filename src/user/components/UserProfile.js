@@ -31,10 +31,27 @@ const UserProfile = () => {
     dispatch(hideModal());
   };
 
-  const handleImageUpload = () => {
-    const { files } = document.querySelector('input[type="file"]');
-    console.log("Image files", files);
-    console.log("Image file", files[0]);
+  const handleChangeProfilePicture = (id, data) => {
+    let widget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: `ayobami-agunroye`,
+        uploadPreset: `profile_pictures`,
+        sources: ["local", "url", "camera", "instagram"],
+        maxFiles: 1,
+        cropping: true,
+        multiple: false,
+        showSkipCropButton: true,
+      },
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          console.log(result.info.eager[0].secure_url);
+          console.log(result.info.thumbnail_url);
+        } else if (error) {
+          return `${error}`;
+        }
+      }
+    );
+    widget.open();
   };
 
   return (
@@ -49,11 +66,20 @@ const UserProfile = () => {
           contentClass="dashboard__modal--profile-content"
         >
           <div className="dashboard__modal--profile-avatarcont">
-            <Avatar
-              image={useNow}
-              alttext="username"
-              avatarClass="dashboard__modal--profile-avatar"
-            />
+            {!user ? null : user.avatar ? (
+              <Avatar
+                image={useNow}
+                alttext="username"
+                avatarClass="dashboard__modal--profile-avatar"
+              />
+            ) : (
+              <span className="dashboard__modal--profile-empty">
+                <Icon
+                  classname="dashboard__modal--profile-emptyicon"
+                  type={["far", "user"]}
+                />
+              </span>
+            )}
           </div>
         </Modal>
       }
@@ -88,104 +114,121 @@ const UserProfile = () => {
             </div>
           </div>
         ) : (
-          <Formik
-            initialValues={{
-              fullname: user.fullname,
-              username: user.username,
-              email: user.email,
-            }}
-            onSubmit={(values) => {
-              console.log(values);
-              dispatch(editProfile());
-            }}
-          >
-            {({ values, initialValues }) => (
-              <Form className="user-profile__form">
-                <div className="user-profile__avatar-cont">
+          <>
+            <div className="user-profile__avatar-cont">
+              <Button
+                className={`user-profile__avatar ${
+                  editing ? `user-profile__avatar__editing` : null
+                }`}
+                onClick={handleAvatarClicked}
+                disabled={editing}
+              >
+                {user.avatar ? (
+                  <Avatar
+                    image={user.avatar}
+                    alttext={user.username}
+                    avatarClass="user-profile__avatar-img"
+                  />
+                ) : (
+                  <Icon classname="" type={["far", "user"]} />
+                )}
+              </Button>
+              {/* {editing && <input className="input__hidden" type="file" />} */}
+              {editing && (
+                <div className="user-profile__avatar-contbtns">
                   <Button
-                    className={`user-profile__avatar ${
-                      editing ? `user-profile__avatar__editing` : null
-                    }`}
-                    onClick={handleAvatarClicked}
-                    disabled={editing}
+                    onClick={() => handleChangeProfilePicture()}
+                    className="btn__inputselect"
+                    title="add profile picture"
                   >
-                    <Avatar
-                      image={useNow}
-                      alttext="username"
-                      avatarClass="user-profile__avatar-img"
-                    />
+                    <span className="user-profile__avatar-edit">
+                      <Icon type={["fas", "camera-retro"]} />
+                    </span>
                   </Button>
-                  {editing && <input className="input__hidden" type="file" />}
-                  {editing && (
-                    <button className="btn__inputselect">
-                      <span className="user-profile__avatar-edit">
-                        <Icon type={["fas", "camera-retro"]} />
-                      </span>
-                      <span
-                        className="user-profile__avatar-delete"
-                        title="delete profile picture"
-                      >
-                        <Icon type={["far", "trash-alt"]} />
-                      </span>
-                    </button>
-                  )}
-                  <button onClick={handleImageUpload}>submit</button>
+                  <Button
+                    title="delete profile picture"
+                    className="btn__inputselect"
+                  >
+                    <span
+                      className="user-profile__avatar-delete"
+                      title="delete profile picture"
+                    >
+                      <Icon type={["far", "trash-alt"]} />
+                    </span>
+                  </Button>
                 </div>
-                <div className="d-flex-btw">
-                  <div className="user-profile__form__group">
-                    <TextInput
-                      label="Fullname"
-                      name="fullName"
-                      type="text"
-                      value={
-                        !editing ? initialValues.fullname : values.fullname
-                      }
-                      disabled={!editing}
-                    />
-                  </div>
-                  <div className="user-profile__form__group">
-                    <TextInput
-                      label="Email"
-                      name="email"
-                      type="text"
-                      disabled={!editing}
-                      value={!editing ? user.email : user.email}
-                    />
-                  </div>
-                </div>
-                <div className="d-flex-btw">
-                  <div className="user-profile__form__group">
-                    <TextInput
-                      label="Username"
-                      name="username"
-                      type="text"
-                      value={!editing ? user.username : user.username}
-                      disabled={!editing}
-                    />
-                  </div>
-                  <div className="user-profile__form__group">
-                    <TextInput
-                      label="Date joined"
-                      name="dateJoined"
-                      type="text"
-                      value={setDate(user.createdAt)}
-                      disabled={true}
-                    />
-                  </div>
-                </div>
-                {editing && (
-                  <div className="d-flex-end">
-                    <div className="user-profile__form__options">
-                      <button type="submit" disabled={loading}>
-                        <p className="btn__text">save</p>
-                        {loading && <Loader />}
-                      </button>
+              )}
+            </div>
+
+            <Formik
+              initialValues={{
+                fullname: user.fullname,
+                username: user.username,
+                email: user.email,
+              }}
+              onSubmit={(values) => {
+                console.log(values);
+                dispatch(editProfile());
+              }}
+            >
+              {({ values, initialValues }) => (
+                <Form className="user-profile__form">
+                  <div className="d-flex-btw">
+                    <div className="user-profile__form__group">
+                      <TextInput
+                        label="Fullname"
+                        name="fullName"
+                        type="text"
+                        value={
+                          !editing ? initialValues.fullname : values.fullname
+                        }
+                        disabled={!editing}
+                      />
+                    </div>
+                    <div className="user-profile__form__group">
+                      <TextInput
+                        label="Email"
+                        name="email"
+                        type="text"
+                        disabled={!editing}
+                        value={!editing ? user.email : user.email}
+                      />
                     </div>
                   </div>
-                )}
-              </Form>
-            )}
-          </Formik>
+                  <div className="d-flex-btw">
+                    <div className="user-profile__form__group">
+                      <TextInput
+                        label="Username"
+                        name="username"
+                        type="text"
+                        value={!editing ? user.username : user.username}
+                        disabled={!editing}
+                      />
+                    </div>
+                    <div className="user-profile__form__group">
+                      <TextInput
+                        label="Date joined"
+                        name="dateJoined"
+                        type="text"
+                        value={setDate(user.createdAt)}
+                        disabled={true}
+                      />
+                    </div>
+                  </div>
+                  {editing && (
+                    <div className="d-flex-end">
+                      <div className="user-profile__form__options">
+                        <button type="submit" disabled={loading}>
+                          <p className="btn__text">save</p>
+                          {loading && <Loader />}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </Form>
+              )}
+            </Formik>
+          </>
         )}
       </section>
     </>

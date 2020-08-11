@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { Cloudinary } from "cloudinary-core";
 
 import {
   faHeart,
@@ -41,6 +42,13 @@ library.add(
   faTrashAlt,
   faTimes
 );
+
+var cl = new Cloudinary({
+  cloud_name: "ayobami-agunroye",
+  secure: true,
+});
+
+cl.responsive();
 
 ReactDOM.render(
   <React.StrictMode>
