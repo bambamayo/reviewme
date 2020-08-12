@@ -9,13 +9,13 @@ import {
   faEdit,
   faTimesCircle,
   faUser,
+  faUserCircle,
   faTrashAlt,
 } from "@fortawesome/free-regular-svg-icons";
 import {
   faBeer,
   faSortDown,
   faSortUp,
-  faUserAlt,
   faHeart as heart,
   faBookOpen,
   faCameraRetro,
@@ -31,7 +31,7 @@ library.add(
   faBeer,
   faSortDown,
   faSortUp,
-  faUserAlt,
+  faUserCircle,
   heart,
   faBookOpen,
   faListAlt,
@@ -43,11 +43,15 @@ library.add(
   faTimes
 );
 
-var cl = new Cloudinary({
+let my_breakpoints = [600, 900, 1200];
+let cl = new Cloudinary({
   cloud_name: "ayobami-agunroye",
   secure: true,
 });
-
+cl.config({
+  breakpoints: my_breakpoints,
+  responsive_use_breakpoints: true,
+});
 cl.responsive();
 
 ReactDOM.render(

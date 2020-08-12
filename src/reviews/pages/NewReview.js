@@ -46,6 +46,24 @@ const NewReview = () => {
       id: 8,
     },
   ];
+
+  const uploadImagesHandler = () => {
+    let widget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: `ayobami-agunroye`,
+        uploadPreset: `profile_pictures`,
+        sources: ["local", "url", "camera", "instagram"],
+        maxFiles: 4,
+      },
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          console.log(result);
+          console.log(result.info);
+        }
+      }
+    );
+    widget.open();
+  };
   return (
     <section className="new-review section--page section--greybg">
       <PageHeader title="New Review" />
@@ -79,7 +97,9 @@ const NewReview = () => {
               introText: Yup.string()
                 .lowercase()
                 .required("Please enter a tagline"),
-              reviewDetails: Yup.string().required("This field is required"),
+              reviewDetails: Yup.string()
+                .max(140, "review details should not be more than 100 letters")
+                .required("This field is required"),
             })}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               //let fileElement = document.getElementById("images");
@@ -176,18 +196,14 @@ const NewReview = () => {
                   <label className="input-group__label" htmlFor="images">
                     Add image(s)
                   </label>
-                  <input
-                    id="images"
-                    name="images"
-                    type="file"
+                  <button
+                    type="button"
+                    style={{ cursor: "pointer" }}
                     className="input-group__input"
-                    value={Formik.reviewedImages}
-                    multiple
-                    onChange={(e) => {
-                      setFieldValue("reviewedImages", e.currentTarget.files[0]);
-                    }}
-                  />
-                  <ErrorMessage name="reviewedImages" />
+                    onClick={() => uploadImagesHandler()}
+                  >
+                    click to select images
+                  </button>
                 </div>
                 <div className="input-group">
                   <Button

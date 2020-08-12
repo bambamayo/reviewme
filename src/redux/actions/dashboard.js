@@ -1,5 +1,4 @@
 import * as actionTypes from "./actionTypes";
-import { batch } from "react-redux";
 
 export const startEditing = () => {
   return {
@@ -19,9 +18,10 @@ export const editStart = () => {
   };
 };
 
-export const editSuccess = () => {
+export const editSuccess = (user) => {
   return {
     type: actionTypes.PROFILE_EDITED,
+    user,
   };
 };
 
@@ -62,18 +62,5 @@ export const deleteDialogShow = (id) => {
 export const deleteDialogHide = () => {
   return {
     type: actionTypes.HIDE_DELETE_DIALOG,
-  };
-};
-
-export const editProfile = () => {
-  return async (dispatch) => {
-    dispatch(editStart());
-    setTimeout(() => {
-      batch(() => {
-        dispatch(editSuccess());
-        dispatch(setMessage("Profile edited successfully"));
-        dispatch(stopEditing());
-      });
-    }, 2000);
   };
 };
