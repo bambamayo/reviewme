@@ -14,7 +14,7 @@ import UserDashboard from "./user/pages/UserDashboard";
 import PrivateRoute from "./PrivateRoute";
 import browserHistory from "./history";
 import setAuthToken from "./shared/utils/setAuthToken";
-import { getReloaderUser } from "./redux/actions/auth";
+import { getReloadedUser } from "./redux/actions/auth";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -25,7 +25,7 @@ const App = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      dispatch(getReloaderUser());
+      dispatch(getReloadedUser());
     }
   }, [dispatch]);
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, batch } from "react-redux";
 
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
@@ -9,17 +9,25 @@ import Icon from "../../shared/components/UI/Icon/Icon";
 import Button from "../../shared/components/UI/Button/Button";
 import Modal from "../../shared/components/Modal/Modal";
 import Avatar from "../../shared/components/UI/Avatar/Avatar";
-import useNow from "../../assets/images/use-now.jpg";
 import { showModal, hideModal } from "../../redux/actions/modal";
-import { editProfile, setMessage } from "../../redux/actions/dashboard";
+import {
+  setMessage,
+  editStart,
+  editFailed,
+  editSuccess,
+  stopEditing,
+} from "../../redux/actions/dashboard";
 import { setDate } from "../../shared/utils/helpers";
 import LoaderShine from "../../shared/loaders/LoaderShine";
+import userService from "../../services/user";
+import { getReloadedUser } from "../../redux/actions/auth";
 
 const UserProfile = () => {
   const appState = useSelector((state) => state);
   const { user } = appState.auth;
   const show = appState.showModal;
   const { editing, loading, message, error } = appState.dashboard;
+  const { userId } = appState.auth;
   const dispatch = useDispatch();
 
   const handleAvatarClicked = (e) => {
@@ -31,7 +39,7 @@ const UserProfile = () => {
     dispatch(hideModal());
   };
 
-  const handleChangeProfilePicture = (id, data) => {
+  const handleChangeProfilePicture = () => {
     let widget = window.cloudinary.createUploadWidget(
       {
         cloudName: `ayobami-agunroye`,
@@ -42,16 +50,47 @@ const UserProfile = () => {
         multiple: false,
         showSkipCropButton: true,
       },
-      (error, result) => {
+      async (error, result) => {
         if (!error && result && result.event === "success") {
-          console.log(result.info.eager[0].secure_url);
-          console.log(result.info.thumbnail_url);
+          const data = {
+            avatar: result.info.eager[0].secure_url,
+            userThumbnail: result.info.thumbnail_url,
+          };
+          const response = await userService.editUser(userId, data);
+
+          batch(() => {
+            dispatch(stopEditing());
+            dispatch(getReloadedUser());
+            dispatch(editSuccess(response.user));
+            dispatch(setMessage("Profile edited successfully"));
+          });
         } else if (error) {
-          return `${error}`;
+          dispatch(editFailed("Could not perform operation please try again"));
         }
       }
     );
     widget.open();
+  };
+
+  const deleteProfilePicture = async () => {
+    if (window.confirm("Are you sure you want to delete profile picture")) {
+      try {
+        const data = {
+          avatar: "",
+          userThumbnail: "",
+        };
+        const response = await userService.editUser(userId, data);
+
+        batch(() => {
+          dispatch(stopEditing());
+          dispatch(getReloadedUser());
+          dispatch(editSuccess(response.user));
+          dispatch(setMessage("Profile edited successfully"));
+        });
+      } catch (error) {
+        dispatch(editFailed("Could not perform operation please try again"));
+      }
+    }
   };
 
   return (
@@ -68,7 +107,7 @@ const UserProfile = () => {
           <div className="dashboard__modal--profile-avatarcont">
             {!user ? null : user.avatar ? (
               <Avatar
-                image={useNow}
+                dataSrc={user.avatar}
                 alttext="username"
                 avatarClass="dashboard__modal--profile-avatar"
               />
@@ -87,7 +126,7 @@ const UserProfile = () => {
         {message && (
           <Message
             msg={message}
-            bgColor={error ? "red" : "green"}
+            error={error ? true : false}
             iconClicked={() => dispatch(setMessage(""))}
           />
         )}
@@ -125,7 +164,8 @@ const UserProfile = () => {
               >
                 {user.avatar ? (
                   <Avatar
-                    image={user.avatar}
+                    dataSrc={user.avatar}
+                    // image={user.avatar}
                     alttext={user.username}
                     avatarClass="user-profile__avatar-img"
                   />
@@ -148,6 +188,7 @@ const UserProfile = () => {
                   <Button
                     title="delete profile picture"
                     className="btn__inputselect"
+                    onClick={() => deleteProfilePicture()}
                   >
                     <span
                       className="user-profile__avatar-delete"
@@ -166,12 +207,22 @@ const UserProfile = () => {
                 username: user.username,
                 email: user.email,
               }}
-              onSubmit={(values) => {
-                console.log(values);
-                dispatch(editProfile());
+              onSubmit={async (values) => {
+                dispatch(editStart());
+                try {
+                  const response = await userService.editUser(userId, values);
+                  dispatch(stopEditing());
+                  dispatch(getReloadedUser());
+                  dispatch(editSuccess(response.user));
+                  dispatch(setMessage("Profile edited successfully"));
+                } catch (error) {
+                  dispatch(
+                    editFailed("Could not perform operation please try again")
+                  );
+                }
               }}
             >
-              {({ values, initialValues }) => (
+              {({ values }) => (
                 <Form className="user-profile__form">
                   <div className="d-flex-btw">
                     <div className="user-profile__form__group">
@@ -179,9 +230,7 @@ const UserProfile = () => {
                         label="Fullname"
                         name="fullName"
                         type="text"
-                        value={
-                          !editing ? initialValues.fullname : values.fullname
-                        }
+                        value={values.fullname}
                         disabled={!editing}
                       />
                     </div>
@@ -190,8 +239,8 @@ const UserProfile = () => {
                         label="Email"
                         name="email"
                         type="text"
+                        value={values.email}
                         disabled={!editing}
-                        value={!editing ? user.email : user.email}
                       />
                     </div>
                   </div>
@@ -201,7 +250,7 @@ const UserProfile = () => {
                         label="Username"
                         name="username"
                         type="text"
-                        value={!editing ? user.username : user.username}
+                        value={values.username}
                         disabled={!editing}
                       />
                     </div>

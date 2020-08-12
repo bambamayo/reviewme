@@ -39,6 +39,7 @@ const dashboardReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        user: action.user,
       };
 
     case actionTypes.PROFILE_EDITING_FAIL:

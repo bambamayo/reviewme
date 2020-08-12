@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
@@ -11,7 +11,6 @@ import Loader from "../../shared/components/UI/Loader/Loader";
 import Message from "../../shared/components/Message/Message";
 import { loginUser } from "../../redux/actions/auth";
 import { hideModal } from "../../redux/actions/modal";
-import { useEffect } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();

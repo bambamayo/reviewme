@@ -83,7 +83,7 @@ export const signupUser = (data) => {
   };
 };
 
-export const getReloaderUser = () => {
+export const getReloadedUser = () => {
   return async (dispatch) => {
     dispatch(reloadStart());
 

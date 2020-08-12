@@ -1,7 +1,7 @@
 import React from "react";
 import { useField } from "formik";
 
-const CheckBox = ({ label, ...props }) => {
+const Select = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
     <>
@@ -16,10 +16,10 @@ const CheckBox = ({ label, ...props }) => {
         {...props}
       />
       {meta.touched && meta.error ? (
-        <span className="input-group__error">{`*${meta.error}`}</span>
+        <span className="input-group__error">{`${meta.error}`}</span>
       ) : null}
     </>
   );
 };
 
-export default CheckBox;
+export default Select;
