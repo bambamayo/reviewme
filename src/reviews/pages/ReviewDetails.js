@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import useImage from "../../assets/images/use-now.jpg";
@@ -6,10 +7,17 @@ import reviews from "../../reviews";
 import Review from "../components/Review/Review";
 import Avatar from "../../shared/components/UI/Avatar/Avatar";
 import Button from "../../shared/components/UI/Button/Button";
+//import { setReviewInView } from "../../redux/actions/reviews";
 
 const ReviewDetails = () => {
+  const dispatch = useDispatch();
   let { name } = useParams();
   name = name.replace(/-/g, " ");
+
+  // useEffect(() => {
+
+  //   return dispatch(setReviewInView(null));
+  // });
 
   return (
     <section className="review-details section--page">

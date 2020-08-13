@@ -9,17 +9,15 @@ import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Message from "../../shared/components/Message/Message";
-import { loginUser } from "../../redux/actions/auth";
-import { hideModal } from "../../redux/actions/modal";
+import { loginUser, clearError } from "../../redux/actions/auth";
 
 const Login = () => {
   const dispatch = useDispatch();
   const appState = useSelector((state) => state);
   const { error, loading } = appState.auth;
-  const showModal = appState.showModal;
 
   useEffect(() => {
-    dispatch(hideModal());
+    dispatch(clearError());
   }, [dispatch]);
 
   return (
@@ -27,10 +25,10 @@ const Login = () => {
       <PageHeader title="login" />
       <div className="grid-width login__container">
         <Card cardClass="card__form">
-          {showModal && (
+          {error && (
             <Message
               error={true}
-              iconClicked={() => dispatch(hideModal())}
+              iconClicked={() => dispatch(clearError())}
               msg={error}
             />
           )}
@@ -46,7 +44,6 @@ const Login = () => {
                 .required("Please enter your password"),
             })}
             onSubmit={async (values, { setSubmitting }) => {
-              if (showModal) dispatch(hideModal());
               setSubmitting(false);
               const data = { ...values };
               dispatch(loginUser(data));
