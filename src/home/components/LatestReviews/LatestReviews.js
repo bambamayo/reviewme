@@ -46,19 +46,19 @@ const LatestReviews = () => {
       likes: 20,
       reviewedImages: [useImage],
     },
-    {
-      id: 4,
-      user: {
-        userName: "bambamayo",
-        avatar: useImage,
-      },
-      reviewedName: "banilux",
-      introText: "best place in lagos",
-      date: "12|02|2020",
-      category: "Bar",
-      likes: 20,
-      reviewedImages: [useImage],
-    },
+    // {
+    //   id: 4,
+    //   user: {
+    //     userName: "bambamayo",
+    //     avatar: useImage,
+    //   },
+    //   reviewedName: "banilux",
+    //   introText: "best place in lagos",
+    //   date: "12|02|2020",
+    //   category: "Bar",
+    //   likes: 20,
+    //   reviewedImages: [useImage],
+    // },
   ];
   return (
     <section className="section section--greybg">
@@ -81,7 +81,7 @@ const LatestReviews = () => {
         ))}
       </div>
       <div className="grid-width t-r">
-        <Link className="section-calltoaction-link" to="/reviews?q=all">
+        <Link className="section-calltoaction-link" to="/reviews?cat=all">
           view all reviews
         </Link>
       </div>

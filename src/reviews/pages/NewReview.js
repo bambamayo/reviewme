@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -9,9 +10,11 @@ import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Message from "../../shared/components/Message/Message";
 import Button from "../../shared/components/UI/Button/Button";
-import reviewService from "../../services/review";
+import { addNewReview, removeError } from "../../redux/actions/reviews";
 
 const NewReview = () => {
+  const dispatch = useDispatch();
+  const { error, loading } = useSelector((state) => state.reviews);
   const categories = [
     {
       name: "restuarants",
@@ -47,41 +50,23 @@ const NewReview = () => {
     },
   ];
 
-  const uploadImagesHandler = () => {
-    let widget = window.cloudinary.createUploadWidget(
-      {
-        cloudName: `ayobami-agunroye`,
-        uploadPreset: `profile_pictures`,
-        sources: ["local", "url", "camera", "instagram"],
-        maxFiles: 4,
-      },
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          console.log(result);
-          console.log(result.info);
-        }
-      }
-    );
-    widget.open();
-  };
   return (
     <section className="new-review section--page section--greybg">
       <PageHeader title="New Review" />
       <div className=" grid-width new-review__container">
         <Card cardClass="card__form">
-          {/* {uictxt.show && (
+          {error && (
             <Message
-              iconClicked={uictxt.handleClose}
-              msg={uictxt.msg}
-              bgColor={uictxt.error ? "#cc0000" : "#008000"}
+              error={true}
+              iconClicked={() => dispatch(removeError())}
+              msg={error}
             />
-          )} */}
+          )}
           <Formik
             initialValues={{
               reviewedName: "",
               category: "",
               introText: "",
-              images: [],
               address: "",
               telephone: "",
               website: "",
@@ -96,32 +81,18 @@ const NewReview = () => {
                 .required("Please enter a category name"),
               introText: Yup.string()
                 .lowercase()
+                .max(25, "intro text should be 15 words")
                 .required("Please enter a tagline"),
               reviewDetails: Yup.string()
                 .max(140, "review details should not be more than 100 letters")
                 .required("This field is required"),
             })}
-            onSubmit={async (values, { setSubmitting, resetForm }) => {
-              //let fileElement = document.getElementById("images");
+            onSubmit={(values) => {
               const data = { ...values };
-              try {
-                const response = await reviewService.createNewReview(data);
-                console.log(response.data);
-                resetForm();
-                setSubmitting(false);
-
-                window.scroll(0, 0);
-              } catch (error) {}
+              dispatch(addNewReview(data));
             }}
           >
-            {({
-              setFieldValue,
-              isValid,
-              dirty,
-              errors,
-              touched,
-              isSubmitting,
-            }) => (
+            {({ isValid, dirty, errors, touched }) => (
               <Form className="new-review__form">
                 <div className="input-group">
                   <TextInput
@@ -192,27 +163,15 @@ const NewReview = () => {
                     placeholder="Enter address"
                   />
                 </div>
-                <div className="input-group">
-                  <label className="input-group__label" htmlFor="images">
-                    Add image(s)
-                  </label>
-                  <button
-                    type="button"
-                    style={{ cursor: "pointer" }}
-                    className="input-group__input"
-                    onClick={() => uploadImagesHandler()}
-                  >
-                    click to select images
-                  </button>
-                </div>
+
                 <div className="input-group">
                   <Button
-                    disabled={!(isValid && dirty) || isSubmitting}
+                    disabled={!(isValid && dirty) || loading}
                     type="submit"
                     className="btn btn--blue btn--form"
                   >
                     <p className="btn__text">submit</p>
-                    {isSubmitting && <Loader />}
+                    {loading && <Loader />}
                   </Button>
                 </div>
               </Form>

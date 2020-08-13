@@ -9,17 +9,15 @@ import Card from "../../shared/components/UI/Card/Card";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Message from "../../shared/components/Message/Message";
-import { hideModal } from "../../redux/actions/modal";
-import { signupUser } from "../../redux/actions/auth";
+import { signupUser, clearError } from "../../redux/actions/auth";
 
 const Signup = () => {
   const dispatch = useDispatch();
   const appState = useSelector((state) => state);
   const { error, loading } = appState.auth;
-  const showModal = appState.showModal;
 
   useEffect(() => {
-    dispatch(hideModal());
+    dispatch(clearError());
   }, [dispatch]);
 
   return (
@@ -27,9 +25,9 @@ const Signup = () => {
       <PageHeader title="create account" />
       <div className="grid-width signup__container">
         <Card cardClass="card__form">
-          {showModal && (
+          {error && (
             <Message
-              iconClicked={() => dispatch(hideModal())}
+              iconClicked={() => dispatch(clearError())}
               error={true}
               msg={error}
             />
@@ -52,7 +50,6 @@ const Signup = () => {
                 .required("Please enter your password of 6 characters or more"),
             })}
             onSubmit={async (values, { setSubmitting }) => {
-              if (showModal) dispatch(hideModal());
               setSubmitting(false);
               const data = { ...values };
               dispatch(signupUser(data));

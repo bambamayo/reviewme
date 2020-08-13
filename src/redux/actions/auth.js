@@ -1,6 +1,5 @@
 import userService from "../../services/user";
 import * as actionTypes from "./actionTypes";
-import { showModal } from "./modal";
 import { batch } from "react-redux";
 import history from "../../history";
 
@@ -28,6 +27,12 @@ export const reloadUser = (userId, token, user) => {
 export const reloadUserFailed = () => {
   return {
     type: actionTypes.RELOAD_USER_FAIL,
+  };
+};
+
+export const clearError = () => {
+  return {
+    type: actionTypes.CLEAR_ERROR,
   };
 };
 
@@ -59,7 +64,6 @@ export const loginUser = (data) => {
     } catch (error) {
       batch(() => {
         dispatch(authFail(error.response.data.message));
-        dispatch(showModal());
       });
     }
   };
@@ -75,10 +79,7 @@ export const signupUser = (data) => {
       localStorage.setItem("userId", response.user.id);
       history.push(`/${response.user.username}/profile`);
     } catch (error) {
-      batch(() => {
-        dispatch(authFail(error.response.data.message));
-        dispatch(showModal());
-      });
+      dispatch(authFail(error.response.data.message));
     }
   };
 };

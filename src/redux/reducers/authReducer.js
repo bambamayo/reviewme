@@ -14,7 +14,7 @@ const authReducer = (state = initialState, action) => {
     case actionTypes.AUTH_START:
       return {
         ...state,
-        error: false,
+        error: null,
         loading: true,
       };
 
@@ -61,6 +61,12 @@ const authReducer = (state = initialState, action) => {
         user: null,
         token: null,
         userId: null,
+      };
+
+    case actionTypes.CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
       };
 
     default:

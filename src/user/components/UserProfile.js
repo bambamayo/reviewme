@@ -57,7 +57,6 @@ const UserProfile = () => {
             userThumbnail: result.info.thumbnail_url,
           };
           const response = await userService.editUser(userId, data);
-
           batch(() => {
             dispatch(stopEditing());
             dispatch(getReloadedUser());
