@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { Cloudinary } from "cloudinary-core";
 
 import {
   faHeart,
@@ -43,17 +42,6 @@ library.add(
   faTimes
 );
 
-let my_breakpoints = [600, 900, 1200];
-let cl = new Cloudinary({
-  cloud_name: "ayobami-agunroye",
-  secure: true,
-});
-cl.config({
-  breakpoints: my_breakpoints,
-  responsive_use_breakpoints: true,
-});
-cl.responsive();
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
@@ -63,6 +51,6 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-// if (module.hot) {
-//   module.hot.accept();
-// }
+if (module.hot) {
+  module.hot.accept();
+}

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Router, Switch, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Cloudinary } from "cloudinary-core";
 
 import Reviews from "./reviews/pages/Reviews";
 import Home from "./home/pages/Home";
@@ -20,8 +21,24 @@ if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
+let my_breakpoints = [600, 900, 1200];
+let cl = new Cloudinary({
+  cloud_name: "ayobami-agunroye",
+  secure: true,
+});
+cl.config({
+  breakpoints: my_breakpoints,
+  responsive_use_breakpoints: true,
+});
+
 const App = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    cl.responsive();
+    console.log("mounted");
+  }, []);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {

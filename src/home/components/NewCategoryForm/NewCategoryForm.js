@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { useSelector } from "react-redux";
 
 import SectionHeader from "../../../shared/components/SectionHeader/SectionHeader";
 import TextInput from "../../../shared/components/FormElements/TextInput/TextInput";
@@ -12,6 +13,11 @@ import Message from "../../../shared/components/Message/Message";
 
 const NewCategoryReq = () => {
   const [showMsg, setShowMsg] = useState(false);
+  const appState = useSelector((state) => state);
+  const { user } = appState.auth;
+  if (user) {
+    console.log(user.avatar);
+  }
 
   const handleHideMsg = () => {
     setShowMsg(false);
