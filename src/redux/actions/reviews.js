@@ -59,7 +59,9 @@ export const addNewReview = (data) => {
         dispatch(addReviewSuccess(response.createdReview));
         dispatch(setReviewInView(response.createdReview.id));
       });
-      history.push(`reviews/${response.createdReview.reviewedName}`);
+      history.push(
+        `reviews/${response.createdReview.reviewedName}`.replace(/ /g, "-")
+      );
     } catch (error) {
       dispatch(addReviewFail(error.response.data.message));
     }

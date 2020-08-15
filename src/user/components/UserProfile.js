@@ -105,10 +105,10 @@ const UserProfile = () => {
         >
           <div className="dashboard__modal--profile-avatarcont">
             {!user ? null : user.avatar ? (
-              <Avatar
-                dataSrc={user.avatar}
-                alttext="username"
-                avatarClass="dashboard__modal--profile-avatar"
+              <image
+                data-src={user.avatar}
+                alt="username"
+                className="cld-responsive dashboard__modal--profile-avatar"
               />
             ) : (
               <span className="dashboard__modal--profile-empty">
