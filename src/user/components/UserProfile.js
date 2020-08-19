@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { useSelector, useDispatch, batch } from "react-redux";
+import { Image, Placeholder } from "cloudinary-react";
 
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
@@ -8,7 +9,6 @@ import Message from "../../shared/components/Message/Message";
 import Icon from "../../shared/components/UI/Icon/Icon";
 import Button from "../../shared/components/UI/Button/Button";
 import Modal from "../../shared/components/Modal/Modal";
-import Avatar from "../../shared/components/UI/Avatar/Avatar";
 import { showModal, hideModal } from "../../redux/actions/modal";
 import {
   setMessage,
@@ -104,12 +104,22 @@ const UserProfile = () => {
           contentClass="dashboard__modal--profile-content"
         >
           <div className="dashboard__modal--profile-avatarcont">
-            {!user ? null : user.avatar ? (
-              <image
-                data-src={user.avatar}
-                alt="username"
-                className="cld-responsive dashboard__modal--profile-avatar"
-              />
+            {!user ? null : user.avatarPublicId ? (
+              <Image
+                publicId={user.avatarPublicId}
+                dpr="auto"
+                responsive
+                width="auto"
+                crop="scale"
+                responsiveUseBreakpoints="true"
+                loading="lazy"
+                quality="auto"
+                fetchFormat="auto"
+                alt={user.username}
+                className="dashboard__modal--profile-avatar"
+              >
+                <Placeholder type="predominant" />
+              </Image>
             ) : (
               <span className="dashboard__modal--profile-empty">
                 <Icon
@@ -161,13 +171,21 @@ const UserProfile = () => {
                 onClick={handleAvatarClicked}
                 disabled={editing}
               >
-                {user.avatar ? (
-                  <Avatar
-                    dataSrc={user.avatar}
-                    // image={user.avatar}
-                    alttext={user.username}
-                    avatarClass="user-profile__avatar-img"
-                  />
+                {user.avatarPublicId ? (
+                  <Image
+                    publicId={user.avatarPublicId}
+                    dpr="auto"
+                    responsive
+                    width="auto"
+                    crop="scale"
+                    responsiveUseBreakpoints="true"
+                    loading="lazy"
+                    quality="auto"
+                    fetchFormat="auto"
+                    className="user-profile__avatar-img"
+                  >
+                    <Placeholder type="predominant" />
+                  </Image>
                 ) : (
                   <Icon classname="" type={["far", "user"]} />
                 )}
@@ -175,15 +193,19 @@ const UserProfile = () => {
               {/* {editing && <input className="input__hidden" type="file" />} */}
               {editing && (
                 <div className="user-profile__avatar-contbtns">
-                  <Button
-                    onClick={() => handleChangeProfilePicture()}
-                    className="btn__inputselect"
-                    title="add profile picture"
-                  >
-                    <span className="user-profile__avatar-edit">
-                      <Icon type={["fas", "camera-retro"]} />
-                    </span>
-                  </Button>
+                  <div className="user-profile__input-hide-cont">
+                    <input
+                      id="file-upload"
+                      type="file"
+                      className="user-profile__input-hide"
+                      required
+                    />
+                    <label for="file-upload" title="select profile picture">
+                      <span>
+                        <Icon type={["fas", "camera-retro"]} />
+                      </span>
+                    </label>
+                  </div>
                   <Button
                     title="delete profile picture"
                     className="btn__inputselect"

@@ -2,12 +2,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import Avatar from "../../UI/Avatar/Avatar";
 import { logoutUser } from "../../../../redux/actions/auth";
 import { getTokenFromLS } from "../../../utils/helpers";
 import LoaderShine from "../../../loaders/LoaderShine";
 import Icon from "../../UI/Icon/Icon";
-import useNow from "../../../../assets/images/use-now.jpg";
+import { Image, Placeholder } from "cloudinary-react";
 
 const NavLinks = () => {
   const { user, token } = useSelector((state) => state.auth);
@@ -84,13 +83,22 @@ const NavLinks = () => {
                   Welcome {user.username}
                 </span>
                 <span>
-                  {user.userThumbnail ? (
-                    <Avatar
-                      dataSrc={user.userThumbnail}
-                      image={useNow}
-                      alttext={`user profile picture`}
-                      avatarClass="nav__link--avatar-avatar"
-                    />
+                  {user.avatarPublicId ? (
+                    <Image
+                      publicId={user.avatarPublicId}
+                      dpr="auto"
+                      responsive
+                      width="auto"
+                      crop="scale"
+                      responsiveUseBreakpoints="true"
+                      loading="lazy"
+                      quality="auto"
+                      fetchFormat="auto"
+                      alt={user.username}
+                      className="nav__link--avatar-avatar"
+                    >
+                      <Placeholder type="blur" />
+                    </Image>
                   ) : (
                     <span className="nav__link--avatar-empty">
                       <Icon type={["far", "user-circle"]} />

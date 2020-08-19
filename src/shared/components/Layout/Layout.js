@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { CloudinaryContext } from "cloudinary-react";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -7,9 +8,11 @@ import Footer from "../Footer/Footer";
 const Layout = (props) => {
   return (
     <>
-      <Header />
-      <main>{props.children}</main>
-      <Footer />
+      <CloudinaryContext cloudName="ayobami-agunroye">
+        <Header />
+        <main>{props.children}</main>
+        <Footer />
+      </CloudinaryContext>
     </>
   );
 };
