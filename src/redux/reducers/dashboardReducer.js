@@ -33,6 +33,7 @@ const dashboardReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        error: false,
       };
 
     case actionTypes.PROFILE_EDITED:
