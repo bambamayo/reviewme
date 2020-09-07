@@ -78,14 +78,32 @@ export const updateProfilePicture = (data) => {
   const userId = localStorage.getItem("userId");
   return async (dispatch) => {
     dispatch(editStart());
-
     const imgData = new FormData();
     imgData.append("image", data);
+
     try {
       const response = await userService.editUserProfilePicture(
         userId,
         imgData
       );
+      batch(() => {
+        dispatch(stopEditing());
+        dispatch(editSuccess(response.user));
+        dispatch(setMessage(response.message));
+        dispatch(getReloadedUser());
+      });
+    } catch (error) {
+      dispatch(editFailed(error.response.data.message));
+    }
+  };
+};
+
+export const deleteProfilePicture = () => {
+  const userId = localStorage.getItem("userId");
+  return async (dispatch) => {
+    dispatch(editStart());
+    try {
+      const response = await userService.removeProfilePicture(userId);
       batch(() => {
         dispatch(stopEditing());
         dispatch(editSuccess(response.user));
