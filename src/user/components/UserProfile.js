@@ -18,6 +18,7 @@ import {
   stopEditing,
   updateProfilePicture,
   deleteUserAccount,
+  deleteProfilePicture,
 } from "../../redux/actions/dashboard";
 import { setDate } from "../../shared/utils/helpers";
 import LoaderShine from "../../shared/loaders/LoaderShine";
@@ -55,6 +56,14 @@ const UserProfile = () => {
   const editUserProfilePic = () => {
     dispatch(updateProfilePicture(image));
     setImage(null);
+  };
+
+  const deleteProfilePic = () => {
+    if (window.confirm("Delete profile picture?")) {
+      dispatch(deleteProfilePicture());
+    } else {
+      return;
+    }
   };
 
   return (
@@ -184,6 +193,7 @@ const UserProfile = () => {
                   <Button
                     title="delete profile picture"
                     className="btn__inputselect"
+                    onClick={() => deleteProfilePic()}
                   >
                     <span
                       className="user-profile__avatar-delete"

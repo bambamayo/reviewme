@@ -34,6 +34,13 @@ const editUserProfilePicture = async (userId, file) => {
   return response.data;
 };
 
+const removeProfilePicture = async (userId) => {
+  const response = await axios.patch(
+    `${baseUrl}/${userId}/profilepicture/delete`
+  );
+  return response.data;
+};
+
 const deleteAccount = async (userId) => {
   const response = await axios.delete(`${baseUrl}/${userId}`);
   return response;
@@ -46,4 +53,5 @@ export default {
   editUser,
   editUserProfilePicture,
   deleteAccount,
+  removeProfilePicture,
 };
