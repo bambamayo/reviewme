@@ -25,7 +25,10 @@ const Reviews = () => {
         setShownReviews(filteredReviews);
         filteredReviews.length === 0
           ? setError(
-              "cannot find reviews for searched term, be the first to write a review for it"
+              `cannot find reviews for ${query
+                .get("q")
+                .replace(/-/g, " ")
+                .toLowerCase()} , be the first to write a review for it`
             )
           : setError("");
       } else if (query.get("cat")) {
@@ -38,7 +41,9 @@ const Reviews = () => {
 
           filteredReviews.length === 0
             ? setError(
-                "cannot find reviews for specified category, be the first to write a review for it"
+                `cannot find reviews for specified ${query.get(
+                  "cat"
+                )}, be the first to write a review for it`
               )
             : setError("");
         }
@@ -98,7 +103,7 @@ const Reviews = () => {
       history.push(`/reviews?cat=${catInView}`);
       filteredReviews.length === 0
         ? setError(
-            "cannot find reviews for selected category, be the first to write a review for it"
+            `cannot find reviews for ${catInView} category, be the first to write a review for it`
           )
         : setError("");
     }

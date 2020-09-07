@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import { useSelector, useDispatch, batch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Image, Placeholder } from "cloudinary-react";
 
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
@@ -16,13 +16,18 @@ import {
   editFailed,
   editSuccess,
   stopEditing,
+  updateProfilePicture,
+  deleteUserAccount,
 } from "../../redux/actions/dashboard";
 import { setDate } from "../../shared/utils/helpers";
 import LoaderShine from "../../shared/loaders/LoaderShine";
 import userService from "../../services/user";
 import { getReloadedUser } from "../../redux/actions/auth";
+import ImagePreview from "../../shared/components/ImagePreview/ImagePreview";
 
 const UserProfile = () => {
+  const [image, setImage] = useState(null);
+  const [deletingProfile, setDeletingProfile] = useState(false);
   const appState = useSelector((state) => state);
   const { user } = appState.auth;
   const show = appState.showModal;
@@ -39,61 +44,30 @@ const UserProfile = () => {
     dispatch(hideModal());
   };
 
-  const handleChangeProfilePicture = () => {
-    let widget = window.cloudinary.createUploadWidget(
-      {
-        cloudName: `ayobami-agunroye`,
-        uploadPreset: `profile_pictures`,
-        sources: ["local", "url", "camera", "instagram"],
-        maxFiles: 1,
-        cropping: true,
-        multiple: false,
-        showSkipCropButton: true,
-      },
-      async (error, result) => {
-        if (!error && result && result.event === "success") {
-          const data = {
-            avatar: result.info.eager[0].secure_url,
-            userThumbnail: result.info.thumbnail_url,
-          };
-          const response = await userService.editUser(userId, data);
-          batch(() => {
-            dispatch(stopEditing());
-            dispatch(getReloadedUser());
-            dispatch(editSuccess(response.user));
-            dispatch(setMessage("Profile edited successfully"));
-          });
-        } else if (error) {
-          dispatch(editFailed("Could not perform operation please try again"));
-        }
-      }
-    );
-    widget.open();
+  const handleImageUpload = (e) => {
+    setImage(e.target.files[0]);
   };
 
-  const deleteProfilePicture = async () => {
-    if (window.confirm("Are you sure you want to delete profile picture")) {
-      try {
-        const data = {
-          avatar: "",
-          userThumbnail: "",
-        };
-        const response = await userService.editUser(userId, data);
+  const closePreviewDialog = () => {
+    setImage(null);
+  };
 
-        batch(() => {
-          dispatch(stopEditing());
-          dispatch(getReloadedUser());
-          dispatch(editSuccess(response.user));
-          dispatch(setMessage("Profile edited successfully"));
-        });
-      } catch (error) {
-        dispatch(editFailed("Could not perform operation please try again"));
-      }
-    }
+  const editUserProfilePic = () => {
+    dispatch(updateProfilePicture(image));
+    setImage(null);
   };
 
   return (
     <>
+      {
+        <ImagePreview
+          closeModal={handleCloseModal}
+          show={image ? true : false}
+          imageSrc={image ? URL.createObjectURL(image) : null}
+          cancelClicked={closePreviewDialog}
+          saveClicked={editUserProfilePic}
+        />
+      }
       {
         <Modal
           modalCloseBtnClick={handleCloseModal}
@@ -118,7 +92,7 @@ const UserProfile = () => {
                 alt={user.username}
                 className="dashboard__modal--profile-avatar"
               >
-                <Placeholder type="predominant" />
+                <Placeholder type="blur" />
               </Image>
             ) : (
               <span className="dashboard__modal--profile-empty">
@@ -184,13 +158,13 @@ const UserProfile = () => {
                     fetchFormat="auto"
                     className="user-profile__avatar-img"
                   >
-                    <Placeholder type="predominant" />
+                    <Placeholder type="blur" />
                   </Image>
                 ) : (
                   <Icon classname="" type={["far", "user"]} />
                 )}
               </Button>
-              {/* {editing && <input className="input__hidden" type="file" />} */}
+
               {editing && (
                 <div className="user-profile__avatar-contbtns">
                   <div className="user-profile__input-hide-cont">
@@ -198,9 +172,10 @@ const UserProfile = () => {
                       id="file-upload"
                       type="file"
                       className="user-profile__input-hide"
-                      required
+                      accept="image/*"
+                      onChange={handleImageUpload}
                     />
-                    <label for="file-upload" title="select profile picture">
+                    <label htmlFor="file-upload" title="select profile picture">
                       <span>
                         <Icon type={["fas", "camera-retro"]} />
                       </span>
@@ -209,7 +184,6 @@ const UserProfile = () => {
                   <Button
                     title="delete profile picture"
                     className="btn__inputselect"
-                    onClick={() => deleteProfilePicture()}
                   >
                     <span
                       className="user-profile__avatar-delete"
@@ -298,6 +272,42 @@ const UserProfile = () => {
                 </Form>
               )}
             </Formik>
+            <div className="user-profile__danger">
+              <h3 className="user-profile__danger-header">Danger Zone</h3>
+              {!deletingProfile && (
+                <div className="user-profile__danger__dc">
+                  <Button
+                    onClick={() => setDeletingProfile(true)}
+                    className="btn btn--red btn-danger"
+                  >
+                    Delete my account
+                  </Button>
+                </div>
+              )}
+              {deletingProfile && (
+                <>
+                  <h3 className="user-profile__danger-header">
+                    Are you sure you want to delete your account? this cannot be
+                    reversed
+                  </h3>
+                  <div className="user-profile__danger__dc">
+                    <Button
+                      onClick={() => dispatch(deleteUserAccount())}
+                      className="btn btn--red btn-danger"
+                    >
+                      <p className="btn__text">confirm</p>
+                      {loading && <Loader />}
+                    </Button>
+                    <Button
+                      className="btn btn--gray btn-danger"
+                      onClick={() => setDeletingProfile(false)}
+                    >
+                      cancel
+                    </Button>
+                  </div>
+                </>
+              )}
+            </div>
           </>
         )}
       </section>

@@ -136,4 +136,29 @@
       }
     }
   }
+
+  &__danger {
+    margin-top: 5rem;
+    border: 0.1rem solid var(--color-secondary);
+    padding: 2rem;
+
+    &-header {
+      font-size: 2rem;
+      text-align: center;
+      margin: 0.5rem 0 2rem 0;
+    }
+
+    &__dc {
+      display: flex;
+      justify-content: center;
+
+      & button[class$="btn-danger"] {
+        padding: 0.7rem 2.5rem;
+      }
+
+      & button[class*="gray"] {
+        margin-left: 1rem;
+      }
+    }
+  }
 }

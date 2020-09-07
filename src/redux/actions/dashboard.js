@@ -1,4 +1,7 @@
 import * as actionTypes from "./actionTypes";
+import userService from "../../services/user";
+import { batch } from "react-redux";
+import { getReloadedUser, logoutUser } from "./auth";
 
 export const startEditing = () => {
   return {
@@ -9,6 +12,12 @@ export const startEditing = () => {
 export const stopEditing = () => {
   return {
     type: actionTypes.STOP_EDITING,
+  };
+};
+
+export const profileDeleted = () => {
+  return {
+    type: actionTypes.PROFILE_DELETED,
   };
 };
 
@@ -62,5 +71,48 @@ export const deleteDialogShow = (id) => {
 export const deleteDialogHide = () => {
   return {
     type: actionTypes.HIDE_DELETE_DIALOG,
+  };
+};
+
+export const updateProfilePicture = (data) => {
+  const userId = localStorage.getItem("userId");
+  return async (dispatch) => {
+    dispatch(editStart());
+
+    const imgData = new FormData();
+    imgData.append("image", data);
+    try {
+      const response = await userService.editUserProfilePicture(
+        userId,
+        imgData
+      );
+      batch(() => {
+        dispatch(stopEditing());
+        dispatch(editSuccess(response.user));
+        dispatch(setMessage(response.message));
+        dispatch(getReloadedUser());
+      });
+    } catch (error) {
+      dispatch(editFailed(error.response.data.message));
+    }
+  };
+};
+
+export const deleteUserAccount = () => {
+  const userId = localStorage.getItem("userId");
+  return async (dispatch) => {
+    console.log("entered here too");
+    dispatch(editStart());
+    try {
+      const response = await userService.deleteAccount(userId);
+      console.log(response);
+      batch(() => {
+        dispatch(stopEditing());
+        dispatch(profileDeleted());
+        dispatch(logoutUser());
+      });
+    } catch (error) {
+      dispatch(editFailed(error.response.data.message));
+    }
   };
 };

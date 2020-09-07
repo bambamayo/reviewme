@@ -26,9 +26,24 @@ const editUser = async (userId, data) => {
   return response.data;
 };
 
+const editUserProfilePicture = async (userId, file) => {
+  const response = await axios.patch(
+    `${baseUrl}/${userId}/profilepicture`,
+    file
+  );
+  return response.data;
+};
+
+const deleteAccount = async (userId) => {
+  const response = await axios.delete(`${baseUrl}/${userId}`);
+  return response;
+};
+
 export default {
   loginUser,
   signupUser,
   getLoggedInUser,
   editUser,
+  editUserProfilePicture,
+  deleteAccount,
 };

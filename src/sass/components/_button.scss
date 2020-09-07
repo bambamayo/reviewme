@@ -27,6 +27,11 @@
     color: var(--color-white);
   }
 
+  &--gray {
+    background-color: var(--color-grey-mid);
+    color: var(--color-white);
+  }
+
   &--blue {
     background-color: var(--color-primary);
     color: var(--color-white);
@@ -52,7 +57,7 @@
 
   //md - modal danger dialog
   &__md {
-    padding: 0.5rem 2rem;
+    padding: 1rem 2rem;
     color: var(--color-white);
     font-size: 1.4rem;
 
@@ -63,6 +68,10 @@
 
     &--b {
       background-color: var(--color-primary);
+    }
+
+    &--g {
+      background-color: var(--color-success);
     }
   }
 }
