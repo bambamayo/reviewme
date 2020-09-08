@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import reviews from "../../reviews";
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Review from "../components/Review/Review";
-import useImage from "../../assets/images/use-now.jpg";
 import Loader from "../../shared/components/UI/Loader/Loader";
+import { setDate } from "../../shared/utils/helpers";
 
 const Reviews = () => {
   const [shownReviews, setShownReviews] = useState([]);
   const [catInView, setCatInView] = useState("");
-  const [error, setError] = useState("");
+  const [emptyMsg, setEmptyMsg] = useState("");
+  const appState = useSelector((state) => state);
+  const { token } = appState.auth;
+  const { reviews, error } = appState.review;
   let query = new URLSearchParams(useLocation().search);
   let history = useHistory();
 
@@ -24,13 +27,13 @@ const Reviews = () => {
         );
         setShownReviews(filteredReviews);
         filteredReviews.length === 0
-          ? setError(
+          ? setEmptyMsg(
               `cannot find reviews for ${query
                 .get("q")
                 .replace(/-/g, " ")
                 .toLowerCase()} , be the first to write a review for it`
             )
-          : setError("");
+          : setEmptyMsg("");
       } else if (query.get("cat")) {
         if (query.get("cat") === "all") setShownReviews(reviews);
         else {
@@ -40,12 +43,12 @@ const Reviews = () => {
           setShownReviews(filteredReviews);
 
           filteredReviews.length === 0
-            ? setError(
+            ? setEmptyMsg(
                 `cannot find reviews for specified ${query.get(
                   "cat"
                 )}, be the first to write a review for it`
               )
-            : setError("");
+            : setEmptyMsg("");
         }
       } else {
         setShownReviews(reviews);
@@ -60,10 +63,9 @@ const Reviews = () => {
   if (error) {
     displayedReviews = (
       <div className="reviews__others-cont">
-        <h2 className="reviews__error-msg">{error}</h2>
-        <Link className="reviews__error-link" to="/write-a-review">
-          Write a review
-        </Link>
+        <h2 className="latest-reviews__error">
+          Could not load reviews, please try reloading the page
+        </h2>
       </div>
     );
   } else if (shownReviews === null) {
@@ -72,22 +74,42 @@ const Reviews = () => {
         <Loader loaderClass="reviews__loader" />
       </div>
     );
-  } else
-    displayedReviews = shownReviews.map((review) => (
-      <Review
-        key={review.id}
-        image={useImage}
-        imageAlt={review.reviewedName}
-        reviewedPlace={review.reviewedName}
-        header={review.reviewedName}
-        avatarImage={useImage}
-        avatarAlt={review.user.userName}
-        userName={review.user.userName}
-        tagline={review.introText}
-        date={review.date}
-        iconClicked={() => console.log("icon clicked")}
-      />
-    ));
+  } else {
+    if (shownReviews.length === 0) {
+      displayedReviews = (
+        <div className="reviews__others-cont">
+          <h2 className="reviews__error-msg">
+            {emptyMsg || `no review to show, be the first to write a review`}
+          </h2>
+          <Link
+            className="reviews__error-link"
+            to={token ? "/write-a-review" : "/login"}
+          >
+            Write a review
+          </Link>
+        </div>
+      );
+    } else {
+      displayedReviews = shownReviews.map((review) => (
+        <Review
+          reviewId={review.id}
+          key={review.id}
+          image={review.images[0]}
+          imageAlt={review.reviewedName}
+          showMainImg={review.images.length === 0 ? false : true}
+          publicId={review.images[0]}
+          reviewedPlace={review.reviewedName}
+          header={review.reviewedName}
+          avatarPresent={review.author.avatarPublicId ? true : false}
+          avatarPId={review.author.avatarPublicId}
+          username={review.author.username}
+          introText={review.introText}
+          date={setDate(review.createdAt)}
+          iconClicked={() => console.log("icon clicked")}
+        />
+      ));
+    }
+  }
 
   const handleTopFilterSubmit = (e) => {
     e.preventDefault();
@@ -102,10 +124,10 @@ const Reviews = () => {
       setShownReviews(filteredReviews);
       history.push(`/reviews?cat=${catInView}`);
       filteredReviews.length === 0
-        ? setError(
+        ? setEmptyMsg(
             `cannot find reviews for ${catInView} category, be the first to write a review for it`
           )
-        : setError("");
+        : setEmptyMsg("");
     }
   };
 

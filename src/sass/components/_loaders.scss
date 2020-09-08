@@ -32,6 +32,13 @@
   border-radius: 100rem;
 }
 
+.l-number {
+  width: 1.5rem;
+  height: 1.5rem;
+  animation: pulse 1s infinite ease-in-out;
+  border-radius: 0.5rem;
+}
+
 .l-reviews {
   padding-bottom: 2rem;
 }

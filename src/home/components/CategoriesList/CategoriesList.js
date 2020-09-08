@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import SectionHeader from "../../../shared/components/SectionHeader/SectionHeader";
@@ -11,12 +11,8 @@ import book from "../../../assets/images/book.svg";
 import school from "../../../assets/images/school.svg";
 import game from "../../../assets/images/game.svg";
 import gadget from "../../../assets/images/gadget.svg";
-import Icon from "../../../shared/components/UI/Icon/Icon";
 
 const CategoriesList = () => {
-  const [showAll, setShowAll] = useState(false);
-
-  const handleShowAll = () => setShowAll(!showAll);
   const categoriesList = [
     {
       name: "restuarants",
@@ -59,12 +55,11 @@ const CategoriesList = () => {
       id: 8,
     },
   ];
-  let num = !showAll ? 4 : categoriesList.length;
   return (
     <section className="section">
       <SectionHeader>Get reviews by category</SectionHeader>
       <div className="grid category__list">
-        {categoriesList.slice(0, num).map((category) => (
+        {categoriesList.map((category) => (
           <Card cardClass="grid__card category__card" key={category.id}>
             <div className="category__aside">
               <Link to={`/reviews?cat=${category.name}`}>
@@ -83,25 +78,6 @@ const CategoriesList = () => {
             </Link>
           </Card>
         ))}
-      </div>
-      <div className="grid-width t-r">
-        <button onClick={handleShowAll} className="category__calltoaction-btn">
-          {showAll ? (
-            <>
-              <span className="text">show less</span>
-              <span className="icon icon-up">
-                <Icon type={["fas", "sort-up"]} />
-              </span>
-            </>
-          ) : (
-            <>
-              <span className="text">view all categories</span>
-              <span className="icon">
-                <Icon type={["fas", "sort-down"]} />
-              </span>
-            </>
-          )}
-        </button>
       </div>
     </section>
   );

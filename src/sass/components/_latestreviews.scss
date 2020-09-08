@@ -1,0 +1,14 @@
+.latest-reviews {
+  height: 30rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--color-white);
+
+  &__error {
+    font-size: 2rem;
+    color: var(--color-secondary);
+    letter-spacing: 0.1rem;
+  }
+}

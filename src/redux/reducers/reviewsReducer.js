@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const intitialState = {
-  reviews: [],
+  reviews: null,
   message: "",
   error: null,
   loading: false,

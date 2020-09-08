@@ -50,6 +50,17 @@ export const removeError = () => {
   };
 };
 
+export const getAllReviews = () => {
+  return async (dispatch) => {
+    try {
+      const response = await reviewService.getAllReviews();
+      dispatch(getReviewsSuccess(response.reviews));
+    } catch (error) {
+      dispatch(getReviewsFail(error.response.data.message));
+    }
+  };
+};
+
 export const addNewReview = (data) => {
   return async (dispatch) => {
     dispatch(startReviewsAction());
@@ -64,6 +75,7 @@ export const addNewReview = (data) => {
       );
     } catch (error) {
       dispatch(addReviewFail(error.response.data.message));
+      window.scrollTo(0, 0);
     }
   };
 };
