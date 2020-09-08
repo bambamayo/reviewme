@@ -20,6 +20,7 @@ import {
   faBookOpen,
   faCameraRetro,
   faTimes,
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import "./sass/main.scss";
@@ -40,7 +41,8 @@ library.add(
   faUser,
   faCameraRetro,
   faTrashAlt,
-  faTimes
+  faTimes,
+  faImage
 );
 
 let my_breakpoints = [600, 900, 1200];

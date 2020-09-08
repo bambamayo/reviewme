@@ -14,7 +14,7 @@ import { addNewReview, removeError } from "../../redux/actions/reviews";
 
 const NewReview = () => {
   const dispatch = useDispatch();
-  const { error, loading } = useSelector((state) => state.reviews);
+  const { error, loading } = useSelector((state) => state.review);
   const categories = [
     {
       name: "restuarants",
@@ -81,10 +81,10 @@ const NewReview = () => {
                 .required("Please enter a category name"),
               introText: Yup.string()
                 .lowercase()
-                .max(25, "intro text should be 15 words")
+                .max(25, "intro text should be 25 words")
                 .required("Please enter a tagline"),
               reviewDetails: Yup.string()
-                .max(140, "review details should not be more than 100 letters")
+                .max(140, "review details should not be more than 140 letters")
                 .required("This field is required"),
             })}
             onSubmit={(values) => {
@@ -114,7 +114,7 @@ const NewReview = () => {
                 </div>
                 <div className="input-group">
                   <TextInput
-                    label="Tagline (enter a short intro)"
+                    label="Tagline (enter a short intro, 25 characters)"
                     name="introText"
                     type="text"
                     placeholder="Enter tagline"
@@ -122,7 +122,7 @@ const NewReview = () => {
                 </div>
                 <div className="input-group input-group--textarea">
                   <label className="input-group__label" htmlFor="reviewDetails">
-                    Your review
+                    Your review, 140 characters
                   </label>
                   <Field
                     name="reviewDetails"
@@ -134,6 +134,7 @@ const NewReview = () => {
                         : "input-group__input"
                     }
                     rows="5"
+                    style={{ resize: "none" }}
                   />
                   <ErrorMessage name="reviewDetails">
                     {(msg) => <span className="input-group__error">{msg}</span>}

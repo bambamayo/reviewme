@@ -9,12 +9,13 @@ import NewReview from "./reviews/pages/NewReview";
 import Login from "./auth/pages/Login";
 import Signup from "./auth/pages/Signup";
 import Layout from "./shared/components/Layout/Layout";
-import ScrollToTop from "./ScrollToTop";
+//import ScrollToTop from "./ScrollToTop";
 import UserDashboard from "./user/pages/UserDashboard";
 import PrivateRoute from "./PrivateRoute";
 import browserHistory from "./history";
 import setAuthToken from "./shared/utils/setAuthToken";
 import { getReloadedUser } from "./redux/actions/auth";
+import { getAllReviews } from "./redux/actions/reviews";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -30,11 +31,14 @@ const App = () => {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(getAllReviews());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Router history={browserHistory}>
-      <ScrollToTop />
       <Layout>
-        <ScrollToTop />
         <Switch>
           <Route path="/" exact>
             <Home />

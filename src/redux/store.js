@@ -8,7 +8,7 @@ import dashboardReducer from "./reducers/dashboardReducer";
 
 const reducer = combineReducers({
   auth: authReducer,
-  reviews: reviewsReducer,
+  review: reviewsReducer,
   showModal: modalReducer,
   dashboard: dashboardReducer,
 });
