@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Select from "../../shared/components/FormElements/Select/Select";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import reviewService from "../../services/review";
 import LoaderShine from "../../shared/loaders/LoaderShine";
+import { handleEditUserReview } from "../../redux/actions/dashboard";
 
-const EditDialog = ({ submitEditForm }) => {
+const EditDialog = () => {
   const [currentReview, setCurrentReview] = useState(null);
   const [fetchError, setFetchError] = useState(null);
+  const dispatch = useDispatch();
   const { currentReviewId, loading } = useSelector((state) => state.dashboard);
 
   useEffect(() => {
@@ -118,7 +120,7 @@ const EditDialog = ({ submitEditForm }) => {
       }}
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
-        submitEditForm(currentReviewId, values);
+        dispatch(handleEditUserReview(currentReviewId, values));
       }}
     >
       {({ initialValues, values }) => (
@@ -174,7 +176,7 @@ const EditDialog = ({ submitEditForm }) => {
                 Your review
               </label>
               <Field
-                name="userReview"
+                name="reviewDetails"
                 component="textarea"
                 rows="5"
                 className="input-group__input"

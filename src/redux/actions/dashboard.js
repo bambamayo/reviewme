@@ -2,6 +2,7 @@ import * as actionTypes from "./actionTypes";
 import userService from "../../services/user";
 import { batch } from "react-redux";
 import { getReloadedUser, logoutUser } from "./auth";
+import reviewService from "../../services/review";
 
 export const startEditing = () => {
   return {
@@ -21,6 +22,35 @@ export const profileDeleted = () => {
   };
 };
 
+export const getUserReviews = (reviews) => {
+  return {
+    type: actionTypes.GET_USER_REVIEWS,
+    reviews,
+  };
+};
+
+export const getUserReviewsFail = (error) => {
+  return {
+    type: actionTypes.GET_USER_REVIEWS_FAIL,
+    error,
+  };
+};
+
+export const editUserReview = (id, review) => {
+  return {
+    type: actionTypes.MOD_USER_REVIEW_EDIT,
+    id,
+    review,
+  };
+};
+
+export const deleteUserReview = (id) => {
+  return {
+    type: actionTypes.MOD_USER_REVIEW_DELETE,
+    id,
+  };
+};
+
 export const editStart = () => {
   return {
     type: actionTypes.PROFILE_EDITING,
@@ -34,17 +64,17 @@ export const editSuccess = (user) => {
   };
 };
 
-export const setMessage = (message) => {
+export const setMsg = (msg) => {
   return {
-    type: actionTypes.SET_MESSAGE,
-    message,
+    type: actionTypes.SET_MSG,
+    msg,
   };
 };
 
-export const editFailed = (message) => {
+export const editFailed = (msg) => {
   return {
     type: actionTypes.PROFILE_EDITING_FAIL,
-    message,
+    msg,
   };
 };
 
@@ -74,6 +104,60 @@ export const deleteDialogHide = () => {
   };
 };
 
+export const fetchUserReviews = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await reviewService.getReviewsByUser(id);
+      dispatch(getUserReviews(response.userReviews));
+    } catch (error) {
+      dispatch(getUserReviewsFail(error.response.data.message));
+    }
+  };
+};
+
+export const handleEditUserReview = (id, formValues) => {
+  return async (dispatch) => {
+    dispatch(editStart());
+    try {
+      const response = await reviewService.editReview(id, formValues);
+
+      batch(() => {
+        dispatch(editSuccess());
+        dispatch(editUserReview(id, response.review));
+        dispatch(setMsg("Review edited successfully"));
+        dispatch(editDialogHide());
+      });
+    } catch (error) {
+      batch(() => {
+        dispatch(editFailed("Could not edit review please try again"));
+        dispatch(editDialogHide());
+      });
+    }
+  };
+};
+
+export const handleDeleteUserReview = (id) => {
+  return async (dispatch) => {
+    dispatch(editStart());
+    try {
+      const response = await reviewService.deleteReview(id);
+      if (response.status === 204) {
+        batch(() => {
+          dispatch(editSuccess());
+          dispatch(deleteUserReview(id));
+          dispatch(setMsg("Review deleted successfully"));
+          dispatch(deleteDialogHide());
+        });
+      }
+    } catch (error) {
+      batch(() => {
+        dispatch(editFailed("Could not delete review please try again"));
+        dispatch(deleteDialogHide());
+      });
+    }
+  };
+};
+
 export const updateProfilePicture = (data) => {
   const userId = localStorage.getItem("userId");
   return async (dispatch) => {
@@ -89,7 +173,7 @@ export const updateProfilePicture = (data) => {
       batch(() => {
         dispatch(stopEditing());
         dispatch(editSuccess(response.user));
-        dispatch(setMessage(response.message));
+        dispatch(setMsg(response.message));
         dispatch(getReloadedUser());
       });
     } catch (error) {
@@ -107,7 +191,7 @@ export const deleteProfilePicture = () => {
       batch(() => {
         dispatch(stopEditing());
         dispatch(editSuccess(response.user));
-        dispatch(setMessage(response.message));
+        dispatch(setMsg(response.message));
         dispatch(getReloadedUser());
       });
     } catch (error) {

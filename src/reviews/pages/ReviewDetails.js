@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import Image from "cloudinary-react/lib/components/Image";
 import Placeholder from "cloudinary-react/lib/components/Placeholder";
@@ -14,32 +13,32 @@ import LoaderShine from "../../shared/loaders/LoaderShine";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Icon from "../../shared/components/UI/Icon/Icon";
 import { setDate } from "../../shared/utils/helpers";
-import { editDialogShow, editDialogHide } from "../../redux/actions/dashboard";
-import Modal from "../../shared/components/Modal/Modal";
-import EditDialog from "../../user/components/EditDialog";
 
 const ReviewDetails = () => {
   const [reviewInView, setReviewInView] = useState(null);
   const [reviewInViewError, setReviewInViewError] = useState(null);
   const [count, setCount] = useState(null);
   const [countError, setCountError] = useState(null);
+  const [reviewsByName, setReviewsByName] = useState(null);
 
-  const dispatch = useDispatch();
   const history = useHistory();
   const appState = useSelector((state) => state);
   const { reviewInViewId } = appState.review;
-  const { user } = appState.auth;
-  const { showEditDialog } = appState.dashboard;
 
   let { name } = useParams();
 
-  let createdThisReview = () => {
-    if (user) {
-      let created = user.postedReviews.includes(reviewInViewId);
-      console.log(created);
-      return created;
-    }
-  };
+  useEffect(() => {
+    const getByName = async () => {
+      try {
+        let response = await reviewService.getReviewsByName(name);
+        console.log(response.reviews);
+        setReviewsByName(response.reviews);
+      } catch (error) {
+        setReviewInViewError(error.response.data.message);
+      }
+    };
+    getByName();
+  }, [name]);
 
   useEffect(() => {
     const getCount = async () => {
@@ -54,28 +53,42 @@ const ReviewDetails = () => {
   }, [name]);
 
   useEffect(() => {
-    const getReview = async () => {
-      try {
-        let response = await reviewService.getReviewById(reviewInViewId);
-        setReviewInView(response.review);
-      } catch (error) {
-        setReviewInViewError(error.response.data.message);
+    if (reviewInViewId) {
+      const getReview = async () => {
+        try {
+          let response = await reviewService.getReviewById(reviewInViewId);
+          setReviewInView(response.review);
+        } catch (error) {
+          setReviewInViewError(error.response.data.message);
+        }
+      };
+      getReview();
+    } else {
+      if (reviewsByName) {
+        setReviewInView(reviewsByName[0]);
       }
-    };
-    getReview();
-  }, [reviewInViewId]);
+    }
+  }, [reviewsByName, reviewInViewId]);
 
   let modName = name.replace(/-/g, " ");
 
   let shownReview;
 
   if (reviewInViewError) {
-    shownReview = (
-      <div className="review-details__other">
-        <h2>{reviewInViewError}</h2>
-      </div>
-    );
-  } else if (reviewInView === null) {
+    if (reviewsByName === null) {
+      shownReview = (
+        <div className="review-details__other">
+          <Loader loaderClass="reviews__loader" />
+        </div>
+      );
+    } else {
+      shownReview = (
+        <div className="review-details__other">
+          <h2>{reviewInViewError}</h2>
+        </div>
+      );
+    }
+  } else if (reviewInView === null || reviewsByName === null) {
     shownReview = (
       <div className="review-details__other">
         <Loader loaderClass="reviews__loader" />
@@ -101,14 +114,6 @@ const ReviewDetails = () => {
                 count
               )}
             </span>
-            {createdThisReview() ? (
-              <Button
-                className="review-details__editbtn"
-                onClick={() => dispatch(editDialogShow(reviewInView.id))}
-              >
-                edit
-              </Button>
-            ) : null}
           </h3>
         </div>
         <div className="review-details__images">
@@ -148,7 +153,6 @@ const ReviewDetails = () => {
           >
             write your own review
           </Button>
-          {/* <Button className="review-details__editbtn">edit</Button> */}
         </div>
         <div className="review-details__info grid-width">
           <div className="review-details__info-l">
@@ -211,46 +215,50 @@ const ReviewDetails = () => {
             </p>
           </div>
         </div>
-        {/* <aside className="review-details__others grid-width">
-        <h2 className="review-details__others__header">{`other reviews related to ${name}`}</h2>
-        <div className="grid">
-          {reviews.slice(0, 4).map((review) => (
-            <Review
-              key={review.id}
-              image={useImage}
-              imageAlt={review.reviewedName}
-              reviewedPlace={review.reviewedName}
-              header={review.reviewedName}
-              avatarImage={useImage}
-              avatarAlt={review.user.userName}
-              userName={review.user.userName}
-              tagline={review.introText}
-              date={review.date}
-              iconClicked={() => console.log("icon clicked")}
-            />
-          ))}
-        </div>
-      </aside> */}
+        {reviewsByName === null ? (
+          <aside className="review-details__others grid-width">
+            <h2 className="review-details__others__header">{`other reviews like ${name}`}</h2>
+            <h3 className="review-details__others__subheader">
+              Could not load related reviews
+            </h3>
+          </aside>
+        ) : reviewsByName.length === 1 ? (
+          <aside className="review-details__others grid-width">
+            <h2 className="review-details__others__header">{`other reviews like ${name}`}</h2>
+            <h3 className="review-details__others__subheader">{`${name} has only one review, maybe add yours?`}</h3>
+          </aside>
+        ) : (
+          <aside className="review-details__others grid-width">
+            <h2 className="review-details__others__header">{`other reviews like ${name}`}</h2>
+            <div className="grid">
+              {reviewsByName.slice(1, 5).map((review) => (
+                <Review
+                  reviewId={review.id}
+                  key={review.id}
+                  image={review.images[0]}
+                  imageAlt={review.reviewedName}
+                  showMainImg={review.images.length === 0 ? false : true}
+                  publicId={review.images[0]}
+                  reviewedPlace={review.reviewedName}
+                  header={review.reviewedName}
+                  avatarPresent={review.author.avatarPublicId ? true : false}
+                  avatarPId={review.author.avatarPublicId}
+                  username={review.author.username}
+                  introText={review.introText}
+                  date={setDate(review.createdAt)}
+                  iconClicked={() => console.log("icon clicked")}
+                />
+              ))}
+            </div>
+          </aside>
+        )}
       </>
     );
   }
 
   return (
     <>
-      <ScrollToTop />{" "}
-      {
-        <Modal
-          modalCloseBtnClick={() => dispatch(editDialogHide())}
-          cancelButton={showEditDialog}
-          show={showEditDialog}
-          className="dashboard__modal--edit"
-          header="Edit review"
-          headerClass="dashboard__modal__header--edit"
-          contentClass="dashboard__modal__content--edit"
-        >
-          <EditDialog />
-        </Modal>
-      }
+      <ScrollToTop />
       <section className="review-details section--page">{shownReview}</section>
     </>
   );

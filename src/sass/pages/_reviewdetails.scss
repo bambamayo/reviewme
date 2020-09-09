@@ -131,9 +131,16 @@
   }
 
   &__others__header {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-family: "Open Sans", serif;
     margin-bottom: 2rem;
+    border-bottom: 1px solid var(--color-grey-dark);
+    display: inline-block;
+  }
+
+  &__others__subheader {
+    font-size: 1.8rem;
+    letter-spacing: 0.1rem;
   }
 
   &__user-image {

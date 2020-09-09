@@ -3,20 +3,23 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   editing: false,
   loading: false,
-  message: "",
   error: false,
+  message: "",
   showEditDialog: false,
   showDeleteDialog: false,
   currentReviewId: null,
+  userReviews: null,
+  getUserReviewsError: null,
 };
 
 const dashboardReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_MESSAGE:
+    case actionTypes.SET_MSG:
       return {
         ...state,
-        message: action.message,
+        message: action.msg,
       };
+
     case actionTypes.START_EDITING:
       return {
         ...state,
@@ -53,8 +56,36 @@ const dashboardReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        message: action.message,
+        message: action.msg,
         error: true,
+      };
+
+    case actionTypes.GET_USER_REVIEWS:
+      return {
+        ...state,
+        userReviews: action.reviews,
+      };
+
+    case actionTypes.GET_USER_REVIEWS_FAIL:
+      return {
+        ...state,
+        userReviewsError: action.error,
+      };
+
+    case actionTypes.MOD_USER_REVIEW_EDIT:
+      return {
+        ...state,
+        userReviews: state.userReviews.map((review) =>
+          review.id !== action.id ? review : action.review
+        ),
+      };
+
+    case actionTypes.MOD_USER_REVIEW_DELETE:
+      return {
+        ...state,
+        userReviews: state.userReviews.filter(
+          (review) => review.id !== action.id
+        ),
       };
 
     case actionTypes.SHOW_EDIT_DIALOG:
