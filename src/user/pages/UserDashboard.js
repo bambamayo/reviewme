@@ -7,7 +7,7 @@ import UserReviews from "../components/UserReviews";
 import {
   stopEditing,
   startEditing,
-  setMessage,
+  setMsg,
 } from "../../redux/actions/dashboard";
 import Button from "../../shared/components/UI/Button/Button";
 
@@ -20,7 +20,7 @@ const UserDashboard = () => {
   const { linkId } = useParams();
 
   const changeProfileView = (urlId) => {
-    if (message) dispatch(setMessage(""));
+    if (message) dispatch(setMsg(""));
     history.push(`/${user.username}/${urlId}`);
   };
 

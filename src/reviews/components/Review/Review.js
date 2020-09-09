@@ -8,6 +8,7 @@ import Icon from "../../../shared/components/UI/Icon/Icon";
 import Image from "cloudinary-react/lib/components/Image";
 import Placeholder from "cloudinary-react/lib/components/Placeholder";
 import { setReviewInView } from "../../../redux/actions/reviews";
+import placeholder from "../../../assets/images/default-placeholder.png";
 
 const Review = (props) => {
   const history = useHistory();
@@ -42,9 +43,11 @@ const Review = (props) => {
               <Placeholder type="blur" />
             </Image>
           ) : (
-            <span className="review__imagenull">
-              <Icon type={["fas", "image"]} />
-            </span>
+            <img
+              className="review__image"
+              alt="placeholder for missing img"
+              src={placeholder}
+            />
           )}
         </button>
       </aside>

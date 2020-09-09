@@ -1,32 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch, batch } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import useImage from "../../assets/images/use-now.jpg";
 import Review from "../../reviews/components/Review/Review";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Message from "../../shared/components/Message/Message";
 import Modal from "../../shared/components/Modal/Modal";
 import DeleteDialog from "./DeleteDialog";
 import EditDialog from "./EditDialog";
-import reviewService from "../../services/review";
 import LoaderReviews from "../../shared/loaders/LoaderReviews";
 import NotificationScreen from "../../shared/components/NotificationScreen/NotificationScreen";
 import { setDate } from "../../shared/utils/helpers";
 import {
-  setMessage,
+  setMsg,
   editDialogShow,
   editDialogHide,
   deleteDialogShow,
   deleteDialogHide,
-  editSuccess,
-  editFailed,
-  editStart,
+  fetchUserReviews,
+  handleDeleteUserReview,
 } from "../../redux/actions/dashboard";
 
 const UserReviews = () => {
-  const [userReviews, setUserReviews] = useState(null);
-  const [loadError, setLoadError] = useState(null);
   const userId = localStorage.getItem("userId");
   const appState = useSelector((state) => state);
   const {
@@ -37,67 +32,17 @@ const UserReviews = () => {
     showEditDialog,
     showDeleteDialog,
     currentReviewId,
+    userReviews,
+    getUserReviewsError,
   } = appState.dashboard;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getReviews = async () => {
-      try {
-        const response = await reviewService.getReviewsByUser(userId);
-        setUserReviews(response.userReviews);
-      } catch (error) {
-        setLoadError(error.response.data.message);
-      }
-    };
-    getReviews();
-  }, [userId]);
-
-  const deleteUserReview = async (id) => {
-    dispatch(editStart());
-    try {
-      const response = await reviewService.deleteReview(id);
-      if (response.status === 204) {
-        let newUserReviews = userReviews.filter(
-          (review) => review.id !== currentReviewId
-        );
-        setUserReviews(newUserReviews);
-        batch(() => {
-          dispatch(editSuccess());
-          dispatch(setMessage("Review deleted successfully"));
-          dispatch(deleteDialogHide());
-        });
-      }
-    } catch (error) {
-      batch(() => {
-        dispatch(editFailed("Could not delete review please try again"));
-        dispatch(deleteDialogHide());
-      });
-    }
-  };
-
-  const editUserReview = async (id, formValues) => {
-    dispatch(editStart());
-    try {
-      const response = await reviewService.editReview(id, formValues);
-      let newUserReviews = userReviews.map((review) =>
-        review.id !== id ? review : response.review
-      );
-      setUserReviews(newUserReviews);
-      batch(() => {
-        dispatch(editSuccess());
-        dispatch(setMessage("Review edited successfully"));
-        dispatch(editDialogHide());
-      });
-    } catch (error) {
-      batch(() => {
-        dispatch(editFailed("Could not edit review please try again"));
-        dispatch(editDialogHide());
-      });
-    }
-  };
+    dispatch(fetchUserReviews(userId));
+  }, [userId, dispatch]);
 
   let shown;
-  if (loadError) {
+  if (getUserReviewsError) {
     shown = (
       <NotificationScreen
         error={true}
@@ -121,16 +66,20 @@ const UserReviews = () => {
         <div className="grid">
           {userReviews.map((review) => (
             <Review
+              reviewId={review.id}
               key={review.id}
-              image={useImage}
+              image={review.images[0]}
               imageAlt={review.reviewedName}
+              showMainImg={review.images.length === 0 ? false : true}
+              publicId={review.images[0]}
               reviewedPlace={review.reviewedName}
               header={review.reviewedName}
-              avatarImage={useImage}
-              avatarAlt="author"
-              userName="author"
-              tagline={review.introText}
+              avatarPresent={review.author.avatarPublicId ? true : false}
+              avatarPId={review.author.avatarPublicId}
+              username={review.author.username}
+              introText={review.introText}
               date={setDate(review.createdAt)}
+              iconClicked={() => console.log("icon clicked")}
               showEditDiv={editing ? true : false}
               deleteBtnClick={() => dispatch(deleteDialogShow(review.id))}
               editBtnClick={() => dispatch(editDialogShow(review.id))}
@@ -172,10 +121,12 @@ const UserReviews = () => {
           {!loading && showDeleteDialog && (
             <DeleteDialog
               btnNoClick={() => dispatch(deleteDialogHide())}
-              btnYesClick={() => deleteUserReview(currentReviewId)}
+              btnYesClick={() =>
+                dispatch(handleDeleteUserReview(currentReviewId))
+              }
             />
           )}
-          {showEditDialog && <EditDialog submitEditForm={editUserReview} />}
+          {showEditDialog && <EditDialog />}
           {loading && showDeleteDialog && (
             <Loader loaderClass="dashboard__loader" />
           )}
@@ -186,7 +137,7 @@ const UserReviews = () => {
           <Message
             msg={message}
             error={error ? true : false}
-            iconClicked={() => dispatch(setMessage(""))}
+            iconClicked={() => dispatch(setMsg(""))}
           />
         )}
         {shown}

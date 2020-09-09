@@ -11,7 +11,7 @@ import Button from "../../shared/components/UI/Button/Button";
 import Modal from "../../shared/components/Modal/Modal";
 import { showModal, hideModal } from "../../redux/actions/modal";
 import {
-  setMessage,
+  setMsg,
   editStart,
   editFailed,
   editSuccess,
@@ -119,7 +119,7 @@ const UserProfile = () => {
           <Message
             msg={message}
             error={error ? true : false}
-            iconClicked={() => dispatch(setMessage(""))}
+            iconClicked={() => dispatch(setMsg(""))}
           />
         )}
         {!user ? (
@@ -219,7 +219,7 @@ const UserProfile = () => {
                   dispatch(stopEditing());
                   dispatch(getReloadedUser());
                   dispatch(editSuccess(response.user));
-                  dispatch(setMessage("Profile edited successfully"));
+                  dispatch(setMsg("Profile edited successfully"));
                 } catch (error) {
                   dispatch(
                     editFailed("Could not perform operation please try again")
