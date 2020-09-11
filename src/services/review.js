@@ -22,11 +22,6 @@ const getReviewById = async (reviewId) => {
   return response.data;
 };
 
-const getReviewsByName = async (name) => {
-  const response = await axios.get(`${baseUrl}/${name}/list`);
-  return response.data;
-};
-
 const getReviewCount = async (reviewName) => {
   const response = await axios.get(`${baseUrl}/${reviewName}/count`);
   return response.data;
@@ -50,5 +45,4 @@ export default {
   deleteReview,
   editReview,
   getReviewCount,
-  getReviewsByName,
 };
