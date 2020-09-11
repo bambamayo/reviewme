@@ -55,8 +55,7 @@ const Reviews = () => {
       }
     };
     handleReviewsToShow();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [query, reviews]);
 
   let displayedReviews;
 

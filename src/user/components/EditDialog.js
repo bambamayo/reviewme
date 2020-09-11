@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import { useSelector, useDispatch } from "react-redux";
+import * as Yup from "yup";
 
 import Select from "../../shared/components/FormElements/Select/Select";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
@@ -118,6 +119,16 @@ const EditDialog = () => {
         telephone: currentReview.telephone,
         website: currentReview.website,
       }}
+      validationSchema={Yup.object({
+        category: Yup.string().lowercase(),
+        introText: Yup.string()
+          .max(25, "intro text should not be more than 25 characters")
+          .trim(),
+        reviewDetails: Yup.string().required("This field is required").trim(),
+        address: Yup.string().trim(),
+        telephone: Yup.string().trim(),
+        website: Yup.string().trim(),
+      })}
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
         dispatch(handleEditUserReview(currentReviewId, values));

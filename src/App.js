@@ -49,7 +49,7 @@ const App = () => {
           <Route path="/reviews" exact>
             <Reviews />
           </Route>
-          <Route path="/reviews/:name" exact>
+          <Route path="/reviews/:name/:reviewId" exact>
             <ReviewDetails />
           </Route>
           <Route path="/login" exact>

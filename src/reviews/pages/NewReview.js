@@ -75,17 +75,21 @@ const NewReview = () => {
             validationSchema={Yup.object({
               reviewedName: Yup.string()
                 .lowercase()
-                .required("Please enter a name"),
+                .required("Please enter a name")
+                .trim(),
               category: Yup.string()
                 .lowercase()
                 .required("Please enter a category name"),
               introText: Yup.string()
-                .lowercase()
-                .max(25, "intro text should be 25 words")
+                .max(25, "intro text should not be more than 25 characters")
+                .trim()
                 .required("Please enter a tagline"),
               reviewDetails: Yup.string()
-                .max(140, "review details should not be more than 140 letters")
-                .required("This field is required"),
+                .required("This field is required")
+                .trim(),
+              address: Yup.string().trim(),
+              telephone: Yup.string().trim(),
+              website: Yup.string().trim(),
             })}
             onSubmit={(values) => {
               const data = { ...values };

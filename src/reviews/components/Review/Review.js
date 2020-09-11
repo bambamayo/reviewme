@@ -15,8 +15,11 @@ const Review = (props) => {
   const dispatch = useDispatch();
 
   const handleReviewClick = (id) => {
-    history.push(`/reviews/${props.reviewedPlace}`.replace(/ /g, "-"));
+    history.push(
+      `/reviews/${props.reviewedPlace}/${props.reviewId}`.replace(/ /g, "-")
+    );
     dispatch(setReviewInView(id));
+    window.scrollTo(0, 0);
   };
   return (
     <Card cardClass="grid__card review__card">
@@ -95,7 +98,7 @@ const Review = (props) => {
       </div>
       <div
         className={`review__editbox ${
-          props.showEditDiv ? `review__editbox__mod` : null
+          props.showEditDiv ? `review__editbox__mod` : ""
         }`}
       >
         <button onClick={props.deleteBtnClick} className="review__editbox-btn">
