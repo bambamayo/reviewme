@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import Image from "cloudinary-react/lib/components/Image";
 import Placeholder from "cloudinary-react/lib/components/Placeholder";
-import { useSelector } from "react-redux";
 
-import useImage from "../../assets/images/use-now.jpg";
 import ScrollToTop from "../../ScrollToTop";
 import Button from "../../shared/components/UI/Button/Button";
 import reviewService from "../../services/review";
@@ -14,19 +12,20 @@ import Icon from "../../shared/components/UI/Icon/Icon";
 import { setDate } from "../../shared/utils/helpers";
 
 const ReviewDetails = () => {
-  const [count, setCount] = useState(null);
-  const [countError, setCountError] = useState(null);
   const [review, setReview] = useState(null);
   const [error, setError] = useState(null);
+  const [count, setCount] = useState(null);
+  const [countError, setCountError] = useState(null);
+  const [imgFiles, setImgFiles] = useState(null);
+  const [addImageError, setAddImageError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(null);
 
   const history = useHistory();
-  const appState = useSelector((state) => state);
-  const { userId } = appState.auth;
 
   let { name, reviewId } = useParams();
-  if (review) {
-    console.log(review.author.id === userId);
-  }
+  let modName = name.replace(/-/g, " ");
+  let userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const getReviewById = async () => {
@@ -43,19 +42,47 @@ const ReviewDetails = () => {
   useEffect(() => {
     const getCount = async () => {
       try {
-        let response = await reviewService.getReviewCount(name);
+        let response = await reviewService.getReviewCount(modName);
         setCount(response.count);
       } catch (error) {
         setCountError("could not get count");
       }
     };
     getCount();
-  }, [name]);
+  }, [modName]);
 
-  let modName = name.replace(/-/g, " ");
+  const handleSubmitImages = async () => {
+    setLoading(true);
+    console.log(imgFiles);
+    const data = new FormData();
+    for (var i = 0; i < imgFiles.length; i++) {
+      data.append("images", imgFiles[i]);
+    }
+    try {
+      const response = await reviewService.addReviewImages(review.id, data);
+      setReview(response.review);
+      setLoading(false);
+      setImgFiles(null);
+
+      setSuccessMsg(response.message);
+      setTimeout(() => {
+        setSuccessMsg(null);
+      }, 3000);
+    } catch (error) {
+      setAddImageError(error.response.data.message);
+      setLoading(false);
+      setTimeout(() => {
+        setAddImageError(null);
+      }, 3000);
+    }
+  };
+
+  const handleClearImages = () => {
+    setImgFiles(null);
+  };
 
   let shownReview;
-
+  //conditional statements for shown review
   if (error) {
     shownReview = (
       <div className="review-details__other">
@@ -90,22 +117,77 @@ const ReviewDetails = () => {
             </span>
           </h3>
         </div>
-        <div className="review-details__images-cont">
-          {review.images.length === 0 ? (
+        {review.author.id === userId && (
+          <div className="review-details__addnewimg">
+            <label
+              htmlFor="files-upload"
+              className="review-details__addnewimg-label"
+              title="upload images"
+            >
+              <button className="review-details__addnewimg-labelbtn">
+                add images
+              </button>
+            </label>
+            <input
+              id="files-upload"
+              onChange={(e) => setImgFiles(e.target.files)}
+              type="file"
+              accept="image/*"
+              multiple
+              className="review-details__addnewimg-input"
+            />
+            {imgFiles && (
+              <>
+                <button
+                  onClick={handleSubmitImages}
+                  className="review-details__addnewimg-submit"
+                >
+                  submit selection
+                  {loading && <Loader loaderClass="loader__small" />}
+                </button>
+                <button
+                  onClick={handleClearImages}
+                  className="review-details__addnewimg-clear"
+                >
+                  clear selection
+                </button>
+              </>
+            )}
+            {addImageError && (
+              <p className="review-details__addnewimg-error">{addImageError}</p>
+            )}
+            {successMsg && (
+              <p className="review-details__addnewimg-success">{successMsg}</p>
+            )}
+          </div>
+        )}
+
+        <div className="review-details-images-cont">
+          {review && review.images.length === 0 ? (
             <div className="review-details__images-missing">
-              <p>Author did not add any image</p>
-            </div>
-          ) : review.images.length === 0 && review.author.id === userId ? (
-            <div className="review-details__images-missing">
-              <input id="files-upload" type="file" accept="image/*" multiple />
-              <label htmlFor="files-upload" title="upload images">
-                <span>
-                  <Icon type={["fas", "camera-retro"]} />
-                </span>
-              </label>
+              <p>Author did not add image(s)</p>
             </div>
           ) : (
-            "workingggg"
+            <div className="review-details__images">
+              {review.images.slice(0, 4).map((image) => (
+                <button key={image} className="review-details__image-c">
+                  <Image
+                    publicId={image}
+                    dpr="auto"
+                    responsive
+                    width="auto"
+                    crop="scale"
+                    responsiveUseBreakpoints="true"
+                    loading="lazy"
+                    quality="auto"
+                    fetchFormat="auto"
+                    className="review-details__image"
+                  >
+                    <Placeholder type="blur" />
+                  </Image>
+                </button>
+              ))}
+            </div>
           )}
         </div>
         <div className="review-details__cont">
@@ -113,7 +195,7 @@ const ReviewDetails = () => {
             className="review-details__writereview"
             onClick={() => history.push("/write-a-review")}
           >
-            write your own review
+            write review
           </Button>
         </div>
         <div className="review-details__main">

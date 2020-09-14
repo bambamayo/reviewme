@@ -126,7 +126,7 @@ const NewReview = () => {
                 </div>
                 <div className="input-group input-group--textarea">
                   <label className="input-group__label" htmlFor="reviewDetails">
-                    Your review, 140 characters
+                    Your review
                   </label>
                   <Field
                     name="reviewDetails"

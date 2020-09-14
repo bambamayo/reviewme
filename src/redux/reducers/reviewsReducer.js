@@ -5,7 +5,7 @@ const intitialState = {
   message: "",
   error: null,
   loading: false,
-  reviewInViewId: null,
+  review: null,
 };
 
 const reviewsReducer = (state = intitialState, action) => {
@@ -14,6 +14,12 @@ const reviewsReducer = (state = intitialState, action) => {
       return {
         ...state,
         loading: true,
+        error: null,
+      };
+
+    case actionTypes.CLEAR_ERROR:
+      return {
+        ...state,
         error: null,
       };
 
@@ -29,6 +35,20 @@ const reviewsReducer = (state = intitialState, action) => {
         ...state,
         loading: false,
         reviews: action.reviews,
+      };
+
+    case actionTypes.GET_REVIEW_BY_ID_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        review: action.review,
+      };
+
+    case actionTypes.GET_REVIEW_BY_ID_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
       };
 
     case actionTypes.ADD_REVIEW_SUCCESS:
@@ -49,12 +69,6 @@ const reviewsReducer = (state = intitialState, action) => {
       return {
         ...state,
         error: null,
-      };
-
-    case actionTypes.SET_REVIEW_IN_VIEW:
-      return {
-        ...state,
-        reviewInViewId: action.id,
       };
 
     default:

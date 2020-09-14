@@ -66,7 +66,7 @@ const UserReviews = () => {
         <div className="grid">
           {userReviews.map((review) => (
             <Review
-              reviewId={review.id}
+              id={review.id}
               key={review.id}
               image={review.images[0]}
               imageAlt={review.reviewedName}
