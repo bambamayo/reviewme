@@ -8,7 +8,7 @@ import Loader from "../../shared/components/UI/Loader/Loader";
 import { setDate } from "../../shared/utils/helpers";
 
 const Reviews = () => {
-  const [shownReviews, setShownReviews] = useState([]);
+  const [shownReviews, setShownReviews] = useState(null);
   const [catInView, setCatInView] = useState("");
   const [emptyMsg, setEmptyMsg] = useState("");
   const appState = useSelector((state) => state);
@@ -73,7 +73,7 @@ const Reviews = () => {
         <Loader loaderClass="reviews__loader" />
       </div>
     );
-  } else {
+  } else if (shownReviews) {
     if (shownReviews.length === 0) {
       displayedReviews = (
         <div className="reviews__others-cont">
@@ -91,7 +91,7 @@ const Reviews = () => {
     } else {
       displayedReviews = shownReviews.map((review) => (
         <Review
-          reviewId={review.id}
+          id={review.id}
           key={review.id}
           image={review.images[0]}
           imageAlt={review.reviewedName}

@@ -140,15 +140,14 @@ export const handleDeleteUserReview = (id) => {
   return async (dispatch) => {
     dispatch(editStart());
     try {
-      const response = await reviewService.deleteReview(id);
-      if (response.status === 204) {
-        batch(() => {
-          dispatch(editSuccess());
-          dispatch(deleteUserReview(id));
-          dispatch(setMsg("Review deleted successfully"));
-          dispatch(deleteDialogHide());
-        });
-      }
+      await reviewService.deleteReview(id);
+
+      batch(() => {
+        dispatch(editSuccess());
+        dispatch(deleteUserReview(id));
+        dispatch(setMsg("Review deleted successfully"));
+        dispatch(deleteDialogHide());
+      });
     } catch (error) {
       batch(() => {
         dispatch(editFailed("Could not delete review please try again"));

@@ -33,8 +33,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getAllReviews());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router history={browserHistory}>

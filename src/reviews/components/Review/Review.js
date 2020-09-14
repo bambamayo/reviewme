@@ -7,7 +7,7 @@ import Card from "../../../shared/components/UI/Card/Card";
 import Icon from "../../../shared/components/UI/Icon/Icon";
 import Image from "cloudinary-react/lib/components/Image";
 import Placeholder from "cloudinary-react/lib/components/Placeholder";
-import { setReviewInView } from "../../../redux/actions/reviews";
+import { getReviewById } from "../../../redux/actions/reviews";
 import placeholder from "../../../assets/images/default-placeholder.png";
 
 const Review = (props) => {
@@ -16,9 +16,9 @@ const Review = (props) => {
 
   const handleReviewClick = (id) => {
     history.push(
-      `/reviews/${props.reviewedPlace}/${props.reviewId}`.replace(/ /g, "-")
+      `/reviews/${props.reviewedPlace}/${props.id}`.replace(/ /g, "-")
     );
-    dispatch(setReviewInView(id));
+    dispatch(getReviewById(id));
     window.scrollTo(0, 0);
   };
   return (
@@ -30,7 +30,7 @@ const Review = (props) => {
         >
           {props.showMainImg ? (
             <Image
-              reviewId={props.reviewId}
+              id={props.id}
               publicId={props.publicId}
               dpr="auto"
               responsive
