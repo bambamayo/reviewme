@@ -17,9 +17,10 @@ const ReviewDetails = () => {
   const [count, setCount] = useState(null);
   const [countError, setCountError] = useState(null);
   const [imgFiles, setImgFiles] = useState(null);
-  const [addImageError, setAddImageError] = useState(null);
+  const [imageError, setImageError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
+  const [deletingImg, setDeletingImg] = useState(false);
 
   const history = useHistory();
 
@@ -53,7 +54,6 @@ const ReviewDetails = () => {
 
   const handleSubmitImages = async () => {
     setLoading(true);
-    console.log(imgFiles);
     const data = new FormData();
     for (var i = 0; i < imgFiles.length; i++) {
       data.append("images", imgFiles[i]);
@@ -63,17 +63,38 @@ const ReviewDetails = () => {
       setReview(response.review);
       setLoading(false);
       setImgFiles(null);
-
       setSuccessMsg(response.message);
       setTimeout(() => {
         setSuccessMsg(null);
-      }, 3000);
+      }, 5000);
     } catch (error) {
-      setAddImageError(error.response.data.message);
+      setImageError(error.response.data.message);
       setLoading(false);
       setTimeout(() => {
-        setAddImageError(null);
-      }, 3000);
+        setImageError(null);
+      }, 5000);
+    }
+  };
+
+  const handleDeleteImage = async (id, publicId) => {
+    setLoading(true);
+    const data = {
+      publicId,
+    };
+    try {
+      const response = await reviewService.deleteReviewImage(id, data);
+      setReview(response.review);
+      setLoading(false);
+      setSuccessMsg(response.message);
+      setTimeout(() => {
+        setSuccessMsg(null);
+      }, 5000);
+    } catch (error) {
+      setImageError(error.response.data.message);
+      setLoading(false);
+      setTimeout(() => {
+        setImageError(null);
+      }, 5000);
     }
   };
 
@@ -122,7 +143,7 @@ const ReviewDetails = () => {
             <label
               htmlFor="files-upload"
               className="review-details__addnewimg-label"
-              title="upload images"
+              title="select image(s)"
             >
               <button className="review-details__addnewimg-labelbtn">
                 add images
@@ -139,6 +160,7 @@ const ReviewDetails = () => {
             {imgFiles && (
               <>
                 <button
+                  disabled={loading}
                   onClick={handleSubmitImages}
                   className="review-details__addnewimg-submit"
                 >
@@ -146,6 +168,7 @@ const ReviewDetails = () => {
                   {loading && <Loader loaderClass="loader__small" />}
                 </button>
                 <button
+                  disabled={loading}
                   onClick={handleClearImages}
                   className="review-details__addnewimg-clear"
                 >
@@ -153,8 +176,8 @@ const ReviewDetails = () => {
                 </button>
               </>
             )}
-            {addImageError && (
-              <p className="review-details__addnewimg-error">{addImageError}</p>
+            {imageError && (
+              <p className="review-details__addnewimg-error">{imageError}</p>
             )}
             {successMsg && (
               <p className="review-details__addnewimg-success">{successMsg}</p>
@@ -170,22 +193,35 @@ const ReviewDetails = () => {
           ) : (
             <div className="review-details__images">
               {review.images.slice(0, 4).map((image) => (
-                <button key={image} className="review-details__image-c">
-                  <Image
-                    publicId={image}
-                    dpr="auto"
-                    responsive
-                    width="auto"
-                    crop="scale"
-                    responsiveUseBreakpoints="true"
-                    loading="lazy"
-                    quality="auto"
-                    fetchFormat="auto"
-                    className="review-details__image"
-                  >
-                    <Placeholder type="blur" />
-                  </Image>
-                </button>
+                <div key={image} className="review-details__images-cont">
+                  <button className="review-details__image-c">
+                    <Image
+                      publicId={image}
+                      dpr="auto"
+                      responsive
+                      width="auto"
+                      crop="scale"
+                      responsiveUseBreakpoints="true"
+                      loading="lazy"
+                      quality="auto"
+                      fetchFormat="auto"
+                      className="review-details__image"
+                    >
+                      <Placeholder type="blur" />
+                    </Image>
+                  </button>
+                  {deletingImg && (
+                    <div className="review-details__image-deletecont">
+                      <button
+                        disabled={loading}
+                        onClick={() => handleDeleteImage(review.id, image)}
+                        className="review-details__image-deletebtn"
+                      >
+                        delete
+                      </button>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           )}
@@ -197,6 +233,21 @@ const ReviewDetails = () => {
           >
             write review
           </Button>
+          {!imgFiles && deletingImg ? (
+            <button
+              className="review-details-delete-img"
+              onClick={() => setDeletingImg(false)}
+            >
+              stop deleting
+            </button>
+          ) : (
+            <button
+              onClick={() => setDeletingImg(true)}
+              className="review-details-delete-img"
+            >
+              delete image
+            </button>
+          )}
         </div>
         <div className="review-details__main">
           <div className="review-details__main-l">
