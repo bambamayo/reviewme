@@ -22,21 +22,31 @@ const Modal = (props) => {
       >
         <div
           ref={nodeRef}
-          className={`modal ${props.className}`}
+          className={`modal ${props.className ? props.className : ""}`}
           style={props.style}
         >
           <header className={`modal__header ${props.headerClass}`}>
             <h2>{props.header}</h2>
           </header>
-          <div className={`modal__content ${props.contentClass}`}>
+          <div
+            className={`modal__content ${
+              props.contentClass ? props.contentClass : ""
+            }`}
+          >
             {props.children}
           </div>
-          <footer className={`modal__footer ${props.footerClass}`}>
+          <footer
+            className={`modal__footer ${
+              props.footerClass ? props.footerClass : ""
+            }`}
+          >
             {props.footer}
           </footer>
           {props.cancelButton && (
             <button
-              className="modal__close-btn"
+              className={`modal__close-btn ${
+                props.cancelBtnClass ? props.cancelBtnClass : ""
+              }`}
               onClick={props.modalCloseBtnClick}
             >
               <span aria-hidden="true">&times;</span>
