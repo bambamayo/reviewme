@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import Reviews from "./reviews/pages/Reviews";
 import Home from "./home/pages/Home";
 import Layout from "./shared/components/Layout/Layout";
+import Login from "./auth/pages/Login";
+import Signup from "./auth/pages/Signup";
 import PrivateRoute from "./PrivateRoute";
 import browserHistory from "./history";
 import setAuthToken from "./shared/utils/setAuthToken";
@@ -18,8 +20,6 @@ if (localStorage.token) {
 
 const NewReview = React.lazy(() => import("./reviews/pages/NewReview"));
 const ReviewDetails = React.lazy(() => import("./reviews/pages/ReviewDetails"));
-const Login = React.lazy(() => import("./auth/pages/Login"));
-const Signup = React.lazy(() => import("./auth/pages/Signup"));
 const UserDashboard = React.lazy(() => import("./user/pages/UserDashboard"));
 
 const App = () => {
@@ -38,8 +38,8 @@ const App = () => {
 
   return (
     <Router history={browserHistory}>
-      <Layout>
-        <Suspense fallback={<SuspenseLoader />}>
+      <Suspense fallback={<SuspenseLoader />}>
+        <Layout>
           <Switch>
             <Route path="/" exact>
               <Home />
@@ -63,8 +63,8 @@ const App = () => {
               <UserDashboard />
             </PrivateRoute>
           </Switch>
-        </Suspense>
-      </Layout>
+        </Layout>
+      </Suspense>
     </Router>
   );
 };
