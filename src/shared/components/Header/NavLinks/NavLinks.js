@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { logoutUser } from "../../../../redux/actions/auth";
@@ -11,12 +11,14 @@ import { Image, Placeholder } from "cloudinary-react";
 const NavLinks = () => {
   const { user, token } = useSelector((state) => state.auth);
   const tokenLS = getTokenFromLS();
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
   const handleSignOut = (e) => {
     e.preventDefault();
     dispatch(logoutUser());
+    history.push("/login");
   };
 
   return (

@@ -10,6 +10,7 @@ import LoaderShine from "../../shared/loaders/LoaderShine";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Icon from "../../shared/components/UI/Icon/Icon";
 import { setDate } from "../../shared/utils/helpers";
+import Carousel from "../../shared/components/Carousel/Carousel";
 
 const ReviewDetails = () => {
   const [review, setReview] = useState(null);
@@ -21,6 +22,9 @@ const ReviewDetails = () => {
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
   const [deletingImg, setDeletingImg] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [imageInView, setImageInView] = useState(null);
+  const [index, setIndex] = useState(0);
 
   const history = useHistory();
 
@@ -100,6 +104,27 @@ const ReviewDetails = () => {
 
   const handleClearImages = () => {
     setImgFiles(null);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setIndex(0);
+  };
+
+  const handleImgClick = (publicId) => {
+    setImageInView(publicId);
+    setShowModal(true);
+    setIndex(review.images.indexOf(publicId));
+  };
+
+  const handleLeftArrowClicked = () => {
+    setImageInView(review.images[index - 1]);
+    setIndex(index - 1);
+  };
+
+  const handleRightArrowClicked = () => {
+    setImageInView(review.images[index + 1]);
+    setIndex(index + 1);
   };
 
   let shownReview;
@@ -194,7 +219,10 @@ const ReviewDetails = () => {
             <div className="review-details__images">
               {review.images.slice(0, 4).map((image) => (
                 <div key={image} className="review-details__images-cont">
-                  <button className="review-details__image-c">
+                  <button
+                    onClick={() => handleImgClick(image)}
+                    className="review-details__image-c"
+                  >
                     <Image
                       publicId={image}
                       dpr="auto"
@@ -310,6 +338,32 @@ const ReviewDetails = () => {
   return (
     <>
       <ScrollToTop />
+      <Carousel
+        show={showModal}
+        closeModal={handleCloseModal}
+        arrowLeftClicked={handleLeftArrowClicked}
+        arrowRightClicked={handleRightArrowClicked}
+        index={index}
+        imagesLength={review ? review.images.length - 1 : null}
+      >
+        <div className="carousel__img-cont">
+          <Image
+            publicId={imageInView}
+            dpr="auto"
+            responsive
+            width="auto"
+            crop="scale"
+            responsiveUseBreakpoints="true"
+            loading="lazy"
+            quality="auto"
+            fetchFormat="auto"
+            alt={review ? review.reviewedName : "reviewed item img"}
+            className="carousel__img"
+          >
+            <Placeholder type="blur" />
+          </Image>
+        </div>
+      </Carousel>
       <section className="review-details section--page">{shownReview}</section>
     </>
   );
