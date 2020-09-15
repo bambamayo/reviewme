@@ -27,6 +27,14 @@ const addReviewImages = async (reviewId, files) => {
   return response.data;
 };
 
+const deleteReviewImage = async (reviewId, data) => {
+  const response = await axios.patch(
+    `${baseUrl}/${reviewId}/images/delete`,
+    data
+  );
+  return response.data;
+};
+
 const getReviewCount = async (reviewName) => {
   const response = await axios.get(`${baseUrl}/${reviewName}/count`);
   return response.data;
@@ -51,4 +59,5 @@ export default {
   editReview,
   getReviewCount,
   addReviewImages,
+  deleteReviewImage,
 };
