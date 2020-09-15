@@ -1,7 +1,8 @@
 import axios from "axios";
 import setAuthToken from "../shared/utils/setAuthToken";
 
-const baseUrl = "http://localhost:5000/api/users";
+const baseUrl =
+  "https://guarded-lowlands-11047.herokuapp.com/api/reviews/api/users";
 
 const loginUser = async (data) => {
   const response = await axios.post(`${baseUrl}/login`, data);
