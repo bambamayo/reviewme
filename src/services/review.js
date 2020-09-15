@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:5000/api/reviews";
+const baseUrl = "https://guarded-lowlands-11047.herokuapp.com/api/reviews";
 
 const getAllReviews = async () => {
   const response = await axios.get(baseUrl);

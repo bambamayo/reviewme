@@ -80,12 +80,16 @@ const Reviews = () => {
           <h2 className="reviews__error-msg">
             {emptyMsg || `no review to show, be the first to write a review`}
           </h2>
-          <Link
-            className="reviews__error-link"
-            to={token ? "/write-a-review" : "/login"}
-          >
-            Write a review
-          </Link>
+          {token && (
+            <Link className="reviews__error-link" to="/write-a-review">
+              Write a review
+            </Link>
+          )}
+          {!token && (
+            <Link className="reviews__error-link" to="/login">
+              Login to write a review
+            </Link>
+          )}
         </div>
       );
     } else {
