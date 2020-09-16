@@ -38,8 +38,8 @@ const App = () => {
 
   return (
     <Router history={browserHistory}>
-      <Suspense fallback={<SuspenseLoader />}>
-        <Layout>
+      <Layout>
+        <Suspense fallback={<SuspenseLoader />}>
           <Switch>
             <Route path="/" exact>
               <Home />
@@ -63,8 +63,8 @@ const App = () => {
               <UserDashboard />
             </PrivateRoute>
           </Switch>
-        </Layout>
-      </Suspense>
+        </Suspense>
+      </Layout>
     </Router>
   );
 };
