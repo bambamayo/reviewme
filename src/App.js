@@ -5,8 +5,6 @@ import { useDispatch } from "react-redux";
 import Reviews from "./reviews/pages/Reviews";
 import Home from "./home/pages/Home";
 import Layout from "./shared/components/Layout/Layout";
-import Login from "./auth/pages/Login";
-import Signup from "./auth/pages/Signup";
 import PrivateRoute from "./PrivateRoute";
 import browserHistory from "./history";
 import setAuthToken from "./shared/utils/setAuthToken";
@@ -21,6 +19,8 @@ if (localStorage.token) {
 const NewReview = React.lazy(() => import("./reviews/pages/NewReview"));
 const ReviewDetails = React.lazy(() => import("./reviews/pages/ReviewDetails"));
 const UserDashboard = React.lazy(() => import("./user/pages/UserDashboard"));
+const Login = Reacr.lazy(() => import("./auth/pages/Login"));
+const Signup = React.lazy(() => import("./auth/pages/Signup"));
 
 const App = () => {
   const dispatch = useDispatch();
