@@ -22,20 +22,6 @@ export const getReviewsSuccess = (reviews) => {
   };
 };
 
-export const fetchReviewByIdSuccess = (review) => {
-  return {
-    type: actionTypes.GET_REVIEW_BY_ID_SUCCESS,
-    review,
-  };
-};
-
-export const fetchReviewByIdFail = (error) => {
-  return {
-    type: actionTypes.GET_REVIEW_BY_ID_FAIL,
-    error,
-  };
-};
-
 export const addReviewSuccess = (review) => {
   return {
     type: actionTypes.ADD_REVIEW_SUCCESS,
@@ -63,18 +49,6 @@ export const getAllReviews = () => {
       dispatch(getReviewsSuccess(response.reviews));
     } catch (error) {
       dispatch(getReviewsFail(error.response.data.message));
-    }
-  };
-};
-
-export const getReviewById = (id) => {
-  return async (dispatch) => {
-    dispatch(startReviewsAction());
-    try {
-      const response = await reviewService.getReviewById(id);
-      dispatch(fetchReviewByIdSuccess(response.review));
-    } catch (error) {
-      dispatch(fetchReviewByIdFail(error.response.data.message));
     }
   };
 };

@@ -1,24 +1,20 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 
 import Card from "../../../shared/components/UI/Card/Card";
 import Icon from "../../../shared/components/UI/Icon/Icon";
 import Image from "cloudinary-react/lib/components/Image";
 import Placeholder from "cloudinary-react/lib/components/Placeholder";
-import { getReviewById } from "../../../redux/actions/reviews";
 import placeholder from "../../../assets/images/default-placeholder.png";
 
 const Review = (props) => {
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const handleReviewClick = (id) => {
     history.push(
       `/reviews/${props.reviewedPlace}/${props.id}`.replace(/ /g, "-")
     );
-    dispatch(getReviewById(id));
     window.scrollTo(0, 0);
   };
   return (

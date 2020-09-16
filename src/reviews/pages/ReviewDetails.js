@@ -30,7 +30,8 @@ const ReviewDetails = () => {
 
   let { name, reviewId } = useParams();
   let modName = name.replace(/-/g, " ");
-  let userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const getReviewById = async () => {
@@ -257,25 +258,30 @@ const ReviewDetails = () => {
         <div className="review-details__cont">
           <Button
             className="review-details__writereview"
-            onClick={() => history.push("/write-a-review")}
+            onClick={
+              token
+                ? () => history.push("/write-a-review")
+                : () => history.push("/login")
+            }
           >
             write review
           </Button>
-          {!imgFiles && deletingImg ? (
-            <button
-              className="review-details-delete-img"
-              onClick={() => setDeletingImg(false)}
-            >
-              stop deleting
-            </button>
-          ) : (
-            <button
-              onClick={() => setDeletingImg(true)}
-              className="review-details-delete-img"
-            >
-              delete image
-            </button>
-          )}
+          {review.author.id === userId &&
+            (!imgFiles && deletingImg ? (
+              <button
+                className="review-details-delete-img"
+                onClick={() => setDeletingImg(false)}
+              >
+                stop deleting
+              </button>
+            ) : (
+              <button
+                onClick={() => setDeletingImg(true)}
+                className="review-details-delete-img"
+              >
+                delete image
+              </button>
+            ))}
         </div>
         <div className="review-details__main">
           <div className="review-details__main-l">
@@ -344,7 +350,7 @@ const ReviewDetails = () => {
         arrowLeftClicked={handleLeftArrowClicked}
         arrowRightClicked={handleRightArrowClicked}
         index={index}
-        imagesLength={review ? review.images.length - 1 : null}
+        imagesLength={review ? review.images.length - 1 : 0}
       >
         <div className="carousel__img-cont">
           <Image
