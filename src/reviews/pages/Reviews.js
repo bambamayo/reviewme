@@ -18,43 +18,48 @@ const Reviews = () => {
   let history = useHistory();
 
   useEffect(() => {
-    if (query.get("q")) {
-      let filteredReviews = reviews.filter((review) =>
-        review.reviewedName
-          .toLowerCase()
-          .includes(query.get("q").replace(/-/g, " ").toLowerCase())
-      );
-      setShownReviews(filteredReviews);
-      filteredReviews.length === 0
-        ? setEmptyMsg(
-            `cannot find reviews for ${query
-              .get("q")
-              .replace(/-/g, " ")
-              .toLowerCase()} , be the first to write a review for it`
-          )
-        : setEmptyMsg("");
-    } else if (query.get("cat")) {
-      if (query.get("cat") === "all") setShownReviews(reviews);
-      else {
-        let filteredReviews = reviews.filter(
-          (review) => review.category === query.get("cat")
-        );
-        setShownReviews(filteredReviews);
+    const handleReviewsToShow = () => {
+      if (reviews) {
+        if (query.get("q")) {
+          let filteredReviews = reviews.filter((review) =>
+            review.reviewedName
+              .toLowerCase()
+              .includes(query.get("q").replace(/-/g, " ").toLowerCase())
+          );
+          setShownReviews(filteredReviews);
+          filteredReviews.length === 0
+            ? setEmptyMsg(
+                `cannot find reviews for ${query
+                  .get("q")
+                  .replace(/-/g, " ")
+                  .toLowerCase()} , be the first to write a review for it`
+              )
+            : setEmptyMsg("");
+        } else if (query.get("cat")) {
+          if (query.get("cat") === "all") setShownReviews(reviews);
+          else {
+            let filteredReviews = reviews.filter(
+              (review) => review.category === query.get("cat")
+            );
+            setShownReviews(filteredReviews);
 
-        filteredReviews.length === 0
-          ? setEmptyMsg(
-              `cannot find reviews for specified ${query.get(
-                "cat"
-              )}, be the first to write a review for it`
-            )
-          : setEmptyMsg("");
+            filteredReviews.length === 0
+              ? setEmptyMsg(
+                  `cannot find reviews for ${query.get(
+                    "cat"
+                  )}, be the first to write a review for it`
+                )
+              : setEmptyMsg("");
+          }
+        } else {
+          setShownReviews(reviews);
+        }
       }
-    } else {
-      setShownReviews(reviews);
-    }
+    };
 
+    handleReviewsToShow();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [reviews]);
 
   let displayedReviews;
 

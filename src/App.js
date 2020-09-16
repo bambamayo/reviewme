@@ -19,7 +19,7 @@ if (localStorage.token) {
 const NewReview = React.lazy(() => import("./reviews/pages/NewReview"));
 const ReviewDetails = React.lazy(() => import("./reviews/pages/ReviewDetails"));
 const UserDashboard = React.lazy(() => import("./user/pages/UserDashboard"));
-const Login = Reacr.lazy(() => import("./auth/pages/Login"));
+const Login = React.lazy(() => import("./auth/pages/Login"));
 const Signup = React.lazy(() => import("./auth/pages/Signup"));
 
 const App = () => {
