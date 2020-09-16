@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import Review from "../../reviews/components/Review/Review";
+import reviewService from "../../services/review";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import Message from "../../shared/components/Message/Message";
 import Modal from "../../shared/components/Modal/Modal";
@@ -12,37 +13,76 @@ import LoaderReviews from "../../shared/loaders/LoaderReviews";
 import NotificationScreen from "../../shared/components/NotificationScreen/NotificationScreen";
 import { setDate } from "../../shared/utils/helpers";
 import {
-  setMsg,
   editDialogShow,
   editDialogHide,
   deleteDialogShow,
   deleteDialogHide,
-  fetchUserReviews,
-  handleDeleteUserReview,
 } from "../../redux/actions/dashboard";
 
 const UserReviews = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
+  const [message, setMessage] = useState("");
+  const [userReviews, setUserReviews] = useState(null);
   const userId = localStorage.getItem("userId");
   const appState = useSelector((state) => state);
   const {
     editing,
-    loading,
-    message,
-    error,
     showEditDialog,
     showDeleteDialog,
     currentReviewId,
-    userReviews,
-    getUserReviewsError,
   } = appState.dashboard;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchUserReviews(userId));
-  }, [userId, dispatch]);
+    const fetchReviews = async () => {
+      try {
+        const response = await reviewService.getReviewsByUser(userId);
+        setUserReviews(response.userReviews);
+      } catch (error) {
+        setFetchError(error.response.data.message);
+      }
+    };
+    fetchReviews();
+  }, [userId]);
+
+  const handleEditUserReview = async (id, formValues) => {
+    setLoading(true);
+    try {
+      const response = await reviewService.editReview(id, formValues);
+      setUserReviews((state) =>
+        state.map((r) => (r.id !== response.review.id ? r : response.review))
+      );
+      setLoading(false);
+      setMessage("Review updated successfully");
+      dispatch(editDialogHide());
+    } catch (error) {
+      setError(error.response.data.message);
+      setLoading(false);
+      setMessage("Could not perform operation please try again");
+      dispatch(editDialogHide());
+    }
+  };
+
+  const handleDeleteUserReview = async (id) => {
+    setLoading(true);
+    try {
+      await reviewService.deleteReview(id);
+      setUserReviews((state) => state.filter((r) => r.id !== currentReviewId));
+      setLoading(false);
+      setMessage("Review deleted successfully");
+      dispatch(deleteDialogHide());
+    } catch (error) {
+      setError(error.response.data.message);
+      setLoading(false);
+      setMessage("Could not perform operation please try again");
+      dispatch(deleteDialogHide());
+    }
+  };
 
   let shown;
-  if (getUserReviewsError) {
+  if (fetchError) {
     shown = (
       <NotificationScreen
         error={true}
@@ -121,23 +161,27 @@ const UserReviews = () => {
           {!loading && showDeleteDialog && (
             <DeleteDialog
               btnNoClick={() => dispatch(deleteDialogHide())}
-              btnYesClick={() =>
-                dispatch(handleDeleteUserReview(currentReviewId))
-              }
+              btnYesClick={() => handleDeleteUserReview(currentReviewId)}
             />
           )}
-          {showEditDialog && <EditDialog />}
+          {showEditDialog && (
+            <EditDialog
+              submitEditForm={handleEditUserReview}
+              loading={loading}
+            />
+          )}
           {loading && showDeleteDialog && (
             <Loader loaderClass="dashboard__loader" />
           )}
         </Modal>
       }
+
       <section className="user-reviews">
         {message && (
           <Message
             msg={message}
             error={error ? true : false}
-            iconClicked={() => dispatch(setMsg(""))}
+            iconClicked={() => setMessage("")}
           />
         )}
         {shown}

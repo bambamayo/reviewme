@@ -13,7 +13,7 @@ import { getAllReviews } from "./redux/actions/reviews";
 import SuspenseLoader from "./shared/components/UI/SuspenseLoader/SuspenseLoader";
 
 if (localStorage.token) {
-  setAuthToken(localStorage.token);
+  setAuthToken(localStorage.getItem("token"));
 }
 
 const NewReview = React.lazy(() => import("./reviews/pages/NewReview"));
@@ -23,6 +23,9 @@ const Login = React.lazy(() => import("./auth/pages/Login"));
 const Signup = React.lazy(() => import("./auth/pages/Signup"));
 
 const App = () => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.getItem("token"));
+  }
   const dispatch = useDispatch();
 
   useEffect(() => {

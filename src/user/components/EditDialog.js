@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import * as Yup from "yup";
 
 import Select from "../../shared/components/FormElements/Select/Select";
@@ -8,13 +8,13 @@ import TextInput from "../../shared/components/FormElements/TextInput/TextInput"
 import Loader from "../../shared/components/UI/Loader/Loader";
 import reviewService from "../../services/review";
 import LoaderShine from "../../shared/loaders/LoaderShine";
-import { handleEditUserReview } from "../../redux/actions/dashboard";
 
-const EditDialog = () => {
+const EditDialog = ({ loading, submitEditForm }) => {
   const [currentReview, setCurrentReview] = useState(null);
   const [fetchError, setFetchError] = useState(null);
-  const dispatch = useDispatch();
-  const { currentReviewId, loading } = useSelector((state) => state.dashboard);
+
+  const appState = useSelector((state) => state);
+  const { currentReviewId } = appState.dashboard;
 
   useEffect(() => {
     const getReview = async () => {
@@ -131,7 +131,7 @@ const EditDialog = () => {
       })}
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
-        dispatch(handleEditUserReview(currentReviewId, values));
+        submitEditForm(currentReviewId, values);
       }}
     >
       {({ initialValues, values }) => (
