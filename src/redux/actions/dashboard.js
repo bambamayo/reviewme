@@ -2,7 +2,6 @@ import * as actionTypes from "./actionTypes";
 import userService from "../../services/user";
 import { batch } from "react-redux";
 import { getReloadedUser, logoutUser } from "./auth";
-import reviewService from "../../services/review";
 
 export const startEditing = () => {
   return {
@@ -19,35 +18,6 @@ export const stopEditing = () => {
 export const profileDeleted = () => {
   return {
     type: actionTypes.PROFILE_DELETED,
-  };
-};
-
-export const getUserReviews = (reviews) => {
-  return {
-    type: actionTypes.GET_USER_REVIEWS,
-    reviews,
-  };
-};
-
-export const getUserReviewsFail = (error) => {
-  return {
-    type: actionTypes.GET_USER_REVIEWS_FAIL,
-    error,
-  };
-};
-
-export const editUserReview = (id, review) => {
-  return {
-    type: actionTypes.MOD_USER_REVIEW_EDIT,
-    id,
-    review,
-  };
-};
-
-export const deleteUserReview = (id) => {
-  return {
-    type: actionTypes.MOD_USER_REVIEW_DELETE,
-    id,
   };
 };
 
@@ -101,59 +71,6 @@ export const deleteDialogShow = (id) => {
 export const deleteDialogHide = () => {
   return {
     type: actionTypes.HIDE_DELETE_DIALOG,
-  };
-};
-
-export const fetchUserReviews = (id) => {
-  return async (dispatch) => {
-    try {
-      const response = await reviewService.getReviewsByUser(id);
-      dispatch(getUserReviews(response.userReviews));
-    } catch (error) {
-      dispatch(getUserReviewsFail(error.response.data.message));
-    }
-  };
-};
-
-export const handleEditUserReview = (id, formValues) => {
-  return async (dispatch) => {
-    dispatch(editStart());
-    try {
-      const response = await reviewService.editReview(id, formValues);
-
-      batch(() => {
-        dispatch(editSuccess());
-        dispatch(editUserReview(id, response.review));
-        dispatch(setMsg("Review edited successfully"));
-        dispatch(editDialogHide());
-      });
-    } catch (error) {
-      batch(() => {
-        dispatch(editFailed("Could not edit review please try again"));
-        dispatch(editDialogHide());
-      });
-    }
-  };
-};
-
-export const handleDeleteUserReview = (id) => {
-  return async (dispatch) => {
-    dispatch(editStart());
-    try {
-      await reviewService.deleteReview(id);
-
-      batch(() => {
-        dispatch(editSuccess());
-        dispatch(deleteUserReview(id));
-        dispatch(setMsg("Review deleted successfully"));
-        dispatch(deleteDialogHide());
-      });
-    } catch (error) {
-      batch(() => {
-        dispatch(editFailed("Could not delete review please try again"));
-        dispatch(deleteDialogHide());
-      });
-    }
   };
 };
 

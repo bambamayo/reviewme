@@ -8,8 +8,6 @@ const initialState = {
   showEditDialog: false,
   showDeleteDialog: false,
   currentReviewId: null,
-  userReviews: null,
-  getUserReviewsError: null,
 };
 
 const dashboardReducer = (state = initialState, action) => {
@@ -58,34 +56,6 @@ const dashboardReducer = (state = initialState, action) => {
         loading: false,
         message: action.msg,
         error: true,
-      };
-
-    case actionTypes.GET_USER_REVIEWS:
-      return {
-        ...state,
-        userReviews: action.reviews,
-      };
-
-    case actionTypes.GET_USER_REVIEWS_FAIL:
-      return {
-        ...state,
-        userReviewsError: action.error,
-      };
-
-    case actionTypes.MOD_USER_REVIEW_EDIT:
-      return {
-        ...state,
-        userReviews: state.userReviews.map((review) =>
-          review.id !== action.id ? review : action.review
-        ),
-      };
-
-    case actionTypes.MOD_USER_REVIEW_DELETE:
-      return {
-        ...state,
-        userReviews: state.userReviews.filter(
-          (review) => review.id !== action.id
-        ),
       };
 
     case actionTypes.SHOW_EDIT_DIALOG:
