@@ -12,10 +12,6 @@ import { getReloadedUser } from "./redux/actions/auth";
 import { getAllReviews } from "./redux/actions/reviews";
 import SuspenseLoader from "./shared/components/UI/SuspenseLoader/SuspenseLoader";
 
-if (localStorage.token) {
-  setAuthToken(localStorage.getItem("token"));
-}
-
 const NewReview = React.lazy(() => import("./reviews/pages/NewReview"));
 const ReviewDetails = React.lazy(() => import("./reviews/pages/ReviewDetails"));
 const UserDashboard = React.lazy(() => import("./user/pages/UserDashboard"));
