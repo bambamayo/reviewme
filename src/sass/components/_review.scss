@@ -40,9 +40,10 @@
     display: inline-block;
     font-size: 1.9rem;
     text-transform: capitalize;
-    // margin-bottom: 0.02rem;
+    border: none;
+    cursor: pointer;
+    outline: none;
     text-decoration: underline;
-    // padding-bottom: 0.3rem;
     border-bottom: 0.05rem solid transparent;
     transition: 0.1s all ease-in;
     color: var(--color-grey-dark);

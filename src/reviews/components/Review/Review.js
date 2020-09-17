@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Card from "../../../shared/components/UI/Card/Card";
@@ -51,12 +51,12 @@ const Review = (props) => {
         </button>
       </aside>
       <div className="review__details">
-        <Link
+        <button
           className="review__header"
-          to={`/reviews/${props.reviewedPlace}`.replace(/ /g, "-")}
+          onClick={() => handleReviewClick(props.reviewId)}
         >
           {props.header}
-        </Link>
+        </button>
         <div className="review__user">
           <span className="review__user--intro">by : </span>
           {props.avatarPresent ? (
