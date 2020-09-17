@@ -1,6 +1,6 @@
 import React, { useEffect, Suspense } from "react";
 import { Router, Switch, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Reviews from "./reviews/pages/Reviews";
 import Home from "./home/pages/Home";
@@ -12,10 +12,6 @@ import { getReloadedUser } from "./redux/actions/auth";
 import { getAllReviews } from "./redux/actions/reviews";
 import SuspenseLoader from "./shared/components/UI/SuspenseLoader/SuspenseLoader";
 
-if (localStorage.token) {
-  setAuthToken(localStorage.getItem("token"));
-}
-
 const NewReview = React.lazy(() => import("./reviews/pages/NewReview"));
 const ReviewDetails = React.lazy(() => import("./reviews/pages/ReviewDetails"));
 const UserDashboard = React.lazy(() => import("./user/pages/UserDashboard"));
@@ -23,8 +19,9 @@ const Login = React.lazy(() => import("./auth/pages/Login"));
 const Signup = React.lazy(() => import("./auth/pages/Signup"));
 
 const App = () => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.getItem("token"));
+  const { token } = useSelector((state) => state.auth);
+  if (localStorage.token || token) {
+    setAuthToken(localStorage.getItem("token") || token);
   }
   const dispatch = useDispatch();
 
