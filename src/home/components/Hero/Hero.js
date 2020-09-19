@@ -32,14 +32,6 @@ const Hero = (props) => {
           >
             find reviews
           </Button>
-
-          {/* <button
-            onClick={() => props.btnClicked(query)}
-            disabled={query.length === 0}
-            className="btn  btn--hero"
-          >
-            find reviews
-          </button> */}
         </div>
       </div>
     </div>

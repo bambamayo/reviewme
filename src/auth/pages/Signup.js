@@ -106,7 +106,6 @@ const Signup = () => {
               </Form>
             )}
           </Formik>
-          )
         </Card>
       </div>
     </section>

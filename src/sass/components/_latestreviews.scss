@@ -6,9 +6,21 @@
   flex-direction: column;
   background-color: var(--color-white);
 
+  @include respond(phone) {
+    width: 95%;
+    margin: 0 auto;
+  }
+
   &__error {
     font-size: 2rem;
     color: var(--color-secondary);
     letter-spacing: 0.1rem;
+
+    @include respond(phone) {
+      font-size: 1.5rem;
+      width: 95%;
+      margin: 0 auto;
+      text-align: center;
+    }
   }
 }

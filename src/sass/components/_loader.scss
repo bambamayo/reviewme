@@ -1,15 +1,15 @@
 .loader {
   display: inline-block;
-  border: 1.5px solid var(--color-grey-light);
-  border-top: 1.5px solid var(--color-primary);
+  border: 0.15rem solid var(--color-grey-light);
+  border-top: 0.15rem solid var(--color-primary);
   border-radius: 50%;
-  width: 18px;
-  height: 18px;
+  width: 1.8rem;
+  height: 1.8rem;
   animation: spin 0.5s linear infinite;
 
   &__small {
-    height: 9px;
-    width: 9px;
+    height: 0.9rem;
+    width: 0.9rem;
   }
 }
 

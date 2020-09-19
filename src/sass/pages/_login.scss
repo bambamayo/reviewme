@@ -1,4 +1,12 @@
 .login {
+  @include respond(tab-land) {
+    height: calc(100vh - 14rem);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+
   &__form {
     width: 100%;
     display: flex;

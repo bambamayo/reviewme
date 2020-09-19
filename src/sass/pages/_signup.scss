@@ -1,4 +1,16 @@
 .signup {
+  @include respond(tab-land) {
+    height: calc(100vh - 14rem);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @include respond(phone) {
+    min-height: calc(100vh - 14rem);
+    display: block;
+  }
   &__form {
     width: 100%;
     display: flex;

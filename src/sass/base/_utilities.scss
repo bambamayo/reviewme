@@ -1,10 +1,19 @@
 // new section class
 .section {
   padding: 7rem 0;
+
+  @include respond(phone) {
+    padding: 3rem 0;
+  }
 }
 
 .section--page {
   padding: 3rem 0 9.1rem 0;
+
+  @include respond(phone) {
+    margin-top: 6rem;
+    padding: 2rem 0 8rem 0;
+  }
 }
 
 // new section class with light grey background
@@ -20,6 +29,11 @@
   font-weight: 700;
   margin-bottom: 3rem;
   text-transform: uppercase;
+
+  @include respond(phone) {
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+  }
 }
 
 // new page header
@@ -30,6 +44,10 @@
   font-weight: 700;
   margin-bottom: 1rem;
   text-transform: uppercase;
+
+  @include respond(phone) {
+    font-size: 2.2rem;
+  }
 }
 
 // section call to action link

@@ -18,7 +18,7 @@ const Review = (props) => {
     window.scrollTo(0, 0);
   };
   return (
-    <Card cardClass="grid__card review__card">
+    <Card cardClass="grid__card review__card review__latest">
       <aside className="review__aside">
         <button
           className="review__aside__link"
@@ -84,13 +84,6 @@ const Review = (props) => {
         </div>
         <p className="review__date">date posted : {props.date}</p>
         <p className="review__tagline">{props.introText}</p>
-        <span className="review__icon">
-          <Icon
-            type={["far", "heart"]}
-            classname="review__icon--heart"
-            iconClicked={props.iconClicked}
-          />
-        </span>
       </div>
       <div
         className={`review__editbox ${
