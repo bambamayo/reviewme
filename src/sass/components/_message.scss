@@ -9,6 +9,10 @@
     justify-content: space-between;
     align-items: center;
     border-radius: 0.6rem;
+
+    @include respond(phone) {
+      font-size: 1.3rem;
+    }
   }
 
   &__icon {
@@ -17,5 +21,9 @@
     border: none;
     outline: none;
     font-size: 2.4rem;
+
+    @include respond(phone) {
+      font-size: 2rem;
+    }
   }
 }

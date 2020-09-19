@@ -43,7 +43,7 @@ const LatestReviews = () => {
       );
     } else {
       show = (
-        <div className="grid">
+        <div className="grid grid__latest">
           {reviews.map((review) => (
             <Review
               id={review.id}
@@ -70,7 +70,7 @@ const LatestReviews = () => {
     <section className="section section--greybg">
       <SectionHeader>Latest reviews</SectionHeader>
       {show}
-      {reviews && reviews.length !== 0 && reviews.length > 4 && (
+      {reviews && reviews.length !== 0 && reviews.length > 3 && (
         <div className="grid-width t-r">
           <Link className="section-calltoaction-link" to="/reviews?cat=all">
             view all reviews

@@ -1,18 +1,23 @@
 .category {
-  &__list {
-    transition: 0.3s all ease-in;
-  }
-
   &__card {
     height: 18rem;
     padding: 1rem;
     text-align: center;
+
+    @include respond(phone) {
+      height: 14rem;
+      box-shadow: none;
+    }
   }
 
   &__aside {
     height: 12rem;
     width: 100%;
     overflow: hidden;
+
+    @include respond(phone) {
+      height: 9rem;
+    }
   }
 
   &__image {
@@ -37,6 +42,10 @@
     border-bottom: 0.05rem solid transparent;
     transition: 0.1s all ease-in;
     color: var(--color-grey-dark);
+
+    @include respond(phone) {
+      font-size: 1.4rem;
+    }
 
     &:hover {
       border-bottom: 0.05rem solid var(--color-grey-mid);

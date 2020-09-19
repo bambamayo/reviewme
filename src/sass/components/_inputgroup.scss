@@ -2,6 +2,15 @@
   margin-bottom: 2rem;
   width: 50%;
 
+  @include respond(tab-port) {
+    width: 60%;
+  }
+
+  @include respond(phone) {
+    margin-bottom: 1rem;
+    width: 60%;
+  }
+
   &--textarea {
     height: 16rem !important;
   }
@@ -21,6 +30,11 @@
     font-family: "Lato", sans-serif;
     font-weight: 400;
     transition: 0.3s all ease-in;
+
+    @include respond(phone) {
+      padding: 0.6rem;
+      border-radius: 0.5rem;
+    }
 
     &::placeholder {
       font-weight: 400;

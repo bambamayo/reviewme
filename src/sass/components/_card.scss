@@ -6,5 +6,15 @@
     width: 60%;
     margin: auto;
     padding: 2rem;
+
+    @include respond(tab-port) {
+      width: 80%;
+    }
+
+    @include respond(phone) {
+      width: 100%;
+      padding: 2rem 0;
+      box-shadow: 0 0 0.15rem 0 var(--color-grey-mid);
+    }
   }
 }

@@ -58,7 +58,7 @@ const CategoriesList = () => {
   return (
     <section className="section">
       <SectionHeader>Get reviews by category</SectionHeader>
-      <div className="grid category__list">
+      <div className="grid">
         {categoriesList.map((category) => (
           <Card cardClass="grid__card category__card" key={category.id}>
             <div className="category__aside">

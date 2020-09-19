@@ -58,18 +58,31 @@
   }
 
   &__others-cont {
-    min-width: 114rem;
+    width: 114rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 25.5rem;
+
+    @include respond(phone) {
+      width: 95%;
+
+      background-color: red;
+    }
   }
 
   &__error-msg {
     font-size: 1.8rem;
     letter-spacing: 0.1rem;
     margin-bottom: 1rem;
+
+    @include respond(phone) {
+      font-size: 1.5rem;
+      width: 95%;
+      margin: 0 auto;
+      text-align: center;
+    }
   }
 
   &__error-link:link,

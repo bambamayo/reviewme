@@ -1,4 +1,8 @@
 .new-review {
+  @include respond(tab-land) {
+    min-height: calc(100vh - 14rem);
+  }
+
   &__form {
     width: 100%;
     display: flex;

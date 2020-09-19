@@ -10,6 +10,11 @@
   cursor: pointer;
   display: block;
 
+  @include respond(phone) {
+    padding: 0.5rem 1.8rem;
+    border-radius: 0.5rem;
+  }
+
   &__text {
     font-size: 1.6rem;
     display: inline-block;
