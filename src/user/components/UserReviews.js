@@ -103,7 +103,7 @@ const UserReviews = () => {
       );
     } else {
       shown = (
-        <div className="grid">
+        <div className="grid grid__latest">
           {userReviews.map((review) => (
             <Review
               id={review.id}

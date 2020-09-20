@@ -40,9 +40,10 @@
   &__details {
     padding: 0.5rem 1rem;
     font-size: 1.6rem;
+    background-color: var(--color-white);
+    height: 14rem;
 
     @include respond(phone) {
-      background-color: var(--color-white);
       font-size: 1.4rem;
       padding: 3rem 1rem;
     }
@@ -161,8 +162,10 @@
   }
 
   &__latest {
-    margin-bottom: 0.5rem;
-    display: flex;
-    height: 16rem;
+    @include respond(phone) {
+      margin-bottom: 1rem;
+      display: flex;
+      height: 16rem;
+    }
   }
 }

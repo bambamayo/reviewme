@@ -16,6 +16,7 @@ const ImagePreview = ({
       show={show}
       className="image-preview__modal"
       headerClass="image__preview__modal-header"
+      contentClass="image-preview__content"
     >
       <div className="image-preview__cont">
         <div className="image-preview__imgcont">

@@ -28,7 +28,7 @@ const Carousel = ({
         onClick={arrowLeftClicked}
         style={index < 1 ? { display: "none" } : null}
       >
-        &#x0003C;
+        &#10094;
       </button>
       <button
         aria-label="go to next image icon in images modal"
@@ -36,7 +36,7 @@ const Carousel = ({
         onClick={arrowRightClicked}
         style={index === imagesLength ? { display: "none" } : null}
       >
-        &#x0003E;
+        &#10095;
       </button>
       {children}
     </Modal>

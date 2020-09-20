@@ -204,6 +204,7 @@ const EditDialog = ({ loading, submitEditForm }) => {
               />
             </div>
           </div>
+
           <div className="d-flex-end">
             <div className="user-profile__form__options">
               <button

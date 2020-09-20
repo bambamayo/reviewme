@@ -1,9 +1,26 @@
 .dashboard {
   padding: 3rem 0;
 
+  @include respond(tab-land) {
+    padding: 1rem 0;
+    min-height: calc(100vh - 14rem);
+  }
+
+  @include respond(phone) {
+    margin-top: 8rem;
+  }
+
   &__nav {
     height: 4rem;
     border-bottom: 2px solid var(--color-grey-light);
+
+    @include respond(tab-land) {
+      margin-top: 3rem;
+    }
+
+    @include respond(phone) {
+      margin-top: 1rem;
+    }
 
     &-list {
       height: 100%;
@@ -13,7 +30,11 @@
       width: 30%;
       margin: 0 auto;
       position: relative;
-      z-index: 10;
+      z-index: 3;
+
+      @include respond(phone) {
+        width: 50%;
+      }
     }
 
     &-btn {
@@ -79,7 +100,11 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 30%;
+      width: 80%;
+
+      &-content {
+        padding: 0;
+      }
 
       &-header {
         display: none;
@@ -89,6 +114,11 @@
         height: 40rem;
         width: 40rem;
         margin: 1rem auto 0 auto;
+
+        @include respond(phone) {
+          width: 100%;
+          laptop: 100%;
+        }
       }
 
       &-avatar {
@@ -118,12 +148,27 @@
       width: 30%;
       left: 35%;
       top: 22vh;
+
+      @include respond(tab-land) {
+        top: 50%;
+        left: 50%;
+        width: 70%;
+        transform: translate(-50%, -50%);
+      }
     }
 
     &--edit {
       width: 80%;
       top: 10vh;
       height: 75vh;
+
+      @include respond(tab-land) {
+        height: auto;
+        top: 50%;
+        left: 50%;
+        width: 90%;
+        transform: translate(-50%, -50%);
+      }
     }
 
     &__header {
@@ -146,11 +191,20 @@
       &--edit {
         width: 90%;
         margin: 0 auto;
+
+        @include respond(phone) {
+          padding: 0;
+          width: 100%;
+        }
       }
     }
 
     &-edit-form__group {
       width: 40%;
+
+      @include respond(phone) {
+        width: 47%;
+      }
 
       &-textarea {
         padding: 1rem 2rem;
@@ -194,6 +248,10 @@
 
 .user-reviews {
   padding-bottom: 4rem;
+
+  @include respond(phone) {
+    padding-bottom: 0;
+  }
 }
 
 .thirty {

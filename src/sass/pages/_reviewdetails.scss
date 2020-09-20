@@ -1,10 +1,16 @@
 .review-details {
+  min-height: calc(100vh - 14rem);
+
   &__cont {
     display: flex;
     align-items: center;
     margin-bottom: 3rem;
     width: 114rem;
     margin: 0 auto;
+
+    @include respond(tab-land) {
+      width: 90%;
+    }
   }
 
   &__header {
@@ -53,6 +59,10 @@
   &-images-cont {
     width: 100%;
     margin: 3rem auto 2rem auto;
+
+    @include respond(tab-land) {
+      margin: 4rem auto;
+    }
   }
 
   &__images {
@@ -85,6 +95,11 @@
   &__addnewimg {
     width: 114rem;
     margin: 2rem auto;
+
+    @include respond(tab-land) {
+      width: 90%;
+      margin: 4rem auto;
+    }
 
     &-label {
       display: inline-block;
@@ -218,6 +233,10 @@
     justify-content: space-between;
     margin: 5rem auto 3rem auto;
 
+    @include respond(tab-land) {
+      width: 90%;
+    }
+
     &-l {
       flex-basis: 10%;
     }
@@ -226,6 +245,10 @@
       flex-basis: 89%;
       padding: 1rem;
       box-shadow: 0.1px 0.1px 0.4rem var(--color-grey-mid);
+
+      @include respond(tab-land) {
+        padding: 1rem;
+      }
     }
 
     &-imgcont {
