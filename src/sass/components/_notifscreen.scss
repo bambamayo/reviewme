@@ -5,6 +5,10 @@
   justify-content: center;
   align-items: center;
 
+  @include respond(tab-land) {
+    height: calc(100vh - 14rem);
+  }
+
   & p {
     font-size: 2rem;
     letter-spacing: 0.1rem;

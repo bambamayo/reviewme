@@ -28,6 +28,10 @@
     margin-bottom: 3rem;
     position: relative;
 
+    @include respond(tab-land) {
+      margin-bottom: 8rem;
+    }
+
     &btns {
       height: 4rem;
       position: absolute;
@@ -141,6 +145,15 @@
     margin-top: 10rem;
     border: 0.1rem solid var(--color-secondary);
     padding: 2rem;
+    height: 100%;
+
+    @include respond(tab-land) {
+      margin-top: 30rem;
+    }
+
+    @include respond(phone) {
+      margin-top: 10rem;
+    }
 
     &-header {
       font-size: 2rem;

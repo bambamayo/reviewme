@@ -97,24 +97,28 @@ const Reviews = () => {
         </div>
       );
     } else {
-      displayedReviews = shownReviews.map((review) => (
-        <Review
-          id={review.id}
-          key={review.id}
-          image={review.images[0]}
-          imageAlt={review.reviewedName}
-          showMainImg={review.images.length === 0 ? false : true}
-          publicId={review.images[0]}
-          reviewedPlace={review.reviewedName}
-          header={review.reviewedName}
-          avatarPresent={review.author.avatarPublicId ? true : false}
-          avatarPId={review.author.avatarPublicId}
-          username={review.author.username}
-          introText={review.introText}
-          date={setDate(review.createdAt)}
-          iconClicked={() => console.log("icon clicked")}
-        />
-      ));
+      displayedReviews = (
+        <div className="grid grid__latest">
+          {shownReviews.map((review) => (
+            <Review
+              id={review.id}
+              key={review.id}
+              image={review.images[0]}
+              imageAlt={review.reviewedName}
+              showMainImg={review.images.length === 0 ? false : true}
+              publicId={review.images[0]}
+              reviewedPlace={review.reviewedName}
+              header={review.reviewedName}
+              avatarPresent={review.author.avatarPublicId ? true : false}
+              avatarPId={review.author.avatarPublicId}
+              username={review.author.username}
+              introText={review.introText}
+              date={setDate(review.createdAt)}
+              iconClicked={() => console.log("icon clicked")}
+            />
+          ))}
+        </div>
+      );
     }
   }
 
@@ -199,7 +203,7 @@ const Reviews = () => {
             filter
           </button>
         </form>
-        <div className="grid">{displayedReviews}</div>
+        <>{displayedReviews}</>
       </div>
     </section>
   );

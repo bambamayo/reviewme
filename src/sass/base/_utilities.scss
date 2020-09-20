@@ -80,6 +80,10 @@
 //text align classes
 .t-r {
   text-align: right;
+
+  @include respond(tab-port) {
+    margin-top: 1rem !important;
+  }
 }
 
 // display flex and justify-content-between
@@ -87,6 +91,13 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 3rem;
+
+  @include respond(phone) {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0;
+  }
 }
 
 // display flex and justify-content-between
@@ -94,6 +105,10 @@
   display: flex;
   justify-content: flex-end;
   margin-bottom: 3rem;
+
+  @include respond(phone) {
+    justify-content: center;
+  }
 }
 
 .mb-1 {

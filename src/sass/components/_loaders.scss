@@ -3,6 +3,10 @@
   width: 23rem;
   border-radius: 0.5rem;
   animation: pulse 1s infinite ease-in-out;
+
+  @include respond(phone) {
+    width: 100%;
+  }
 }
 
 .line-edit {
@@ -10,12 +14,20 @@
   width: 100%;
   border-radius: 0.5rem;
   animation: pulse 1s infinite ease-in-out;
+
+  // @include respond(phone) {
+  //   height: 3rem;
+  // }
 }
 .line-edit-tarea {
   height: 15rem;
   border-radius: 0.5rem;
   animation: pulse 1s infinite ease-in-out;
   width: 100%;
+
+  // @include respond(phone) {
+  //   height: 10rem;
+  // }
 }
 
 .line-nav {
@@ -30,6 +42,11 @@
   width: 12rem;
   height: 12rem;
   border-radius: 100rem;
+
+  @include respond(phone) {
+    width: 10rem;
+    height: 10rem;
+  }
 }
 
 .l-number {
@@ -48,24 +65,43 @@
   height: 30rem;
   border: 1px solid var(--color-grey-light);
 
-  & > * {
-    animation: pulse 1s infinite ease-in-out;
-    margin-bottom: 0.8rem;
-  }
-
   &-image {
     height: 16rem;
     width: 100%;
+    animation: pulse 1s infinite ease-in-out;
+
+    @include respond(phone) {
+      width: 60%;
+      height: 100%;
+    }
   }
 
   &-details {
     padding: 0.5rem 1rem;
+
+    & > * {
+      margin-bottom: 0.8rem;
+    }
+
+    @include respond(phone) {
+      padding: 3rem 1rem;
+      width: 40%;
+      height: 100%;
+      background-color: var(--color-white);
+    }
   }
 
   &-name {
     width: 40%;
     height: 2rem;
     margin-left: 1rem;
+    animation: pulse 1s infinite ease-in-out;
+
+    @include respond(phone) {
+      width: 100%;
+      margin-left: 0;
+      margin-bottom: 1rem;
+    }
   }
 
   &-date,
@@ -74,12 +110,13 @@
     width: 70%;
     height: 2rem;
     margin-left: 1rem;
-  }
+    animation: pulse 1s infinite ease-in-out;
 
-  &-like {
-    width: 5%;
-    height: 1rem;
-    margin-left: 1rem;
+    @include respond(phone) {
+      width: 100%;
+      margin-left: 0;
+      margin-bottom: 1rem;
+    }
   }
 }
 

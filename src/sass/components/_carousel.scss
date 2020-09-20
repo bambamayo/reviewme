@@ -1,11 +1,12 @@
 .carousel {
   &__modal {
-    left: 50%;
-    width: 100%;
-    background-color: transparent;
+    position: fixed;
+
+    left: 0;
     top: 0;
-    transform: translateX(-50%);
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
   }
 
   &__btn {
@@ -18,6 +19,11 @@
       cursor: pointer;
       position: absolute;
       color: var(--color-white);
+      z-index: 10;
+
+      @include respond(tab-land) {
+        font-size: 5rem;
+      }
     }
 
     &-left {
@@ -34,15 +40,17 @@
   }
 
   &__img-cont {
-    width: 95%;
-    object-fit: cover;
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 70rem;
     height: 100vh;
-    margin: 0 auto;
   }
 
   &__img {
     height: 100%;
     width: 100%;
+    object-fit: cover;
   }
 
   &__header,
@@ -51,9 +59,17 @@
     margin: 0;
   }
 
+  &__header {
+    display: none;
+  }
+
   &__close-btn {
     top: 0;
     right: 0.5%;
-    font-size: 3rem;
+    font-size: 6rem;
+
+    @include respond(tab-land) {
+      font-size: 6rem;
+    }
   }
 }
