@@ -82,7 +82,7 @@ const Review = (props) => {
           )}
           <span className="review__user--name">{props.username}</span>
         </div>
-        <p className="review__date">date posted : {props.date}</p>
+        <p className="review__date">posted : {props.date}</p>
         <p className="review__tagline">{props.introText}</p>
       </div>
       <div

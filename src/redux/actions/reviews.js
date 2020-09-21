@@ -22,10 +22,9 @@ export const getReviewsSuccess = (reviews) => {
   };
 };
 
-export const addReviewSuccess = (review) => {
+export const addReviewSuccess = () => {
   return {
     type: actionTypes.ADD_REVIEW_SUCCESS,
-    review,
   };
 };
 
@@ -79,7 +78,7 @@ export const addNewReview = (data) => {
     dispatch(startReviewsAction());
     try {
       const response = await reviewService.createNewReview(data);
-      dispatch(addReviewSuccess(response.createdReview));
+      dispatch(addReviewSuccess());
 
       history.push(
         `/reviews/${response.createdReview.reviewedName}/${response.createdReview.id}`.replace(
