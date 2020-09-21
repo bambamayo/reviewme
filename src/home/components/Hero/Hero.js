@@ -14,7 +14,7 @@ const Hero = (props) => {
       <div className="hero__content">
         <div className="hero__textcont">
           <h2 className="hero__text-h2">
-            Search for a restuarant, hotel e.t.c
+            Search for a restaurant, hotel e.t.c
           </h2>
           <p className="hero__text-p">Get reviews from the community</p>
         </div>

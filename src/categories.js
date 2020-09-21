@@ -1,7 +1,7 @@
 import bar from "../src/assets/images/bar.svg";
 import club from "../src/assets/images/club.svg";
 import hotel from "../src/assets/images/hotel.svg";
-import restuarant from "../src/assets/images/restuarant.svg";
+import restaurant from "../src/assets/images/restuarant.svg";
 import beach from "../src/assets/images/beach.svg";
 import school from "../src/assets/images/school.svg";
 import game from "../src/assets/images/game.svg";
@@ -9,8 +9,8 @@ import gadget from "../src/assets/images/gadget.svg";
 
 const categories = [
   {
-    name: "restuarants",
-    image: restuarant,
+    name: "restaurants",
+    image: restaurant,
     id: 1,
   },
   {
