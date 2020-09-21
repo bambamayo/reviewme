@@ -309,7 +309,7 @@ const ReviewDetails = () => {
             </div>
             <div className="review-details__main-author">
               <p>{review.author.username}</p>
-              <p>{review.author.postedReviews.length} reviews</p>
+              <p>{review.author.postedReviews.length} review(s)</p>
             </div>
           </div>
 
