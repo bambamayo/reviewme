@@ -71,6 +71,28 @@ const reviewsReducer = (state = intitialState, action) => {
         error: null,
       };
 
+    case actionTypes.SOCKET_IO_ADD_REVIEW:
+      return {
+        ...state,
+        reviews: state.reviews.concat(action.review),
+      };
+
+    case actionTypes.SOCKET_IO_EDIT_REVIEW:
+      return {
+        ...state,
+        reviews: state.reviews.map((review) =>
+          review.id !== action.review.id ? review : action.review
+        ),
+      };
+
+    case actionTypes.SOCKET_IO_DELETE_REVIEW:
+      return {
+        ...state,
+        reviews: state.reviews.filter(
+          (review) => review.id !== action.reviewId
+        ),
+      };
+
     default:
       return state;
   }
