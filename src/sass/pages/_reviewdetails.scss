@@ -154,6 +154,10 @@
       padding: 0.5rem;
       margin-right: 1rem;
       cursor: pointer;
+
+      @include respond(phone) {
+        margin-left: 3rem;
+      }
     }
     &-clear {
       padding: 0.5rem;
