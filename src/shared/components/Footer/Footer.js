@@ -7,16 +7,8 @@ const Footer = () => {
     <footer className="footer">
       <p className="footer-text-t">&copy;reviewME {new Date().getFullYear()}</p>
       <p className="footer-text-t">
-        Made with{" "}
-        <span>
-          {" "}
-          <Icon type={["far", "heart"]} classname="reviewed__details-icon" />
-        </span>{" "}
-        and{" "}
-        <span>
-          <Icon type={["fas", "beer"]} classname="reviewed__details-icon" />
-        </span>{" "}
-        by ayobami agunroye
+        Made by ayobami agunroye{"  "}
+        <a href="https://ayobamiagunroye.netlify.app/">Hire Me!</a>
       </p>
     </footer>
   );
