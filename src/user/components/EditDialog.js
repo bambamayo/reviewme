@@ -8,6 +8,7 @@ import TextInput from "../../shared/components/FormElements/TextInput/TextInput"
 import Loader from "../../shared/components/UI/Loader/Loader";
 import reviewService from "../../services/review";
 import LoaderShine from "../../shared/loaders/LoaderShine";
+import categories from "../../categories";
 
 const EditDialog = ({ loading, submitEditForm }) => {
   const [currentReview, setCurrentReview] = useState(null);
@@ -27,41 +28,6 @@ const EditDialog = ({ loading, submitEditForm }) => {
     };
     getReview();
   }, [currentReviewId]);
-
-  const categories = [
-    {
-      name: "restuarants",
-      id: 1,
-    },
-    {
-      name: "bars",
-      id: 2,
-    },
-    {
-      name: "hotels",
-      id: 3,
-    },
-    {
-      name: "clubs",
-      id: 4,
-    },
-    {
-      name: "schools",
-      id: 5,
-    },
-    {
-      name: "games",
-      id: 6,
-    },
-    {
-      name: "gadgets",
-      id: 7,
-    },
-    {
-      name: "books",
-      id: 8,
-    },
-  ];
 
   if (fetchError)
     return (
@@ -122,7 +88,7 @@ const EditDialog = ({ loading, submitEditForm }) => {
       validationSchema={Yup.object({
         category: Yup.string().lowercase(),
         introText: Yup.string()
-          .max(25, "intro text should not be more than 25 characters")
+          .max(20, "intro text should not be more than 20 characters")
           .trim(),
         reviewDetails: Yup.string().required("This field is required").trim(),
         address: Yup.string().trim(),

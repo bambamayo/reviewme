@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import Card from "../../shared/components/UI/Card/Card";
+import categories from "../../categories";
 import TextInput from "../../shared/components/FormElements/TextInput/TextInput";
 import Select from "../../shared/components/FormElements/Select/Select";
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
@@ -15,40 +16,6 @@ import { addNewReview, removeError } from "../../redux/actions/reviews";
 const NewReview = () => {
   const dispatch = useDispatch();
   const { error, loading } = useSelector((state) => state.review);
-  const categories = [
-    {
-      name: "restuarants",
-      id: 1,
-    },
-    {
-      name: "bars",
-      id: 2,
-    },
-    {
-      name: "hotels",
-      id: 3,
-    },
-    {
-      name: "clubs",
-      id: 4,
-    },
-    {
-      name: "schools",
-      id: 5,
-    },
-    {
-      name: "games",
-      id: 6,
-    },
-    {
-      name: "gadgets",
-      id: 7,
-    },
-    {
-      name: "books",
-      id: 8,
-    },
-  ];
 
   return (
     <section className="new-review section--page section--greybg">
@@ -81,7 +48,7 @@ const NewReview = () => {
                 .lowercase()
                 .required("Please enter a category name"),
               introText: Yup.string()
-                .max(25, "intro text should not be more than 25 characters")
+                .max(20, "intro text should not be more than 25 characters")
                 .trim()
                 .required("Please enter a tagline"),
               reviewDetails: Yup.string()
@@ -118,7 +85,7 @@ const NewReview = () => {
                 </div>
                 <div className="input-group">
                   <TextInput
-                    label="Tagline (enter a short intro, 25 characters)"
+                    label="Tagline (enter a short intro, 20 characters)"
                     name="introText"
                     type="text"
                     placeholder="Enter tagline"

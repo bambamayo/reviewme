@@ -1,6 +1,7 @@
 import React, { useEffect, Suspense } from "react";
 import { Router, Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import openSocket from "socket.io-client";
 
 import Reviews from "./reviews/pages/Reviews";
 import Home from "./home/pages/Home";
@@ -9,7 +10,12 @@ import PrivateRoute from "./PrivateRoute";
 import browserHistory from "./history";
 import setAuthToken from "./shared/utils/setAuthToken";
 import { getReloadedUser } from "./redux/actions/auth";
-import { getAllReviews } from "./redux/actions/reviews";
+import {
+  getAllReviews,
+  addReviewSocketIO,
+  editReviewSocketIO,
+  deleteReviewSocketIO,
+} from "./redux/actions/reviews";
 import SuspenseLoader from "./shared/components/UI/SuspenseLoader/SuspenseLoader";
 
 const NewReview = React.lazy(() => import("./reviews/pages/NewReview"));
@@ -34,6 +40,16 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getAllReviews());
+    const socket = openSocket("http://localhost:5000");
+    socket.on("reviews", (data) => {
+      if (data.action === "create") {
+        dispatch(addReviewSocketIO(data.review));
+      } else if (data.action === "update") {
+        dispatch(editReviewSocketIO(data.review));
+      } else if (data.action === "delete") {
+        dispatch(deleteReviewSocketIO(data.review));
+      }
+    });
   }, [dispatch]);
 
   return (

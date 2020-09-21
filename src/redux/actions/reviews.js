@@ -42,6 +42,27 @@ export const removeError = () => {
   };
 };
 
+export const addReviewSocketIO = (review) => {
+  return {
+    type: actionTypes.SOCKET_IO_ADD_REVIEW,
+    review,
+  };
+};
+
+export const editReviewSocketIO = (review) => {
+  return {
+    type: actionTypes.SOCKET_IO_EDIT_REVIEW,
+    review,
+  };
+};
+
+export const deleteReviewSocketIO = (reviewId) => {
+  return {
+    type: actionTypes.SOCKET_IO_DELETE_REVIEW,
+    reviewId,
+  };
+};
+
 export const getAllReviews = () => {
   return async (dispatch) => {
     try {
