@@ -183,31 +183,33 @@ const ReviewDetails = () => {
               multiple
               className="review-details__addnewimg-input"
             />
-            {imgFiles && (
-              <>
-                <button
-                  disabled={loading}
-                  onClick={handleSubmitImages}
-                  className="review-details__addnewimg-submit"
-                >
-                  submit selection
-                  {loading && <Loader loaderClass="loader__small" />}
-                </button>
-                <button
-                  disabled={loading}
-                  onClick={handleClearImages}
-                  className="review-details__addnewimg-clear"
-                >
-                  clear selection
-                </button>
-              </>
-            )}
+
             {imageError && (
               <p className="review-details__addnewimg-error">{imageError}</p>
             )}
             {successMsg && (
               <p className="review-details__addnewimg-success">{successMsg}</p>
             )}
+          </div>
+        )}
+
+        {imgFiles && (
+          <div className="review-details__addnewimg">
+            <button
+              disabled={loading}
+              onClick={handleSubmitImages}
+              className="review-details__addnewimg-submit"
+            >
+              submit selection
+              {loading && <Loader loaderClass="loader__small" />}
+            </button>
+            <button
+              disabled={loading}
+              onClick={handleClearImages}
+              className="review-details__addnewimg-clear"
+            >
+              clear selection
+            </button>
           </div>
         )}
 
@@ -267,6 +269,7 @@ const ReviewDetails = () => {
             write review
           </Button>
           {review.author.id === userId &&
+            review.images.length !== 0 &&
             (!imgFiles && deletingImg ? (
               <button
                 className="review-details-delete-img"

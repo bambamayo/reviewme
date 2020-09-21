@@ -12,4 +12,14 @@
   &-text-t {
     margin-bottom: 0.5rem;
   }
+
+  & a {
+    color: var(--color-black);
+    text-decoration: underline;
+    transition: 0.2s color ease-in-out;
+
+    &:hover {
+      color: var(--color-grey-mid);
+    }
+  }
 }
