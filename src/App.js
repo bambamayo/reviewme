@@ -40,7 +40,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getAllReviews());
-    const socket = openSocket("http://localhost:5000");
+    const socket = openSocket("https://guarded-lowlands-11047.herokuapp.com/");
     socket.on("reviews", (data) => {
       if (data.action === "create") {
         dispatch(addReviewSocketIO(data.review));

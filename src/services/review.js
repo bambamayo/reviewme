@@ -9,6 +9,7 @@ const getAllReviews = async () => {
 
 const createNewReview = async (data) => {
   const response = await axios.post(baseUrl, data);
+  console.log(response);
   return response.data;
 };
 
