@@ -55,7 +55,6 @@ const reviewsReducer = (state = intitialState, action) => {
       return {
         ...state,
         loading: false,
-        reviews: state.reviews.concat(action.review),
       };
 
     case actionTypes.ADD_REVIEW_FAIL:
@@ -74,7 +73,7 @@ const reviewsReducer = (state = intitialState, action) => {
     case actionTypes.SOCKET_IO_ADD_REVIEW:
       return {
         ...state,
-        reviews: state.reviews.concat(action.review),
+        reviews: state.reviews.unshift(action.review),
       };
 
     case actionTypes.SOCKET_IO_EDIT_REVIEW:

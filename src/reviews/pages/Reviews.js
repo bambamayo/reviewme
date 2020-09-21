@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import PageHeader from "../../shared/components/PageHeader/PageHeader";
 import Review from "../components/Review/Review";
+import categories from "../../categories";
 import Loader from "../../shared/components/UI/Loader/Loader";
 import { setDate } from "../../shared/utils/helpers";
 
@@ -142,45 +143,6 @@ const Reviews = () => {
     }
   };
 
-  const categoriesList = [
-    {
-      name: "restuarants",
-      id: 1,
-    },
-    {
-      name: "bars",
-      id: 2,
-    },
-    {
-      name: "hotels",
-      id: 3,
-    },
-    {
-      name: "clubs",
-      id: 4,
-    },
-    {
-      name: "schools",
-
-      id: 5,
-    },
-    {
-      name: "games",
-
-      id: 6,
-    },
-    {
-      name: "gadgets",
-
-      id: 7,
-    },
-    {
-      name: "books",
-
-      id: 8,
-    },
-  ];
-
   return (
     <section className="section--page reviews">
       <PageHeader title="reviews" />
@@ -193,7 +155,7 @@ const Reviews = () => {
           >
             <option value="">category</option>
             <option value="all">all</option>
-            {categoriesList.map((category) => (
+            {categories.map((category) => (
               <option key={category.id} value={category.name}>
                 {category.name}
               </option>

@@ -10,7 +10,7 @@
     overflow: hidden;
 
     @include respond(phone) {
-      width: 60%;
+      width: 50%;
       height: 100%;
     }
 
@@ -47,6 +47,8 @@
     @include respond(phone) {
       font-size: 1.4rem;
       padding: 3rem 1rem;
+      width: 50%;
+      height: 100%;
     }
   }
   &__header {
