@@ -69,7 +69,7 @@ const UserDashboard = () => {
               onClick={() => dispatch(stopEditing())}
               type="reset"
             >
-              <span>cancel</span>
+              <span>stop editing</span>
             </Button>
           )}
         </div>

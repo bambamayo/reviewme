@@ -154,6 +154,10 @@
       padding: 0.5rem;
       margin-right: 1rem;
       cursor: pointer;
+
+      @include respond(phone) {
+        margin-left: 3rem;
+      }
     }
     &-clear {
       padding: 0.5rem;
@@ -228,6 +232,10 @@
   &__writereview {
     @extend .review-details__button;
     margin-right: 3rem;
+
+    @include respond(phone) {
+      padding: 0.7rem 1rem;
+    }
   }
 
   &__editbtn {
