@@ -1,1 +1,1 @@
-A reviews application built with reacts js, express js and mongodb
+Frontend of a reviews application built with reacts js and redux 
