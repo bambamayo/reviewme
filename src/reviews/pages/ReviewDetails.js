@@ -167,16 +167,14 @@ const ReviewDetails = () => {
         {review.author.id === userId && (
           <div className="review-details__addnewimg">
             <label
-              htmlFor="files-upload"
+              htmlFor="files"
               className="review-details__addnewimg-label"
               title="select image(s)"
             >
-              <button className="review-details__addnewimg-labelbtn">
-                add images
-              </button>
+              &#x0002B;add images
             </label>
             <input
-              id="files-upload"
+              id="files"
               onChange={(e) => setImgFiles(e.target.files)}
               type="file"
               accept="image/*"
