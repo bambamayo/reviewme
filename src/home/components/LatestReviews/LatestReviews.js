@@ -44,7 +44,7 @@ const LatestReviews = () => {
     } else {
       show = (
         <div className="grid grid__latest">
-          {reviews.map((review) => (
+          {reviews.slice(0, 4).map((review) => (
             <Review
               id={review.id}
               key={review.id}
