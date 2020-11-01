@@ -1,9 +1,7 @@
 .latest-reviews {
   height: 30rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
+
   background-color: var(--color-white);
 
   @include respond(phone) {

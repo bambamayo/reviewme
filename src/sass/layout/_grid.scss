@@ -25,6 +25,10 @@
   }
 
   &__latest {
+    @include respond(tab-port) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
     @include respond(phone) {
       display: flex;
       flex-direction: column;
@@ -40,7 +44,7 @@
     width: 90%;
   }
 
-  @include respond(tab-land) {
+  @include respond(tab-port) {
     width: 95%;
   }
 

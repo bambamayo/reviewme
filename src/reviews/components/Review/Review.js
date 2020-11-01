@@ -76,7 +76,7 @@ const Review = (props) => {
               <Placeholder type="blur" />
             </Image>
           ) : (
-            <span className="nav__link--avatar-empty">
+            <span className="review__user--avatar-empty">
               <Icon type={["far", "user-circle"]} />
             </span>
           )}
