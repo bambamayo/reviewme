@@ -78,6 +78,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 0.02rem;
+    justify-content: space-between;
 
     & span {
       display: inline-block;
@@ -88,12 +89,22 @@
     }
 
     &--avatar {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 100%;
-      margin-right: 0.5rem;
+      margin-right: 1rem;
+      height: 3rem;
+      width: 3rem;
       cursor: pointer;
       object-fit: cover;
+      border-radius: 100%;
+      border: 1px solid transparent;
+
+      &-empty {
+        font-size: 2.1rem;
+        margin-right: 1rem;
+      }
+    }
+
+    &--name {
+      flex-grow: 1;
     }
   }
   &__tagline {
