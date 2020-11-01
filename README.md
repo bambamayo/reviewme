@@ -1,1 +1,1 @@
-Frontend of a reviews application built with reacts js and redux 
+Frontend of a reviews application built with react js and redux 
