@@ -24,6 +24,7 @@ const Hero = (props) => {
             value={query}
             onChange={inputChangedHandler}
             className="hero__input input-group__input"
+            data-testid="hero-searchbox"
           />
           <Button
             onClick={() => props.btnClicked(query)}
@@ -39,7 +40,7 @@ const Hero = (props) => {
 };
 
 Hero.propTypes = {
-  btnClicked: PropTypes.func.isRequired,
+  btnClicked: PropTypes.func,
 };
 
 export default Hero;
