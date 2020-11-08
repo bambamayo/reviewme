@@ -6,7 +6,7 @@ import reviewsReducer from "./reducers/reviewsReducer";
 import modalReducer from "./reducers/modalReducer";
 import dashboardReducer from "./reducers/dashboardReducer";
 
-const reducer = combineReducers({
+export const reducer = combineReducers({
   auth: authReducer,
   review: reviewsReducer,
   showModal: modalReducer,
