@@ -2,4 +2,6 @@
 
 Frontend of a reviews application built with react js and redux 
 
-https://www.reviewmeweb.com
+Live preview can be found at - https://www.reviewmeweb.com
+
+Server side code can be found at - https://github.com/bambamayo/reviewme-backend
