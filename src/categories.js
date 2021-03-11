@@ -44,7 +44,7 @@ const categories = [
     id: 7,
   },
   {
-    name: "beaches",
+    name: "beach",
     image: beach,
     id: 8,
   },

@@ -142,7 +142,7 @@ const NewReview = () => {
                     type="submit"
                     className="btn btn--blue btn--form"
                   >
-                    <p className="btn__text">submit</p>
+                    {!loading && <p className="btn__text">submit</p>}
                     {loading && <Loader />}
                   </Button>
                 </div>
